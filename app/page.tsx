@@ -165,7 +165,7 @@ export default function HvZPage() {
                 size="lg"
                 asChild
               >
-                <a href="https://forms.gle/bnBijqm8rEba5UfR8" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/groups/637023599343740" target="_blank" rel="noopener noreferrer">
                   Join the Game
                 </a>
               </McButton>
