@@ -4,7 +4,8 @@ import type React from "react"
 import { useState } from "react"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Users, Skull, FileText, Scroll, Target, ChevronDown } from "lucide-react"
+import { PUBLIC_RESOURCES } from "@/lib/public-resources"
+import { ChevronDown, ExternalLink } from "lucide-react"
 
 /**
  * HvZPage – Minecraft-themed UI pass
@@ -137,15 +138,6 @@ function BlockPanel({
 /* ============================== PAGE ============================== */
 
 export default function HvZPage() {
-  const externalLinks = [
-    { name: "Points", href: "#", icon: Target },
-    { name: "Population List", href: "#", icon: Users },
-    { name: "Graveyard", href: "#", icon: Skull },
-    { name: "Kill Report Form", href: "#", icon: FileText },
-    { name: "Quest List", href: "#", icon: Scroll },
-    { name: "Quest Form", href: "#", icon: FileText },
-  ]
-
   return (
     <div
       className={[
@@ -169,7 +161,14 @@ export default function HvZPage() {
               {"Survive the night. Complete quests. Bring honor to your family."}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <McButton size="lg">Join the Game</McButton>
+              <McButton
+                size="lg"
+                asChild
+              >
+                <a href="https://forms.gle/bnBijqm8rEba5UfR8" target="_blank" rel="noopener noreferrer">
+                  Join the Game
+                </a>
+              </McButton>
             </div>
           </div>
         </div>
@@ -179,26 +178,33 @@ export default function HvZPage() {
       <section className="border-b-8 border-neutral-900 bg-emerald-900/10">
         <div className="container mx-auto px-4 py-12 md:py-16">
           <h2 className="mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider text-neutral-900">
-            {">> GAME RESOURCES"}
+            {">> PUBLIC HVZ RESOURCES"}
           </h2>
-          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {externalLinks.map((link) => {
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {PUBLIC_RESOURCES.map((link) => {
               const Icon = link.icon
               return (
                 <a
-                  key={link.name}
+                  key={`${link.label}-${link.title}`}
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={[
                     "group relative block rounded-none border-4 border-neutral-900 bg-white/70 p-3 text-center",
                     "shadow-[6px_6px_0_rgba(0,0,0,0.45)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)]",
                     "overflow-hidden [background-clip:padding-box]",
                   ].join(" ")}
+                  aria-label={`${link.label}: ${link.title}`}
                 >
                   <div className="mb-2 grid place-items-center rounded-none border-4 border-neutral-900 bg-gray-100 p-2 [background-clip:padding-box]">
-                    <Icon className="h-6 w-6 text-emerald-700" />
+                    <Icon className="h-6 w-6 text-emerald-700" aria-hidden="true" />
                   </div>
-                  <div className="font-mono text-xs font-bold tracking-wide text-neutral-900">{link.name}</div>
-                  <ExternalLink className="absolute right-1 top-1 h-4 w-4 text-neutral-700 opacity-0 transition-opacity group-hover:opacity-100" />
+                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-600">{link.label}</div>
+                  <div className="mt-1 font-mono text-xs font-bold tracking-wide text-neutral-900">{link.title}</div>
+                  <ExternalLink
+                    className="absolute right-1 top-1 h-4 w-4 text-neutral-700 opacity-0 transition-opacity group-hover:opacity-100"
+                    aria-hidden="true"
+                  />
                 </a>
               )
             })}
@@ -306,20 +312,50 @@ export default function HvZPage() {
                 <div className="border-l-4 border-amber-700 bg-amber-500/10 p-4">
                   <h3 className="mb-3 font-mono text-lg font-bold text-amber-800">{"[KILL MECHANICS & REPORTING]"}</h3>
                   <ul className="space-y-2">
-                    {[
-                      "A kill counts only if (1) the human is aware they were tagged at the moment of contact, and (2) a kill form is submitted.",
-                      "Killed humans become active zombies the NEXT DAY (e.g., killed 12:01 AM on the 22nd means they become a zombie at 12:00 AM on the 23rd).",
-                      "Stealth is allowed, but awareness at the instant of contact is required.",
-                      "The killer must submit online forms to confirm their kill (video preferred). The killer must submit a form to earn points for their family.",
-                      "SUBMISSION DEADLINE: Your kill must be submitted BEFORE 11:59 PM on the day of your kill; otherwise it will NOT count.",
-                      "DISPUTES: Must be filed WITHIN 1 HOUR of the event. Late disputes will not be tolerated.",
-                      "Be reasonable: don’t dispute without cause. COMM has final say on whether kills count.",
-                    ].map((t) => (
-                      <li key={t} className="flex gap-2">
-                        <span className="text-amber-800">{">"}</span>
-                        <span>{t}</span>
-                      </li>
-                    ))}
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>
+                        A kill counts only if (1) the human is aware they were tagged at the moment of contact, and (2) a
+                        kill form is submitted.
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>
+                        Killed humans become active zombies the NEXT DAY (e.g., killed 12:01 AM on the 22nd means they
+                        become a zombie at 12:00 AM on the 23rd).
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>Stealth is allowed, but awareness at the instant of contact is required.</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>
+                        The killer must submit proof (video of kill or picture with victim after kill) to the kill form
+                        to confirm their kill (video preferred). A form must be submitted to earn points.
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>
+                        <span className="font-bold">SUBMISSION DEADLINE:</span> Your kill must be submitted BEFORE 11:59 PM on the day of
+                        your kill; otherwise it will NOT count.
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>
+                        <span className="font-bold">DISPUTES:</span> Must be filed <span className="font-bold">WITHIN 1 HOUR</span> of the event. Late disputes
+                        will not be tolerated. To file a dispute, create a Messenger group chat with all parties and all
+                        three Comm Chairs.
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-amber-800">{">"}</span>
+                      <span>Be reasonable: don’t dispute without cause. COMM has final say on whether kills count.</span>
+                    </li>
                   </ul>
                 </div>
 
@@ -335,11 +371,10 @@ export default function HvZPage() {
                   </p>
                   <ul className="space-y-2">
                     {[
-                      "Comm Dinner",
                       "“Family Events” (officially designated) — see Family Events rule details",
                       "Your Room // Bathroom // Suite",
                       "Classes // Office Hours",
-                      "CSA Culturefest rehearsals (only in the specific rehearsal room)",
+                      "CSA Fullmoonfest rehearsals (only in the specific rehearsal room)",
                       "Other official CIO activities — be respectful and do NOT disrupt their events",
                     ].map((t) => (
                       <li key={t} className="flex gap-2">
@@ -351,24 +386,36 @@ export default function HvZPage() {
                   <p className="mt-2 italic">More details on safe zones on the “Safe Zones” tab.</p>
                 </div>
 
-                {/* Quests & Tasks */}
+                {/* Quests */}
                 <div className="border-l-4 border-emerald-600 bg-emerald-500/10 p-4">
-                  <h3 className="mb-3 font-mono text-lg font-bold text-emerald-700">{"[QUESTS & TASKS]"}</h3>
+                  <h3 className="mb-3 font-mono text-lg font-bold text-emerald-700">{"[QUESTS]"}</h3>
                   <ul className="space-y-2">
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{">"}</span>
                       <span>
-                        Tasks will be released throughout the week for points. Each task is only valid on the day it’s
+                        Quests will be released throughout the week for points. Each quest is only valid on the day it’s
                         released.
                       </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{">"}</span>
                       <span className="font-bold">
-                        You must send evidence via the Task Form BEFORE 11:59 PM on the day of completion.
+                        You must send evidence via the Quest Form BEFORE 11:59 PM on the day of completion.
                       </span>
                     </li>
                   </ul>
+                  <div className="mt-3 space-y-3">
+                    <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
+                      <p className="font-mono text-sm font-bold text-emerald-800">
+                        Quest points are given to the first family to complete the quest unless stated otherwise.
+                      </p>
+                    </div>
+                    <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
+                      <p className="font-mono text-sm font-bold text-emerald-800">
+                        You are not safe while completing quests unless stated otherwise.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </PixelDisclosure>
 
@@ -606,28 +653,23 @@ export default function HvZPage() {
                   Only the <strong>event area</strong> is safe during the scheduled time and during the 10 minute
                   windows before and after.
                 </p>
+              </PixelDisclosure>
 
-                <div className="space-y-2">
-                  <p className="font-bold text-emerald-700">FAMILY EVENT RULES:</p>
+              {/* FAMILY EVENT RULES */}
+              <PixelDisclosure title={"FAMILY EVENT RULES"}>
+                <div className="space-y-3">
+                  <p className="font-mono text-sm text-neutral-900">
+                    <span className="font-bold text-emerald-700">Definition:</span>{" "}
+                    <span className="italic">
+                      1 guardian (family head/aunt/uncle) + at least 1 family member; total at least 5 family members.
+                    </span>
+                  </p>
                   <ul className="space-y-2 pl-4">
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{"•"}</span>
                       <span>
-                        <strong>Only</strong> family members are safe at that family’s event.
-                      </span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="text-emerald-700">{"•"}</span>
-                      <span>
-                        Definition: 1 guardian (family head/aunt/uncle) + at least 1 family member, total{" "}
-                        <strong>at least 5</strong> people.
-                      </span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="text-emerald-700">{"•"}</span>
-                      <span>
-                        “Walking events” are SAFE at at least 5 people; if it drops to 4, it’s no longer a family event,
-                        so it'snot safe.
+                        “Walking events” are SAFE with at least 5 people; if it drops to 4, it’s no longer a family
+                        event, so it’s not safe.
                       </span>
                     </li>
                     <li className="flex gap-2">
@@ -647,16 +689,8 @@ export default function HvZPage() {
                         <strong>Proximity rule:</strong> everyone must be able to see each other and remain within ~6 ft.
                       </span>
                     </li>
-                    <li className="flex gap-2">
-                      <span className="text-emerald-700">{"•"}</span>
-                      <span>
-                        Meals: you don’t need to queue together, but you <strong>must sit together</strong>.
-                      </span>
-                    </li>
                   </ul>
                 </div>
-
-                <p>Official CSA chalking/talking/flyering is SAFE.</p>
               </PixelDisclosure>
 
               {/* OTHER SAFE ZONES */}
