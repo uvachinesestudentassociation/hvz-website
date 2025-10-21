@@ -180,7 +180,7 @@ export default function HvZPage() {
           <h2 className="mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider text-neutral-900">
             {">> PUBLIC HVZ RESOURCES"}
           </h2>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {PUBLIC_RESOURCES.map((link) => {
               const Icon = link.icon
               return (
