@@ -165,7 +165,7 @@ export default function HvZPage() {
                 size="lg"
                 asChild
               >
-                <a href="https://www.facebook.com/groups/637023599343740" target="_blank" rel="noopener noreferrer">
+                <a href="https://forms.gle/bnBijqm8rEba5UfR8" target="_blank" rel="noopener noreferrer">
                   Join the Game
                 </a>
               </McButton>
@@ -661,7 +661,7 @@ export default function HvZPage() {
                   <p className="font-mono text-sm text-neutral-900">
                     <span className="font-bold text-emerald-700">Definition:</span>{" "}
                     <span className="italic">
-                      1 guardian (family head/aunt/uncle) + at least 1 family member; total at least 5 family members.
+                      1 guardian (family head/aunt/uncle) + at least 1 general family member; minimum of 5 family members.
                     </span>
                   </p>
                   <ul className="space-y-2 pl-4">
