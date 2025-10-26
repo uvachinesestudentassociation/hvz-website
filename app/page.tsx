@@ -607,7 +607,7 @@ export default function HvZPage() {
               {/* WORK & GYM */}
               <PixelDisclosure title="WORK & GYM">
                 <p>
-                  Humans cannot be tagged while at work (jobs, volunteering, TAing). <em>Concessions count as work.</em>
+                  Humans cannot be tagged while at work (e.g. jobs, volunteering, TAing, research). <em>Concessions count as work.</em>
                 </p>
 
                 <div className="space-y-2">
