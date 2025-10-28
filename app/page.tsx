@@ -225,19 +225,25 @@ export default function HvZPage() {
                 <p className="text-rose-700 font-semibold">Latest tweaks you should know about:</p>
                 <ul className="list-disc space-y-1 pl-5 marker:text-rose-700 text-neutral-900">
                   <li>
-                    Gym safety now runs from your first set to your last one—vanish for a long "rest" and the shield
+                    Gym safety now runs from your first set to your last one. Wander off for a long break and the shield
                     drops.
                   </li>
-                  <li>AFC hallways and the lobby are still live zones, even if you're mid-workout.</li>
+                  <li>AFC hallways and the lobby stay live zones, even if you're mid workout.</li>
                   <li>
-                    Sharing dance-practice announcements outside the studio is hands-off, same vibe as chatting with a
-                    prof post-class.
+                    Sharing dance practice announcements outside the studio is hands off, same vibe as chatting with a
+                    prof after class.
                   </li>
                   <li>
-                    Zombies can still be stunned while in a safe zone.
+                    Zombies need white socks on both hands when they tag so everyone can spot them quick.
+                  </li>
+                  <li>
+                    You can still stun someone in a safe zone.
+                  </li>
+                  <li>
+                    Shotgun challenge clips only count if you also film the cleanup when the spot is indoors.
                   </li>
                 </ul>
-                <p>DM Comm if you have any questions.</p>
+                <p>DM Comm if anything feels fuzzy.</p>
               </div>
             </BlockPanel>
 
@@ -295,8 +301,8 @@ export default function HvZPage() {
                   <h3 className="mb-3 font-mono text-lg font-bold text-rose-700">{"[ZOMBIE RULES]"}</h3>
                   <ul className="space-y-2">
                     {[
-                      "Zombies are distinguished by wearing socks on BOTH hands (they may be hidden from view until the kill).",
-                      "At the moment of the kill, both socks must be FULLY on the zombie’s hands.",
+                      "Zombies are distinguished by wearing white socks on BOTH hands (they may be hidden from view until the kill).",
+                      "At the moment of the kill, both white socks must be FULLY on the zombie’s hands.",
                       "Kills require a two-hand sock touch: a sock on each hand, firm contact with the human.",
                       "You may tag any extension currently worn by the human (clothes, backpack, etc.), but NOT loose items dangling/held (e.g., shopping bag).",
                       "Zombies may block stuns with an object held with BOTH hands (e.g., laptop, notebook, umbrella). Anything worn on the body can be hit and still counts as a stun.",
@@ -392,11 +398,11 @@ export default function HvZPage() {
                   </p>
                   <ul className="space-y-2">
                     {[
-                      "“Family Events” (officially designated) — see Family Events rule details",
+                      "“Family Events” (officially designated). See the Family Events rule details.",
                       "Your Room // Bathroom // Suite",
                       "Classes // Office Hours",
                       "CSA Fullmoonfest rehearsals (only in the specific rehearsal room)",
-                      "Other official CIO activities — be respectful and do NOT disrupt their events",
+                      "Other official CIO activities. Be respectful and do NOT disrupt their events.",
                     ].map((t) => (
                       <li key={t} className="flex gap-2">
                         <span className="text-sky-800">{">"}</span>
@@ -405,7 +411,7 @@ export default function HvZPage() {
                     ))}
                   </ul>
                   <p className="mt-2 text-sm text-neutral-900">
-                    Being in a safe zone just means zombies can’t tag you, you can still stun them.
+                    Being in a safe zone just means zombies can’t tag you. You can still stun them.
                   </p>
                   <p className="mt-2 italic">More details on safe zones on the “Safe Zones” tab.</p>
                 </div>
@@ -425,6 +431,13 @@ export default function HvZPage() {
                       <span className="text-emerald-700">{">"}</span>
                       <span className="font-bold">
                         You must send evidence via the Quest Form BEFORE 11:59 PM on the day of completion.
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-700">{">"}</span>
+                      <span>
+                        Shotgun challenge submissions need a clip of you cleaning any indoor mess right after the run or the
+                        entry gets tossed.
                       </span>
                     </li>
                   </ul>
@@ -536,10 +549,9 @@ export default function HvZPage() {
                   </div>
 
                   <div className="border-l-4 border-amber-700 bg-amber-500/10 p-4">
-                    <h3 className="mb-2 font-bold text-amber-800">ZOMBIES MUST WEAR SOCK GLOVES TO TAG.</h3>
+                    <h3 className="mb-2 font-bold text-amber-800">ZOMBIES MUST WEAR WHITE SOCK GLOVES TO TAG.</h3>
                     <p>
-                      Zombies must tag a human with SOCKS ON THEIR HANDS and cannot be thrown by a zombie to kill a
-                      human.
+                      Zombies must tag a human with white socks on their hands and cannot toss the socks to score a kill.
                     </p>
                   </div>
 
@@ -647,7 +659,7 @@ export default function HvZPage() {
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{"•"}</span>
                       <span>
-                        Step into the AFC hallways or lobby and you're right back in play—they're always live zones.
+                        Step into the AFC hallways or lobby and you're right back in play. Those spots are always live zones.
                       </span>
                     </li>
                     <li className="flex gap-2">
@@ -669,7 +681,7 @@ export default function HvZPage() {
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{"•"}</span>
                       <span>
-                        Dance-practice announcements are hands-off—even if they're happening outside the room.
+                        Dance practice announcements are hands off, even if they're happening outside the room.
                       </span>
                     </li>
                   </ul>
