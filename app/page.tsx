@@ -233,8 +233,11 @@ export default function HvZPage() {
                     Sharing dance-practice announcements outside the studio is hands-off, same vibe as chatting with a
                     prof post-class.
                   </li>
+                  <li>
+                    Zombies can still be stunned while in a safe zone.
+                  </li>
                 </ul>
-                <p>DM Comm if anything feels fuzzy.</p>
+                <p>DM Comm if you have any questions.</p>
               </div>
             </BlockPanel>
 
@@ -401,6 +404,9 @@ export default function HvZPage() {
                       </li>
                     ))}
                   </ul>
+                  <p className="mt-2 text-sm text-neutral-900">
+                    Being in a safe zone just means zombies can’t tag you, you can still stun them.
+                  </p>
                   <p className="mt-2 italic">More details on safe zones on the “Safe Zones” tab.</p>
                 </div>
 
