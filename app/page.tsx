@@ -220,6 +220,24 @@ export default function HvZPage() {
               {">> GAME RULES"}
             </h2>
 
+            <BlockPanel title={<span className="text-rose-700">Heads up!</span>} tone="danger">
+              <div className="space-y-2 pb-2">
+                <p className="text-rose-700 font-semibold">Latest tweaks you should know about:</p>
+                <ul className="list-disc space-y-1 pl-5 marker:text-rose-700 text-neutral-900">
+                  <li>
+                    Gym safety now runs from your first set to your last one—vanish for a long "rest" and the shield
+                    drops.
+                  </li>
+                  <li>AFC hallways and the lobby are still live zones, even if you're mid-workout.</li>
+                  <li>
+                    Sharing dance-practice announcements outside the studio is hands-off, same vibe as chatting with a
+                    prof post-class.
+                  </li>
+                </ul>
+                <p>DM Comm if anything feels fuzzy.</p>
+              </div>
+            </BlockPanel>
+
             {/* Always-visible Things to Note */}
             <BlockPanel title={<span className="text-rose-700">⚠ THINGS TO NOTE</span>} tone="danger">
               <p className="font-bold text-rose-700">
@@ -616,14 +634,14 @@ export default function HvZPage() {
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{"•"}</span>
                       <span>
-                        Safe once <strong>swiped in</strong> to main gym areas; leaving the swiped area removes safety.
+                        When you're working out, your safety kicks in with the first set and ends with the last one.
+                        Catch your breath, sure, but duck out for a 30-minute "rest" walk and the shield drops.
                       </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-emerald-700">{"•"}</span>
                       <span>
-                        <strong>Must be actively working out.</strong> Hiding in the AFC is prohibited and may result in
-                        disqualification.
+                        Step into the AFC hallways or lobby and you're right back in play—they're always live zones.
                       </span>
                     </li>
                     <li className="flex gap-2">
@@ -640,6 +658,12 @@ export default function HvZPage() {
                         <strong>only in your scheduled room</strong> during the scheduled time and during the 10 minute
                         window before and after. You are <strong>NOT</strong> safe immediately after swipe-in elsewhere
                         (e.g. in the hallway or entrance).
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-700">{"•"}</span>
+                      <span>
+                        Dance-practice announcements are hands-off—even if they're happening outside the room.
                       </span>
                     </li>
                   </ul>
