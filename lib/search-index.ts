@@ -130,9 +130,7 @@ export function searchRules(query: string): SearchResult[] {
 
   const index = buildSearchIndex()
   return index.filter((entry) => {
-    const haystack = flattenTexts([
-      [entry.section, entry.title, entry.snippet],
-    ]).join(" ").toLowerCase()
+    const haystack = flattenTexts([entry.section, entry.title, entry.snippet]).join(" ").toLowerCase()
     return haystack.includes(q)
   }).map((entry) => ({
     ...entry,
