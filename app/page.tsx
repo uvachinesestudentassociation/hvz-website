@@ -1,12 +1,19 @@
 import Link from "next/link"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import { McButton } from "@/components/hvz/mc-button"
-import { getFormResources, getSortedResources } from "@/lib/public-resources"
+import { getFormResources, getSortedResources, PUBLIC_RESOURCES } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
 
+function getHomeQuickActions() {
+  const killReport = PUBLIC_RESOURCES.find((r) => r.label === "Kill Report")!
+  const questBoard = PUBLIC_RESOURCES.find((r) => r.label === "Quest Board")!
+  const questReport = PUBLIC_RESOURCES.find((r) => r.label === "Quest Report")!
+  return { killReport, questBoard, questReport }
+}
+
 export default function HomePage() {
-  const forms = getFormResources()
-  const otherResources = getSortedResources(true).filter((r) => r.priority !== "high").slice(0, 2)
+  const { killReport, questBoard, questReport } = getHomeQuickActions()
+  const otherResources = getSortedResources(true).filter((r) => r.priority !== "high" && r.label !== "Quest Board").slice(0, 2)
 
   return (
     <>
@@ -51,9 +58,9 @@ export default function HomePage() {
           </p>
 
           <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
-            {forms.map((resource) => (
-              <ResourceLinkCard key={resource.label} resource={resource} variant="action" />
-            ))}
+            <ResourceLinkCard resource={killReport} variant="action" />
+            <ResourceLinkCard resource={questReport} variant="action" />
+            <ResourceLinkCard resource={questBoard} variant="action" className="sm:col-span-2" />
           </div>
 
           <h3 className="mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider text-neutral-600">

@@ -1,29 +1,50 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { LucideIcon } from "lucide-react"
-import { BookOpen, ClipboardList, FileText, FolderOpen, Home, Shield } from "lucide-react"
-import { getFormResources } from "@/lib/public-resources"
-import { RuleSearch } from "@/components/rule-search"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { LucideIcon } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  FileText,
+  FolderOpen,
+  Home,
+  Shield,
+} from "lucide-react";
+import { getFormResources } from "@/lib/public-resources";
+import { RuleSearch } from "@/components/rule-search";
 
 type NavItem = {
-  label: string
-  href: string
-  icon: LucideIcon
-  external?: boolean
-  matchPaths?: string[]
-}
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
+  matchPaths?: string[];
+};
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: Home, matchPaths: ["/"] },
-  { label: "Resources", href: "/resources", icon: FolderOpen, matchPaths: ["/resources"] },
+  {
+    label: "Resources",
+    href: "/resources",
+    icon: FolderOpen,
+    matchPaths: ["/resources"],
+  },
   { label: "Rules", href: "/rules", icon: BookOpen, matchPaths: ["/rules"] },
-  { label: "Safe Zones", href: "/safe-zones", icon: Shield, matchPaths: ["/safe-zones"] },
-]
+  {
+    label: "Safe Zones",
+    href: "/safe-zones",
+    icon: Shield,
+    matchPaths: ["/safe-zones"],
+  },
+];
 
 function isActive(pathname: string, item: NavItem) {
-  return item.matchPaths?.some((p) => (p === "/" ? pathname === "/" : pathname.startsWith(p))) ?? false
+  return (
+    item.matchPaths?.some((p) =>
+      p === "/" ? pathname === "/" : pathname.startsWith(p),
+    ) ?? false
+  );
 }
 
 function NavLink({
@@ -31,27 +52,32 @@ function NavLink({
   pathname,
   className,
 }: {
-  item: NavItem
-  pathname: string
-  className?: string
+  item: NavItem;
+  pathname: string;
+  className?: string;
 }) {
-  const active = isActive(pathname, item)
-  const Icon = item.icon
+  const active = isActive(pathname, item);
+  const Icon = item.icon;
   const baseClass = [
     "flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
     active ? "text-emerald-700" : "text-neutral-700 hover:text-emerald-600",
     className,
   ]
     .filter(Boolean)
-    .join(" ")
+    .join(" ");
 
   if (item.external) {
     return (
-      <a href={item.href} target="_blank" rel="noopener noreferrer" className={baseClass}>
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={baseClass}
+      >
         <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span>{item.label}</span>
       </a>
-    )
+    );
   }
 
   return (
@@ -59,12 +85,12 @@ function NavLink({
       <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
       <span>{item.label}</span>
     </Link>
-  )
+  );
 }
 
 export function DesktopSiteNav() {
-  const pathname = usePathname()
-  const forms = getFormResources()
+  const pathname = usePathname();
+  const forms = getFormResources();
 
   return (
     <nav
@@ -94,12 +120,12 @@ export function DesktopSiteNav() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
 export function MobileSiteNav() {
-  const pathname = usePathname()
-  const forms = getFormResources()
+  const pathname = usePathname();
+  const forms = getFormResources();
 
   return (
     <>
@@ -109,21 +135,23 @@ export function MobileSiteNav() {
       >
         <div className="grid grid-cols-6 gap-0">
           {NAV_ITEMS.slice(0, 4).map((item) => {
-            const active = isActive(pathname, item)
-            const Icon = item.icon
+            const active = isActive(pathname, item);
+            const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={[
                   "flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight",
-                  active ? "bg-emerald-500/20 text-emerald-800" : "text-neutral-700",
+                  active
+                    ? "bg-emerald-500/20 text-emerald-800"
+                    : "text-neutral-700",
                 ].join(" ")}
               >
                 <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
                 <span className="leading-none">{item.label}</span>
               </Link>
-            )
+            );
           })}
           {forms.map((form) => (
             <a
@@ -134,7 +162,9 @@ export function MobileSiteNav() {
               className="flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight text-rose-700"
             >
               <ClipboardList className="h-5 w-5 shrink-0" aria-hidden="true" />
-              <span className="leading-none">{form.label.replace(" Report", "")}</span>
+              <span className="leading-none">
+                {form.label.replace(" Report", "")}
+              </span>
             </a>
           ))}
         </div>
@@ -144,7 +174,7 @@ export function MobileSiteNav() {
         <RuleSearch variant="mobile" />
       </div>
     </>
-  )
+  );
 }
 
 /** @deprecated Use DesktopSiteNav + MobileSiteNav via SiteShell */
@@ -154,5 +184,5 @@ export function SiteNav() {
       <DesktopSiteNav />
       <MobileSiteNav />
     </>
-  )
+  );
 }

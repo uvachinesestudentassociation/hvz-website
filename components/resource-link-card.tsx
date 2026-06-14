@@ -4,24 +4,34 @@ import type { PublicResource } from "@/lib/public-resources"
 type ResourceLinkCardProps = {
   resource: PublicResource
   variant?: "compact" | "full" | "action"
+  className?: string
 }
 
-const ACTION_STYLES: Record<string, { card: string; icon: string; label: string; badge: string }> = {
+const ACTION_STYLES: Record<string, { card: string; icon: string; label: string; badge: string; badgeText: string }> = {
   "Kill Report": {
     card: "border-rose-700 bg-rose-500 shadow-[8px_8px_0_rgba(0,0,0,0.5)]",
     icon: "border-rose-900 bg-rose-200 text-rose-900",
     label: "text-rose-950",
     badge: "bg-rose-900 text-rose-50",
+    badgeText: "Report now",
+  },
+  "Quest Board": {
+    card: "border-emerald-700 bg-emerald-400 shadow-[8px_8px_0_rgba(0,0,0,0.5)]",
+    icon: "border-emerald-900 bg-emerald-200 text-emerald-900",
+    label: "text-emerald-950",
+    badge: "bg-emerald-900 text-emerald-50",
+    badgeText: "View board",
   },
   "Quest Report": {
     card: "border-amber-700 bg-amber-400 shadow-[8px_8px_0_rgba(0,0,0,0.5)]",
     icon: "border-amber-900 bg-amber-200 text-amber-900",
     label: "text-amber-950",
     badge: "bg-amber-900 text-amber-50",
+    badgeText: "Report now",
   },
 }
 
-export function ResourceLinkCard({ resource, variant = "full" }: ResourceLinkCardProps) {
+export function ResourceLinkCard({ resource, variant = "full", className = "" }: ResourceLinkCardProps) {
   const Icon = resource.icon
   const isAction = variant === "action"
   const actionStyle = ACTION_STYLES[resource.label]
@@ -45,6 +55,7 @@ export function ResourceLinkCard({ resource, variant = "full" }: ResourceLinkCar
           ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] active:translate-x-[3px] active:translate-y-[3px]"
           : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)]",
         "overflow-hidden [background-clip:padding-box]",
+        className,
       ].join(" ")}
     >
       {isAction && (
@@ -54,20 +65,27 @@ export function ResourceLinkCard({ resource, variant = "full" }: ResourceLinkCar
             actionStyle?.badge,
           ].join(" ")}
         >
-          Report now
+          {actionStyle.badgeText}
         </span>
       )}
       <div
         className={[
-          "grid place-items-center rounded-none border-4 [background-clip:padding-box]",
+          "inline-flex shrink-0 items-center justify-center rounded-none border-4 [background-clip:padding-box]",
           isAction
-            ? `mb-4 mt-5 w-14 p-3 ${actionStyle?.icon}`
+            ? `mb-4 mt-5 size-14 ${actionStyle?.icon}`
             : variant === "compact"
-              ? "mb-2 p-2 mx-auto w-fit border-neutral-900 bg-gray-100"
-              : "mb-3 w-12 p-3 border-neutral-900 bg-gray-100",
+              ? "mb-2 size-11 mx-auto border-neutral-900 bg-gray-100"
+              : "mb-3 size-12 border-neutral-900 bg-gray-100",
         ].join(" ")}
       >
-        <Icon className={isAction ? "h-8 w-8" : "h-6 w-6 text-emerald-700"} aria-hidden="true" />
+        <Icon
+          className={[
+            "shrink-0",
+            isAction ? "size-7" : "size-6 text-emerald-700",
+          ].join(" ")}
+          aria-hidden="true"
+          strokeWidth={2}
+        />
       </div>
       <div
         className={[
