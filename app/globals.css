@@ -124,6 +124,37 @@
     @apply bg-background text-foreground;
   }
 
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only:focus {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 50;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    border: 4px solid #171717;
+    background: white;
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
   /* Pixelated texture overlay */
   body::before {
     content: "";
