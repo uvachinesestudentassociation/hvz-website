@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" fill="#7ec8e3"/>
+  <rect x="48" y="48" width="416" height="416" fill="#059669" stroke="#171717" stroke-width="16"/>
+  <text x="256" y="240" text-anchor="middle" font-family="monospace" font-size="72" font-weight="bold" fill="#171717">HvZ</text>
+  <text x="256" y="310" text-anchor="middle" font-family="monospace" font-size="36" font-weight="bold" fill="#171717">CSA@UVA</text>
+</svg>
