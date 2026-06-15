@@ -3,14 +3,15 @@ import { GameCountdown } from "@/components/game-countdown"
 import { JoinGameButton } from "@/components/join-game-button"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import { PIXEL_SECTION_AMBER, PIXEL_SECTION_BORDER, PIXEL_SECTION_EMERALD, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
-import { getSortedResources, PUBLIC_RESOURCES } from "@/lib/public-resources"
+import { getResource, getSortedResources } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 function getHomeQuickActions() {
-  const killReport = PUBLIC_RESOURCES.find((r) => r.label === "Kill Report")!
-  const questBoard = PUBLIC_RESOURCES.find((r) => r.label === "Quest Board")!
-  const questReport = PUBLIC_RESOURCES.find((r) => r.label === "Quest Report")!
-  return { killReport, questBoard, questReport }
+  return {
+    killReport: getResource("killReport"),
+    questBoard: getResource("questBoard"),
+    questReport: getResource("questReport"),
+  }
 }
 
 export default function HomePage() {
