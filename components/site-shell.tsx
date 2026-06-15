@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { ArrowUp } from "lucide-react"
-import { usePathname } from "next/navigation"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
 import { PIXEL_GRID_BG } from "@/components/hvz/pixel-styles"
@@ -10,8 +9,6 @@ import { SITE_CONFIG } from "@/lib/site-config"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const pathname = usePathname()
-  const showHeadsUp = pathname === "/"
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 400)
@@ -21,14 +18,9 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0`}>
-      <div
-        className={[
-          "sticky top-0 z-40",
-          showHeadsUp ? "max-md:bg-rose-100 md:bg-white" : "",
-        ].join(" ")}
-      >
+      <div className="sticky top-0 z-40 md:bg-white">
         <DesktopSiteNav />
-        {showHeadsUp && <HeadsUpBanner />}
+        <HeadsUpBanner />
       </div>
       <MobileSiteNav />
       <main id="main-content">{children}</main>

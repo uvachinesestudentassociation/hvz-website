@@ -1,12 +1,12 @@
-import { SITE_CONFIG } from "@/lib/site-config"
+import { SITE_CONFIG } from "@/lib/site-config";
 
 export type SafeZoneSection = {
-  id: string
-  title: string
-  paragraphs: string[]
-  listItems?: string[]
-  footnote?: string
-}
+  id: string;
+  title: string;
+  paragraphs: string[];
+  listItems?: string[];
+  footnote?: string;
+};
 
 export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
   {
@@ -40,7 +40,7 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
       "Humans cannot be tagged while at work (e.g. jobs, volunteering, TAing, research). Concessions count as work.",
     ],
     listItems: [
-      "When you're working out, your safety kicks in with the first set and ends with the last one. Catch your breath, sure, but duck out for a 30-minute \"rest\" walk and the shield drops.",
+      'When you\'re working out, your safety kicks in with the first set and ends with the last one. Catch your breath, sure, but duck out for a 30-minute "rest" walk and the shield drops.',
       "Step into the AFC hallways or lobby and you're right back in play. Those spots are always live zones.",
       "Sports/dance practices and required org meetings are safe in the designated meeting place 10 minutes before and after.",
       "For ALL dance practices at AFC/SLAUGHTER/MEM, safety applies only in your scheduled room during the scheduled time and during the 10 minute window before and after. You are NOT safe immediately after swipe-in elsewhere (e.g. in the hallway or entrance).",
@@ -62,7 +62,7 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
       "Definition: 1 guardian (family head/aunt/uncle) + at least 1 general family member; minimum of 5 family members.",
     ],
     listItems: [
-      '"Walking events" are SAFE with at least 5 people; if it drops to 4, it\'s no longer a family event, so it\'s not safe.',
+      "\"Walking events\" are SAFE with at least 5 people; if it drops to 4, it's no longer a family event, so it's not safe.",
       "Comm chairs do not count toward the family-event headcount.",
       "Stay together & planned: meet intentionally, continuously interact, don't disperse.",
       "Proximity rule: everyone must be able to see each other and remain within ~6 ft.",
@@ -80,9 +80,9 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
     footnote:
       "Example: Non-CSA dance practice in AFC MP3 8–10 PM → safe in MP3 7:50–10:10 PM only; elsewhere in the AFC is unsafe.",
   },
-]
+];
 
 export const SAFE_ZONES_TOC = SAFE_ZONE_SECTIONS.map((s) => ({
   id: s.id,
   label: s.title,
-}))
+}));

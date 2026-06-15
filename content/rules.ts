@@ -89,6 +89,7 @@ export const BASIC_RULES_SUBSECTIONS: RuleSubsection[] = [
 ]
 
 export const SPECIFIC_RULES: SpecificRule[] = [
+  // Rose (red) — prohibitions & safety
   {
     id: "no-restraining",
     heading: "NO RESTRAINING PEOPLE.",
@@ -106,31 +107,6 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     heading: "NO ATTACKS ON HUMANS ON TRANSPORTATION.",
     tone: "rose",
     body: "That's extremely dangerous, and we don't want people to get hurt. To be safe, don't cram people into these modes of transportation just for the sake of not being attacked by a zombie. Don't ride your skateboard/bike indoors, it won't help you and you'll prob trip and fall",
-  },
-  {
-    id: "submit-kills",
-    heading: "SUBMIT KILL REPORTS ON TIME.",
-    tone: "emerald",
-    body: "Only the names that have been submitted before midnight of that day will be counted as kills, so please submit your kills!",
-  },
-  {
-    id: "next-day-zombie",
-    heading: "DEAD HUMANS BECOME ZOMBIES THE NEXT DAY.",
-    tone: "emerald",
-    body: "Please don't start killing until the next day! Also, be sure to check the document to be sure your death has been recorded.",
-    footnote: "Ex: If you're zombified at 11:00 PM Tue means you can start infecting 12:00 AM Wed.",
-  },
-  {
-    id: "sneak-kills",
-    heading: "SNEAK KILLS ALLOWED.",
-    tone: "amber",
-    body: "We hope this doesn't make the surviving humans extra paranoid! hehehe.",
-  },
-  {
-    id: "stuns-per-human",
-    heading: "STUNS ARE PER-HUMAN.",
-    tone: "amber",
-    body: "If one human stuns a zombie, then others are not necessarily safe unless they also stun the zombie. For instance, if Maggie was the zombie and Dylan threw a sock at Maggie, then Audrey is not safe from Maggie.",
   },
   {
     id: "dont-be-idiot",
@@ -151,6 +127,25 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     body: "please...",
   },
   {
+    id: "safety-first",
+    heading: "SAFETY FIRST.",
+    tone: "rose",
+    body: "Nothing is more important than your safety and the safety of others.",
+  },
+  // Amber (yellow) — mechanics & clarifications
+  {
+    id: "sneak-kills",
+    heading: "SNEAK KILLS ALLOWED.",
+    tone: "amber",
+    body: "We hope this doesn't make the surviving humans extra paranoid! hehehe.",
+  },
+  {
+    id: "stuns-per-human",
+    heading: "STUNS ARE PER-HUMAN.",
+    tone: "amber",
+    body: "If one human stuns a zombie, then others are not necessarily safe unless they also stun the zombie. For instance, if Maggie was the zombie and Dylan threw a sock at Maggie, then Audrey is not safe from Maggie.",
+  },
+  {
     id: "phone-time",
     heading: "PHONE TIME IS OFFICIAL.",
     tone: "amber",
@@ -162,11 +157,19 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     tone: "amber",
     body: "Zombies must tag a human with white socks on their hands and cannot toss the socks to score a kill.",
   },
+  // Emerald (green) — reminders & allowed play
   {
-    id: "safety-first",
-    heading: "SAFETY FIRST.",
-    tone: "rose",
-    body: "Nothing is more important than your safety and the safety of others.",
+    id: "submit-kills",
+    heading: "SUBMIT KILL REPORTS ON TIME.",
+    tone: "emerald",
+    body: "Only the names that have been submitted before midnight of that day will be counted as kills, so please submit your kills!",
+  },
+  {
+    id: "next-day-zombie",
+    heading: "DEAD HUMANS BECOME ZOMBIES THE NEXT DAY.",
+    tone: "emerald",
+    body: "Please don't start killing until the next day! Also, be sure to check the document to be sure your death has been recorded.",
+    footnote: "Ex: If you're zombified at 11:00 PM Tue means you can start infecting 12:00 AM Wed.",
   },
   {
     id: "body-block",
@@ -176,8 +179,20 @@ export const SPECIFIC_RULES: SpecificRule[] = [
   },
 ]
 
+const SPECIFIC_RULE_TONE_ORDER: Record<SpecificRule["tone"], number> = {
+  rose: 0,
+  amber: 1,
+  emerald: 2,
+}
+
+/** Specific rules sorted red → yellow → green, stable within each color. */
+export function getSpecificRulesByTone(): SpecificRule[] {
+  return [...SPECIFIC_RULES].sort(
+    (a, b) => SPECIFIC_RULE_TONE_ORDER[a.tone] - SPECIFIC_RULE_TONE_ORDER[b.tone],
+  )
+}
+
 export const RULES_TOC = [
-  { id: "heads-up", label: "Heads up!" },
   { id: "things-to-note", label: "Things to Note" },
   { id: "basic-rules", label: "Basic Rules" },
   { id: "specific-rules", label: "Specific Rules" },

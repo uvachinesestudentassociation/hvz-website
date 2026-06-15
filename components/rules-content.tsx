@@ -2,12 +2,11 @@ import Link from "next/link"
 import { BlockPanel } from "@/components/hvz/block-panel"
 import { PixelDisclosure } from "@/components/hvz/pixel-disclosure"
 import { PageToc } from "@/components/page-toc"
-import { HEADS_UP_FOOTER, HEADS_UP_ITEMS } from "@/content/heads-up"
 import {
   BASIC_RULES_INTRO,
   BASIC_RULES_SUBSECTIONS,
   RULES_TOC,
-  SPECIFIC_RULES,
+  getSpecificRulesByTone,
 } from "@/content/rules"
 import { THINGS_TO_NOTE } from "@/content/things-to-note"
 import { SITE_CONFIG } from "@/lib/site-config"
@@ -36,20 +35,6 @@ export function RulesContent() {
           </h1>
 
           <PageToc items={RULES_TOC} />
-
-          <div id="heads-up" className="scroll-mt-24">
-            <BlockPanel title={<span className="text-rose-700">Heads up!</span>} tone="danger">
-              <div className="space-y-2 pb-2">
-                <p className="text-rose-700 font-semibold">Latest tweaks you should know about:</p>
-                <ul className="list-disc space-y-1 pl-5 marker:text-rose-700 text-neutral-900">
-                  {HEADS_UP_ITEMS.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <p>{HEADS_UP_FOOTER}</p>
-              </div>
-            </BlockPanel>
-          </div>
 
           <div id="things-to-note" className="scroll-mt-24">
             <BlockPanel title={<span className="text-rose-700">⚠ THINGS TO NOTE</span>} tone="danger">
@@ -152,7 +137,7 @@ export function RulesContent() {
 
             <PixelDisclosure id="specific-rules" title={">> SPECIFIC RULES"}>
               <div className="space-y-3">
-                {SPECIFIC_RULES.map((rule) => (
+                {getSpecificRulesByTone().map((rule) => (
                   <div
                     key={rule.id}
                     id={rule.id}

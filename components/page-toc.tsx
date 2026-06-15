@@ -5,7 +5,7 @@ type TocItem = {
 
 export function PageToc({ items, title = "Jump to section" }: { items: TocItem[]; title?: string }) {
   return (
-    <nav aria-label={title} className="rounded-none border-4 border-neutral-900 bg-white/70 p-4">
+    <nav aria-label={title} className="rounded-none border-4 border-neutral-900 bg-white/70 p-4 md:hidden">
       <p className="mb-3 font-mono text-xs font-bold uppercase tracking-wider text-neutral-600">
         {`>> ${title}`}
       </p>

@@ -37,7 +37,7 @@ export function buildSearchIndex(): SearchResult[] {
       section: "Heads up",
       title: "Latest rule tweaks",
       snippet: item,
-      href: "/rules#heads-up",
+      href: "#heads-up",
     })
   })
 

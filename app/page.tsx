@@ -1,7 +1,8 @@
 import Link from "next/link"
+import { GameCountdown } from "@/components/game-countdown"
+import { JoinGameButton } from "@/components/join-game-button"
 import { ResourceLinkCard } from "@/components/resource-link-card"
-import { McButton } from "@/components/hvz/mc-button"
-import { getFormResources, getSortedResources, PUBLIC_RESOURCES } from "@/lib/public-resources"
+import { getSortedResources, PUBLIC_RESOURCES } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 function getHomeQuickActions() {
@@ -32,12 +33,9 @@ export default function HomePage() {
             <p className="mx-auto mb-8 max-w-xl font-mono text-base md:text-lg text-neutral-800 bg-white/40 px-3 py-2 rounded-none border-4 border-neutral-900 shadow-[4px_4px_0_rgba(0,0,0,0.4)] break-words">
               {SITE_CONFIG.tagline}
             </p>
+            <GameCountdown />
             <div className="flex flex-wrap justify-center gap-4">
-              <McButton size="lg" asChild>
-                <a href={SITE_CONFIG.signupFormUrl} target="_blank" rel="noopener noreferrer">
-                  Join the Game
-                </a>
-              </McButton>
+              <JoinGameButton />
             </div>
           </div>
         </div>

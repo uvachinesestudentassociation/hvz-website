@@ -26,16 +26,11 @@ export function HeadsUpBanner() {
         <div className="min-w-0 flex-1 font-mono text-sm break-words">
           <p className="font-bold text-rose-800">Heads up! Latest rule tweaks:</p>
           <ul className="mt-1 list-disc space-y-0.5 pl-4 text-neutral-900">
-            {HEADS_UP_ITEMS.slice(0, 3).map((item) => (
+            {HEADS_UP_ITEMS.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className="mt-1 text-xs text-neutral-700">
-            {HEADS_UP_FOOTER}{" "}
-            <a href="/rules#heads-up" className="text-emerald-700 underline">
-              See all
-            </a>
-          </p>
+          <p className="mt-1 text-xs text-neutral-700">{HEADS_UP_FOOTER}</p>
         </div>
         <button
           type="button"
