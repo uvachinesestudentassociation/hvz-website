@@ -4,7 +4,7 @@ import type React from "react"
 import { useId, useState } from "react"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
-import { PIXEL_FRAME, RULE_BODY_CLASS } from "@/components/hvz/pixel-styles"
+import { PIXEL_FRAME, RULE_BODY_CLASS, PIXEL_SECTION_BORDER, PIXEL_TEXT } from "@/components/hvz/pixel-styles"
 
 export type PixelDisclosureProps = {
   id?: string
@@ -43,17 +43,17 @@ export function PixelDisclosure({
         onClick={() => setOpen((v) => !v)}
         className={[
           "flex w-full min-h-[48px] items-center justify-between px-4 py-4 md:px-6",
-          "rounded-none border-b-4 border-neutral-900 hover:no-underline",
+          `rounded-none border-b-4 ${PIXEL_SECTION_BORDER} hover:no-underline`,
           toneBg[headerTone],
           "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/60",
         ].join(" ")}
       >
         <span className="text-left">
-          <CardTitle className="font-mono text-xl md:text-2xl text-emerald-700">{title}</CardTitle>
+          <CardTitle className="font-mono text-xl md:text-2xl text-emerald-700 dark:text-emerald-400">{title}</CardTitle>
         </span>
         <ChevronDown
           className={[
-            "h-5 w-5 shrink-0 text-neutral-900 transition-transform",
+            `h-5 w-5 shrink-0 ${PIXEL_TEXT} transition-transform`,
             open ? "rotate-180" : "rotate-0",
           ].join(" ")}
           aria-hidden="true"

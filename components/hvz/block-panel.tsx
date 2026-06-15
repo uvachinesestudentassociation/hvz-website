@@ -1,6 +1,6 @@
 import type React from "react"
 import { CardContent, CardTitle } from "@/components/ui/card"
-import { RULE_BODY_CLASS } from "@/components/hvz/pixel-styles"
+import { RULE_BODY_CLASS, PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 
 export function BlockPanel({
   title,
@@ -30,7 +30,7 @@ export function BlockPanel({
       ].join(" ")}
     >
       {title && (
-        <div className="rounded-none border-b-4 border-neutral-900 bg-black/10 px-4 py-3 [background-clip:padding-box]">
+        <div className={`rounded-none border-b-4 ${PIXEL_SECTION_BORDER} bg-black/10 dark:bg-white/10 px-4 py-3 [background-clip:padding-box]`}>
           <CardTitle className="font-mono text-xl md:text-2xl tracking-wider drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]">
             {title}
           </CardTitle>

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { BlockPanel } from "@/components/hvz/block-panel"
 import { PixelDisclosure } from "@/components/hvz/pixel-disclosure"
+import { PIXEL_SECTION_AMBER, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
 import { PageToc } from "@/components/page-toc"
 import {
   BASIC_RULES_INTRO,
@@ -19,18 +20,18 @@ const toneBorder: Record<string, string> = {
 }
 
 const toneText: Record<string, string> = {
-  rose: "text-rose-700",
-  emerald: "text-emerald-700",
-  amber: "text-amber-800",
-  sky: "text-sky-800",
+  rose: "text-rose-700 dark:text-rose-400",
+  emerald: "text-emerald-700 dark:text-emerald-400",
+  amber: "text-amber-800 dark:text-amber-400",
+  sky: "text-sky-800 dark:text-sky-400",
 }
 
 export function RulesContent() {
   return (
-    <section id="rules" className="scroll-mt-24 border-b-8 border-neutral-900 bg-amber-900/10">
+    <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_AMBER}`}>
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="mx-auto max-w-4xl space-y-6">
-          <h1 className="text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider text-neutral-900">
+          <h1 className={`text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
             {">> GAME RULES"}
           </h1>
 
@@ -105,12 +106,12 @@ export function RulesContent() {
                   )}
                   {sub.id === "safe-zones-summary" && (
                     <>
-                      <p className="mt-2 text-neutral-900">
+                      <p className={`mt-2 ${PIXEL_TEXT}`}>
                         Being in a safe zone just means zombies can&apos;t tag you. You can still stun them.
                       </p>
                       <p className="mt-2 italic">
                         More details on{" "}
-                        <Link href="/safe-zones" className="text-emerald-700 underline">
+                        <Link href="/safe-zones" className="text-emerald-700 underline dark:text-emerald-400">
                           Safe Zones
                         </Link>
                         .
@@ -120,12 +121,12 @@ export function RulesContent() {
                   {sub.id === "quests" && (
                     <div className="mt-3 space-y-3">
                       <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800">
+                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
                           Quest points are given to the first family to complete the quest unless stated otherwise.
                         </p>
                       </div>
                       <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800">
+                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
                           You are not safe while completing quests unless stated otherwise.
                         </p>
                       </div>
@@ -146,7 +147,7 @@ export function RulesContent() {
                     <h3 className={`mb-2 font-bold ${toneText[rule.tone]}`}>{rule.heading}</h3>
                     <p className="break-words">{rule.body}</p>
                     {rule.footnote && (
-                      <p className="mt-1 text-xs text-neutral-600 break-words">{rule.footnote}</p>
+                      <p className={`mt-1 text-xs ${PIXEL_TEXT_SUBTLE} break-words`}>{rule.footnote}</p>
                     )}
                   </div>
                 ))}

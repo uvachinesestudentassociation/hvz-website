@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { SiteShell } from "@/components/site-shell"
+import { ThemeProvider } from "@/components/theme-provider"
 import { SITE_CONFIG } from "@/lib/site-config"
 import "./globals.css"
 
@@ -47,13 +48,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <a href="#main-content" className="sr-only">
-          Skip to main content
-        </a>
-        <SiteShell>{children}</SiteShell>
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <a href="#main-content" className="sr-only">
+            Skip to main content
+          </a>
+          <SiteShell>{children}</SiteShell>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

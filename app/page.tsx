@@ -2,6 +2,7 @@ import Link from "next/link"
 import { GameCountdown } from "@/components/game-countdown"
 import { JoinGameButton } from "@/components/join-game-button"
 import { ResourceLinkCard } from "@/components/resource-link-card"
+import { PIXEL_SECTION_AMBER, PIXEL_SECTION_BORDER, PIXEL_SECTION_EMERALD, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
 import { getSortedResources, PUBLIC_RESOURCES } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
 
@@ -19,18 +20,18 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b-8 border-neutral-900">
-        <div className="absolute inset-0 bg-[linear-gradient(#7ec8e3,rgba(126,200,227,0.85))]" />
-        <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(90deg,rgba(255,255,255,0.15)_8px,transparent_8px),linear-gradient(rgba(255,255,255,0.12)_8px,transparent_8px)] bg-[size:64px_64px]" />
+      <section className={`relative overflow-hidden border-b-8 ${PIXEL_SECTION_BORDER}`}>
+        <div className="absolute inset-0 bg-[linear-gradient(#7ec8e3,rgba(126,200,227,0.85))] dark:bg-[linear-gradient(#1e3a5f,rgba(30,58,95,0.95))]" />
+        <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(90deg,rgba(255,255,255,0.15)_8px,transparent_8px),linear-gradient(rgba(255,255,255,0.12)_8px,transparent_8px)] dark:[background-image:linear-gradient(90deg,rgba(255,255,255,0.05)_8px,transparent_8px),linear-gradient(rgba(255,255,255,0.04)_8px,transparent_8px)] bg-[size:64px_64px]" />
         <div className="absolute bottom-0 left-0 right-0 h-6 bg-emerald-600 shadow-[0_-6px_0_rgba(0,0,0,0.35)_inset]" />
         <div className="absolute -bottom-6 left-0 right-0 h-6 bg-amber-800 shadow-[0_6px_0_rgba(0,0,0,0.35)_inset]" />
 
         <div className="container relative mx-auto px-4 py-16 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-4 font-mono text-4xl md:text-6xl lg:text-7xl font-black tracking-[0.04em] md:tracking-[0.08em] text-neutral-900 drop-shadow-[4px_4px_0_rgba(0,0,0,0.4)]">
+            <h1 className={`mb-4 font-mono text-4xl md:text-6xl lg:text-7xl font-black tracking-[0.04em] md:tracking-[0.08em] ${PIXEL_TEXT} drop-shadow-[4px_4px_0_rgba(0,0,0,0.4)] dark:drop-shadow-[4px_4px_0_rgba(255,255,255,0.1)]`}>
               HUMANS VS. ZOMBIES
             </h1>
-            <p className="mx-auto mb-8 max-w-xl font-mono text-base md:text-lg text-neutral-800 bg-white/40 px-3 py-2 rounded-none border-4 border-neutral-900 shadow-[4px_4px_0_rgba(0,0,0,0.4)] break-words">
+            <p className={`mx-auto mb-8 max-w-xl font-mono text-base md:text-lg ${PIXEL_TEXT_MUTED} bg-white/40 dark:bg-neutral-900/60 px-3 py-2 rounded-none border-4 ${PIXEL_SECTION_BORDER} shadow-[4px_4px_0_rgba(0,0,0,0.4)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] break-words`}>
               {SITE_CONFIG.tagline}
             </p>
             <GameCountdown />
@@ -42,14 +43,14 @@ export default function HomePage() {
       </section>
 
       {/* Quick resources */}
-      <section id="resources" className="scroll-mt-24 border-b-8 border-neutral-900 bg-emerald-900/10">
+      <section id="resources" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_EMERALD}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
-          <h2 className="mb-4 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider text-neutral-900">
+          <h2 className={`mb-4 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
             {">> QUICK LINKS"}
           </h2>
-          <p className="mb-6 text-center font-mono text-sm text-neutral-700">
+          <p className={`mb-6 text-center font-mono text-sm ${PIXEL_TEXT_MUTED}`}>
             Submit kills and quests right away — standings and more on the{" "}
-            <Link href="/resources" className="text-emerald-700 underline">
+            <Link href="/resources" className="text-emerald-700 underline dark:text-emerald-400">
               resources page
             </Link>
             .
@@ -61,7 +62,7 @@ export default function HomePage() {
             <ResourceLinkCard resource={questBoard} variant="action" className="sm:col-span-2" />
           </div>
 
-          <h3 className="mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider text-neutral-600">
+          <h3 className={`mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider ${PIXEL_TEXT_SUBTLE}`}>
             {">> Also check"}
           </h3>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
@@ -73,9 +74,9 @@ export default function HomePage() {
       </section>
 
       {/* Deep links */}
-      <section className="border-b-8 border-neutral-900 bg-amber-900/10">
+      <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_AMBER}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
-          <h2 className="mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider text-neutral-900">
+          <h2 className={`mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
             {">> EXPLORE"}
           </h2>
           <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2">
@@ -88,12 +89,12 @@ export default function HomePage() {
                 key={link.href}
                 href={link.href}
                 className={[
-                  "block min-h-[48px] rounded-none border-4 border-neutral-900 bg-white/80 p-5",
-                  "shadow-[6px_6px_0_rgba(0,0,0,0.45)] hover:translate-x-[1px] hover:translate-y-[1px]",
+                  `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
+                  "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.08)] hover:translate-x-[1px] hover:translate-y-[1px]",
                 ].join(" ")}
               >
-                <div className="font-mono text-lg font-bold text-emerald-700">{link.label}</div>
-                <div className="mt-2 font-mono text-sm text-neutral-700 break-words">{link.desc}</div>
+                <div className="font-mono text-lg font-bold text-emerald-700 dark:text-emerald-400">{link.label}</div>
+                <div className={`mt-2 font-mono text-sm ${PIXEL_TEXT_MUTED} break-words`}>{link.desc}</div>
               </Link>
             ))}
           </div>

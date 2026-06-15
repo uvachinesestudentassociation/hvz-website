@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { X } from "lucide-react"
+import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 import { HEADS_UP_FOOTER, HEADS_UP_ITEMS } from "@/content/heads-up"
 
 export function HeadsUpBanner() {
@@ -17,26 +18,26 @@ export function HeadsUpBanner() {
     <div
       id="heads-up"
       className={[
-        "border-b-4 border-neutral-900 bg-rose-100",
+        `border-b-4 ${PIXEL_SECTION_BORDER} bg-rose-100 dark:bg-rose-950/50`,
         "pt-[env(safe-area-inset-top)] md:pt-0",
         "scroll-mt-24",
       ].join(" ")}
     >
       <div className="container mx-auto flex gap-3 px-4 py-3">
         <div className="min-w-0 flex-1 font-mono text-sm break-words">
-          <p className="font-bold text-rose-800">Heads up! Latest rule tweaks:</p>
-          <ul className="mt-1 list-disc space-y-0.5 pl-4 text-neutral-900">
+          <p className="font-bold text-rose-800 dark:text-rose-300">Heads up! Latest rule tweaks:</p>
+          <ul className="mt-1 list-disc space-y-0.5 pl-4 text-neutral-900 dark:text-neutral-100">
             {HEADS_UP_ITEMS.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className="mt-1 text-xs text-neutral-700">{HEADS_UP_FOOTER}</p>
+          <p className="mt-1 text-xs text-neutral-700 dark:text-neutral-300">{HEADS_UP_FOOTER}</p>
         </div>
         <button
           type="button"
           onClick={dismiss}
           aria-label="Dismiss heads up banner"
-          className="shrink-0 self-start p-2 text-neutral-700 hover:text-neutral-900"
+          className="shrink-0 self-start p-2 text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
         >
           <X className="h-5 w-5" />
         </button>

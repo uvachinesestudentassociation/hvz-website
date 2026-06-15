@@ -4,12 +4,12 @@ Official rules and resources site for Humans vs. Zombies at UVA, built with [Nex
 
 ## Pages
 
-| Route | Description |
-| --- | --- |
-| `/` | Home — hero, countdown, quick links (kill/quest forms, quest board), explore |
-| `/resources` | All Google Sheets, Docs, and report forms |
-| `/rules` | Full game rules with table of contents |
-| `/safe-zones` | Safe zone details by location |
+| Route         | Description                                                                  |
+| ------------- | ---------------------------------------------------------------------------- |
+| `/`           | Home — hero, countdown, quick links (kill/quest forms, quest board), explore |
+| `/resources`  | All Google Sheets, Docs, and report forms                                    |
+| `/rules`      | Full game rules with table of contents                                       |
+| `/safe-zones` | Safe zone details by location                                                |
 
 **Mobile:** sticky bottom nav for resources, rules, safe zones, kill form, and quest form. Search (FAB on mobile, nav link on desktop) finds text across rules and safe zones.
 
@@ -53,12 +53,12 @@ The dev server reloads automatically when you edit files.
 
 ## Other commands
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start the development server |
-| `pnpm build` | Create a production build |
+| Command      | Description                                         |
+| ------------ | --------------------------------------------------- |
+| `pnpm dev`   | Start the development server                        |
+| `pnpm build` | Create a production build                           |
 | `pnpm start` | Serve the production build (run `pnpm build` first) |
-| `pnpm lint` | Run ESLint |
+| `pnpm lint`  | Run ESLint                                          |
 
 ## Updating content (for Comm)
 
@@ -66,14 +66,14 @@ Most game-week edits are a few config files — no need to touch layout code.
 
 ### Site-wide settings — `lib/site-config.ts`
 
-| Field | Purpose |
-| --- | --- |
-| `gameYear` | Season year (footer, countdown, “Game ON” banner) |
-| `tagline` | Hero subtitle |
-| `signupFormUrl` | “Join the Game” button link |
-| `contactEmail` | Shown in rules |
-| `commChairs` | Named in safe zone section |
-| `url` | Used for Open Graph / social previews |
+| Field           | Purpose                                           |
+| --------------- | ------------------------------------------------- |
+| `gameYear`      | Season year (footer, countdown, “Game ON” banner) |
+| `tagline`       | Hero subtitle                                     |
+| `signupFormUrl` | “Join the Game” button link                       |
+| `contactEmail`  | Shown in rules                                    |
+| `commChairs`    | Named in safe zone section                        |
+| `url`           | Used for Open Graph / social previews             |
 
 ### Game start countdown — `lib/game-start.ts`
 
@@ -81,12 +81,12 @@ Controls the hero countdown before the game goes live:
 
 ```ts
 export const GAME_START = {
-  month: 10,   // 1–12
+  month: 10, // 1–12
   day: 26,
-  hour: 0,     // 0 = midnight, 12 = noon
+  hour: 0, // 0 = midnight, 12 = noon
   minute: 0,
-  utcOffsetHours: -4,  // -4 = EDT, -5 = EST
-}
+  utcOffsetHours: -4, // -4 = EDT, -5 = EST
+};
 ```
 
 The year is taken from `gameYear` in `lib/site-config.ts`. After the start time passes, the countdown switches to a “Game ON” message.
@@ -97,12 +97,12 @@ Google Forms, Sheets, Docs, and the Quest Board Slides URL. High-priority items 
 
 ### Rule text — `content/`
 
-| File | Contents |
-| --- | --- |
-| `content/heads-up.ts` | Latest rule tweaks (banner + rules page) |
-| `content/things-to-note.ts` | Warnings and honor code block |
-| `content/rules.ts` | Basic and specific rules |
-| `content/safe-zones.ts` | Safe zone sections |
+| File                        | Contents                                 |
+| --------------------------- | ---------------------------------------- |
+| `content/heads-up.ts`       | Latest rule tweaks (banner + rules page) |
+| `content/things-to-note.ts` | Warnings and honor code block            |
+| `content/rules.ts`          | Basic and specific rules                 |
+| `content/safe-zones.ts`     | Safe zone sections                       |
 
 Rule search on the site indexes this same content.
 
