@@ -102,12 +102,11 @@ The site supports swappable event themes (colors, copy, hero effects, and UI sty
 **To switch themes**, change one line in `content/themes/index.ts`:
 
 ```ts
-export const ACTIVE_THEME_ID: ThemeId = "fnaf"; // or "default"
+export const ACTIVE_THEME_ID: ThemeId = "default"
 ```
 
 | Theme ID  | Description                                        |
 | --------- | -------------------------------------------------- |
-| `fnaf`    | FNAF night-shift — CRT static, hanging sign logo   |
 | `default` | Baseline purple HvZ — plain hero, no event effects |
 
 Each theme file under `content/themes/` defines:
@@ -117,7 +116,7 @@ Each theme file under `content/themes/` defines:
 | `copy`            | Tagline, join button text, section headings, countdown labels |
 | `tailwind`        | Accent, alarm, monitor, and button class groups               |
 | `pixel`           | Border, surface, and section background classes               |
-| `hero`            | Background layers, TV static, zombie silhouette, logo style   |
+| `hero`            | Background layers, logo style   |
 | `office` / `desk` | Light/dark shell palette tokens                               |
 | `themeColor`      | PWA / browser chrome color                                    |
 
@@ -163,7 +162,7 @@ components/
   resource-link-card.tsx
   heads-up-banner.tsx
 content/
-  themes/               Event theme definitions (fnaf, default, …)
+  themes/               Event theme definitions (default, …)
   theme.ts              Re-exports active theme for components
   heads-up.ts           Latest rule tweaks (banner + rules page)
   things-to-note.ts     Warnings and honor code block
