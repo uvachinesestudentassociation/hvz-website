@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useEffect, useRef, useState } from "react"
+import { THEME } from "@/content/theme"
 import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 
 function useThemeState() {
@@ -61,15 +62,16 @@ export function ThemeToggle() {
           className={[
             "theme-toggle pointer-events-auto relative h-12 w-[6.5rem] shrink-0 overflow-hidden rounded-none border-[3px] p-1",
             "shadow-[3px_3px_0_rgba(0,0,0,0.35)]",
-            "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/60",
+            "focus-visible:outline-none focus-visible:ring-4",
+            THEME.accent.ring,
             "active:translate-x-[1px] active:translate-y-[1px]",
             !mounted && "pointer-events-none opacity-0",
           ].join(" ")}
           style={{
-            borderColor: isDark ? "#d4d4d4" : "#171717",
-            backgroundColor: isDark ? "#1e1b4b" : "#7dd3fc",
+            borderColor: isDark ? "#a855f7" : "#581c87",
+            backgroundColor: isDark ? "#1a1025" : "#d4d4d4",
             boxShadow: isDark
-              ? "3px 3px 0 rgba(255,255,255,0.06)"
+              ? "3px 3px 0 rgba(123,45,142,0.3)"
               : "3px 3px 0 rgba(0,0,0,0.35)",
             transition:
               "background-color 320ms ease-in-out, border-color 320ms ease-in-out, box-shadow 320ms ease-in-out",
@@ -81,7 +83,7 @@ export function ThemeToggle() {
                 <Sun
                   className="h-5 w-5"
                   style={{
-                    color: isDark ? "#fde68a" : "#d97706",
+                    color: isDark ? "#4ade80" : "#6b7280",
                     opacity: isDark ? 0.35 : 1,
                     transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
                   }}
@@ -92,7 +94,7 @@ export function ThemeToggle() {
                 <Moon
                   className="h-5 w-5"
                   style={{
-                    color: isDark ? "#e0f2fe" : "#3730a3",
+                    color: isDark ? "#a855f7" : "#581c87",
                     opacity: isDark ? 1 : 0.35,
                     transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
                   }}
@@ -104,8 +106,8 @@ export function ThemeToggle() {
             <span
               className="absolute inset-y-0 left-0 w-1/2 rounded-none border-[3px]"
               style={{
-                borderColor: isDark ? "#d4d4d4" : "#171717",
-                backgroundColor: isDark ? "#262626" : "#ffffff",
+                borderColor: isDark ? "#a855f7" : "#581c87",
+                backgroundColor: isDark ? "#262626" : "#e5e5e5",
                 boxShadow: isDark
                   ? "2px 2px 0 rgba(255,255,255,0.08)"
                   : "2px 2px 0 rgba(0,0,0,0.2)",
@@ -133,7 +135,7 @@ export function MobileThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={[
         `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-        "bg-white dark:bg-neutral-900",
+        "bg-neutral-200 dark:bg-neutral-900",
         "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)]",
         "active:translate-x-[1px] active:translate-y-[1px]",
         "touch-manipulation",
@@ -141,9 +143,9 @@ export function MobileThemeToggle() {
       ].join(" ")}
     >
       {isDark ? (
-        <Sun className="h-5 w-5 text-amber-400" aria-hidden="true" />
+        <Sun className="h-5 w-5 text-green-400" aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5 text-neutral-700 dark:text-neutral-300" aria-hidden="true" />
+        <Moon className="h-5 w-5 text-purple-700 dark:text-purple-300" aria-hidden="true" />
       )}
     </button>
   )

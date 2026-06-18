@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import Link from "next/link"
-import { PIXEL_SECTION_BORDER, PIXEL_SECTION_EMERALD, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
+import { PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
 import { getSortedResources } from "@/lib/public-resources"
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export default function ResourcesPage() {
   const resources = getSortedResources(true)
 
   return (
-    <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_EMERALD}`}>
+    <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="mb-8 flex justify-center">
           <Link

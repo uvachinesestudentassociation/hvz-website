@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useGameLive } from "@/hooks/use-game-live"
 import { getGameStartLabel, getTimeUntilGameStart } from "@/lib/game-start"
+import { THEME_COPY } from "@/content/theme"
 import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
 import { SITE_CONFIG } from "@/lib/site-config"
 
@@ -29,7 +30,7 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
         className={[
           `min-w-[4.5rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} px-3 py-4 md:min-w-[5.5rem] md:px-4 md:py-5`,
           `font-mono text-3xl font-black tabular-nums ${PIXEL_TEXT} md:text-5xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.08)]",
+          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(123,45,142,0.2)]",
         ].join(" ")}
       >
         {value.toString().padStart(2, "0")}
@@ -61,12 +62,12 @@ export function GameCountdown() {
     return (
       <div
         className={[
-          `mx-auto mb-8 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-emerald-500 px-6 py-4`,
+          `mx-auto mb-8 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-green-600 px-6 py-4 dark:bg-green-700`,
           `font-mono text-xl font-black uppercase tracking-wider ${PIXEL_TEXT} md:text-2xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.08)]",
+          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(123,45,142,0.2)]",
         ].join(" ")}
       >
-        {`>> GAME ON — HvZ ${SITE_CONFIG.gameYear} <<`}
+        {THEME_COPY.sections.gameOn(SITE_CONFIG.gameYear)}
       </div>
     )
   }
@@ -76,7 +77,7 @@ export function GameCountdown() {
   return (
     <div className="mx-auto mb-8 max-w-3xl">
       <p className={`mb-3 font-mono text-sm font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT} md:text-base`}>
-        {">> Game starts in"}
+        {THEME_COPY.sections.countdown}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
         <CountdownUnit value={timeLeft.days} label="Days" />

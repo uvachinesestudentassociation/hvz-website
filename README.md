@@ -69,8 +69,8 @@ Most game-week edits are a few config files — no need to touch layout code.
 | Field           | Purpose                                           |
 | --------------- | ------------------------------------------------- |
 | `gameYear`      | Season year (footer, countdown, “Game ON” banner) |
-| `tagline`       | Hero subtitle                                     |
-| `signupFormUrl` | “Join the Game” button link                       |
+| `tagline`       | Hero subtitle (from `content/theme.ts`)           |
+| `signupFormUrl` | “Start Night Shift” button link (via `content/links.ts`) |
 | `contactEmail`  | Shown in rules                                    |
 | `commChairs`    | Named in safe zone section                        |
 | `url`           | Used for Open Graph / social previews             |
@@ -91,9 +91,13 @@ export const GAME_START = {
 
 The year is taken from `gameYear` in `lib/site-config.ts`. After the start time passes, the countdown switches to a “Game ON” message.
 
-### External links — `lib/public-resources.ts`
+### External links — `content/links.ts`
 
 Google Forms, Sheets, Docs, and the Quest Board Slides URL. High-priority items (Kill Report, Quest Report) appear first on the home page and in the mobile nav.
+
+### Event theme (colors + copy) — `content/theme.ts`
+
+FNAF night-shift styling and UI labels. Edit `THEME_COPY` for tagline, button text, and section headings. Edit `THEME_COLOR` for PWA/browser chrome. Revert to default HvZ values after the event.
 
 ### Rule text — `content/`
 
@@ -123,11 +127,11 @@ components/
   safe-zones-content.tsx
   resource-link-card.tsx
   heads-up-banner.tsx
-content/                Editable rule copy
+content/                Editable rule copy + links + theme
 lib/
   site-config.ts        Site constants
   game-start.ts         Countdown date/time
-  public-resources.ts   Google links
+  public-resources.ts   Resource labels/icons (URLs from content/links.ts)
 ```
 
 ## Using npm instead of pnpm

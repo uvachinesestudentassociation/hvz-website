@@ -14,8 +14,8 @@ export function BlockPanel({
   children: React.ReactNode
 }) {
   const toneMap: Record<string, string> = {
-    primary: "border-emerald-600 bg-emerald-500/10",
-    danger: "border-rose-600 bg-rose-500/10",
+    primary: "border-purple-700 bg-purple-500/10",
+    danger: "border-red-700 bg-red-500/10",
     stone: "border-stone-600 bg-stone-500/10",
   }
 

@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { BlockPanel } from "@/components/hvz/block-panel"
 import { PixelDisclosure } from "@/components/hvz/pixel-disclosure"
-import { PIXEL_SECTION_AMBER, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { PIXEL_SECTION_BORDER, PIXEL_SECTION_SECONDARY, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { THEME } from "@/content/theme"
 import { PageToc } from "@/components/page-toc"
 import {
   BASIC_RULES_INTRO,
@@ -14,21 +15,21 @@ import { SITE_CONFIG } from "@/lib/site-config"
 
 const toneBorder: Record<string, string> = {
   rose: "border-rose-600 bg-rose-500/10",
-  emerald: "border-emerald-600 bg-emerald-500/10",
+  emerald: "border-purple-700 bg-purple-500/10",
   amber: "border-amber-700 bg-amber-500/10",
   sky: "border-sky-700 bg-sky-500/10",
 }
 
 const toneText: Record<string, string> = {
   rose: "text-rose-700 dark:text-rose-400",
-  emerald: "text-emerald-700 dark:text-emerald-400",
+  emerald: `${THEME.accent.link}`,
   amber: "text-amber-800 dark:text-amber-400",
   sky: "text-sky-800 dark:text-sky-400",
 }
 
 export function RulesContent() {
   return (
-    <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_AMBER}`}>
+    <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="mx-auto max-w-4xl space-y-6">
           <h1 className={`text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
@@ -46,7 +47,7 @@ export function RulesContent() {
                   {p.includes(SITE_CONFIG.contactEmail) ? (
                     <>
                       Any concerns and questions should be addressed to our email at{" "}
-                      <a href={`mailto:${SITE_CONFIG.contactEmail}`} className="text-emerald-700 underline break-all">
+                      <a href={`mailto:${SITE_CONFIG.contactEmail}`} className={`${THEME.accent.linkUnderline} break-all`}>
                         {SITE_CONFIG.contactEmail}
                       </a>
                     </>
@@ -111,7 +112,7 @@ export function RulesContent() {
                       </p>
                       <p className="mt-2 italic">
                         More details on{" "}
-                        <Link href="/safe-zones" className="text-emerald-700 underline dark:text-emerald-400">
+                        <Link href="/safe-zones" className={THEME.accent.linkUnderline}>
                           Safe Zones
                         </Link>
                         .
@@ -120,13 +121,13 @@ export function RulesContent() {
                   )}
                   {sub.id === "quests" && (
                     <div className="mt-3 space-y-3">
-                      <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                      <div className="border-l-4 border-purple-700 bg-purple-500/20 p-3">
+                        <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           Quest points are given to the first family to complete the quest unless stated otherwise.
                         </p>
                       </div>
-                      <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                      <div className="border-l-4 border-purple-700 bg-purple-500/20 p-3">
+                        <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           You are not safe while completing quests unless stated otherwise.
                         </p>
                       </div>

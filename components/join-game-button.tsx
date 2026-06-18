@@ -2,6 +2,7 @@
 
 import { McButton } from "@/components/hvz/mc-button"
 import { useGameLive } from "@/hooks/use-game-live"
+import { THEME_COPY } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 export function JoinGameButton() {
@@ -13,10 +14,10 @@ export function JoinGameButton() {
         size="lg"
         disabled
         aria-disabled="true"
-        title="Signup opens when the game starts"
+        title={THEME_COPY.joinButtonDisabled}
         className="cursor-not-allowed opacity-45 saturate-50"
       >
-        Join the Game
+        {THEME_COPY.joinButton}
       </McButton>
     )
   }
@@ -24,7 +25,7 @@ export function JoinGameButton() {
   return (
     <McButton size="lg" asChild>
       <a href={SITE_CONFIG.signupFormUrl} target="_blank" rel="noopener noreferrer">
-        Join the Game
+        {THEME_COPY.joinButton}
       </a>
     </McButton>
   )
