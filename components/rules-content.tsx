@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { BlockPanel } from "@/components/hvz/block-panel"
 import { PixelDisclosure } from "@/components/hvz/pixel-disclosure"
-import { PIXEL_SECTION_AMBER, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { PIXEL_SECTION_BORDER, PIXEL_SECTION_SECONDARY, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { THEME } from "@/content/theme"
 import { PageToc } from "@/components/page-toc"
 import {
   BASIC_RULES_INTRO,
@@ -13,22 +14,22 @@ import { THINGS_TO_NOTE } from "@/content/things-to-note"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 const toneBorder: Record<string, string> = {
-  rose: "border-rose-600 bg-rose-500/10",
-  emerald: "border-emerald-600 bg-emerald-500/10",
-  amber: "border-amber-700 bg-amber-500/10",
-  sky: "border-sky-700 bg-sky-500/10",
+  rose: "border-rose-600 bg-rose-100/50 dark:border-amber-900/40 dark:bg-[#2a2018]/60",
+  emerald: "border-[#8a7a68] bg-[#e8dcc8]/50 dark:border-[#5c4d3a] dark:bg-[#2f2922]/60",
+  amber: "border-amber-700 bg-amber-100/50 dark:border-amber-900/40 dark:bg-[#2a2218]/60",
+  sky: "border-sky-700 bg-sky-100/50 dark:border-[#5c4d3a] dark:bg-[#2a2420]/60",
 }
 
 const toneText: Record<string, string> = {
-  rose: "text-rose-700 dark:text-rose-400",
-  emerald: "text-emerald-700 dark:text-emerald-400",
-  amber: "text-amber-800 dark:text-amber-400",
-  sky: "text-sky-800 dark:text-sky-400",
+  rose: "text-rose-700 dark:text-amber-300/90",
+  emerald: `${THEME.accent.link}`,
+  amber: "text-amber-800 dark:text-amber-300/90",
+  sky: "text-sky-800 dark:text-green-400/80",
 }
 
 export function RulesContent() {
   return (
-    <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_AMBER}`}>
+    <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="mx-auto max-w-4xl space-y-6">
           <h1 className={`text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
@@ -38,15 +39,15 @@ export function RulesContent() {
           <PageToc items={RULES_TOC} />
 
           <div id="things-to-note" className="scroll-mt-24">
-            <BlockPanel title={<span className="text-rose-700">⚠ THINGS TO NOTE</span>} tone="danger">
-              <p className="font-bold text-rose-700">{THINGS_TO_NOTE.warning}</p>
+            <BlockPanel title={<span className="text-rose-700 dark:text-amber-300/90">⚠ THINGS TO NOTE</span>} tone="danger">
+              <p className="font-bold text-rose-700 dark:text-amber-300/90">{THINGS_TO_NOTE.warning}</p>
               <br />
               {THINGS_TO_NOTE.paragraphs.map((p) => (
                 <p key={p} className="break-words">
                   {p.includes(SITE_CONFIG.contactEmail) ? (
                     <>
                       Any concerns and questions should be addressed to our email at{" "}
-                      <a href={`mailto:${SITE_CONFIG.contactEmail}`} className="text-emerald-700 underline break-all">
+                      <a href={`mailto:${SITE_CONFIG.contactEmail}`} className={`${THEME.accent.linkUnderline} break-all`}>
                         {SITE_CONFIG.contactEmail}
                       </a>
                     </>
@@ -57,7 +58,7 @@ export function RulesContent() {
                   <br />
                 </p>
               ))}
-              <p className="font-bold text-lg text-rose-700 text-center">{THINGS_TO_NOTE.honorCode}</p>
+              <p className="font-bold text-lg text-rose-700 dark:text-amber-300/90 text-center">{THINGS_TO_NOTE.honorCode}</p>
             </BlockPanel>
           </div>
 
@@ -84,7 +85,7 @@ export function RulesContent() {
                       {p.includes("RESPECT PRIVACY") ? (
                         <>
                           Humans cannot be killed in the safe zones below. Read carefully to understand how they work.
-                          <span className="block font-bold text-rose-700">
+                          <span className="block font-bold text-rose-700 dark:text-amber-300/90">
                             RESPECT PRIVACY AND DO NOT DISTURB EXTERNAL MEETINGS/ORGS. If we see/hear breaches, you may
                             be removed from HvZ and your family may face consequences.
                           </span>
@@ -111,7 +112,7 @@ export function RulesContent() {
                       </p>
                       <p className="mt-2 italic">
                         More details on{" "}
-                        <Link href="/safe-zones" className="text-emerald-700 underline dark:text-emerald-400">
+                        <Link href="/safe-zones" className={THEME.accent.linkUnderline}>
                           Safe Zones
                         </Link>
                         .
@@ -120,13 +121,13 @@ export function RulesContent() {
                   )}
                   {sub.id === "quests" && (
                     <div className="mt-3 space-y-3">
-                      <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                      <div className="border-l-4 border-[#8a7a68] bg-[#e8dcc8]/40 p-3">
+                        <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           Quest points are given to the first family to complete the quest unless stated otherwise.
                         </p>
                       </div>
-                      <div className="border-l-4 border-emerald-700 bg-emerald-500/20 p-3">
-                        <p className="font-mono text-sm font-bold text-emerald-800 dark:text-emerald-300">
+                      <div className="border-l-4 border-[#8a7a68] bg-[#e8dcc8]/40 p-3">
+                        <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           You are not safe while completing quests unless stated otherwise.
                         </p>
                       </div>

@@ -1,4 +1,5 @@
 import { PIXEL_FRAME, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { THEME } from "@/content/theme"
 
 type TocItem = {
   id: string
@@ -18,8 +19,8 @@ export function PageToc({ items, title = "Jump to section" }: { items: TocItem[]
               href={`#${item.id}`}
               className={[
                 "inline-block min-h-[44px] px-3 py-2 font-mono text-xs font-bold uppercase tracking-wide",
-                `rounded-none border-2 ${PIXEL_SECTION_BORDER} bg-emerald-500/10 dark:bg-emerald-500/20 ${PIXEL_TEXT}`,
-                "hover:bg-emerald-500/20 active:translate-x-[1px] active:translate-y-[1px]",
+                `rounded-none border-2 ${PIXEL_SECTION_BORDER} ${THEME.accent.bgSubtle} ${PIXEL_TEXT}`,
+                "hover:bg-[#e8dcc8]/70 dark:hover:bg-green-950/40 active:translate-x-[1px] active:translate-y-[1px]",
               ].join(" ")}
             >
               {item.label}

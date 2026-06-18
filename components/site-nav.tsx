@@ -14,7 +14,8 @@ import {
 import { getFormResources } from "@/lib/public-resources";
 import { RuleSearch } from "@/components/rule-search";
 import { MobileThemeToggle } from "@/components/theme-toggle";
-import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles";
+import { THEME } from "@/content/theme";
+import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles";
 
 type NavItem = {
   label: string;
@@ -62,7 +63,7 @@ function NavLink({
   const Icon = item.icon;
   const baseClass = [
     "flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
-    active ? "text-emerald-700 dark:text-emerald-400" : "text-neutral-700 hover:text-emerald-600 dark:text-neutral-300 dark:hover:text-emerald-400",
+    active ? `${THEME.accent.link}` : `${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`,
     className,
   ]
     .filter(Boolean)
@@ -113,7 +114,7 @@ export function DesktopSiteNav() {
               href={form.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-rose-700 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300"
+              className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${THEME.alarm.nav}`}
             >
               <FileText className="h-4 w-4" aria-hidden="true" />
               {form.label}
@@ -146,8 +147,8 @@ export function MobileSiteNav() {
                 className={[
                   "flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight",
                   active
-                    ? "bg-emerald-500/20 text-emerald-800 dark:text-emerald-300"
-                    : "text-neutral-700 dark:text-neutral-300",
+                    ? `${THEME.accent.bgSubtle} ${THEME.accent.navActive}`
+                    : `${PIXEL_TEXT_MUTED} dark:text-[#a89580]`,
                 ].join(" ")}
               >
                 <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
@@ -161,7 +162,7 @@ export function MobileSiteNav() {
               href={form.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight text-rose-700 dark:text-rose-400"
+              className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight ${THEME.alarm.nav}`}
             >
               <ClipboardList className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span className="leading-none">

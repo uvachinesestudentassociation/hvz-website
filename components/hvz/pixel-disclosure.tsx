@@ -5,6 +5,7 @@ import { useId, useState } from "react"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
 import { PIXEL_FRAME, RULE_BODY_CLASS, PIXEL_SECTION_BORDER, PIXEL_TEXT } from "@/components/hvz/pixel-styles"
+import { THEME } from "@/content/theme"
 
 export type PixelDisclosureProps = {
   id?: string
@@ -28,10 +29,10 @@ export function PixelDisclosure({
   const panelId = id ? `${id}-panel` : autoId
 
   const toneBg: Record<string, string> = {
-    emerald: "bg-emerald-500/20",
-    sky: "bg-sky-500/20",
-    amber: "bg-amber-500/20",
-    rose: "bg-rose-500/20",
+    emerald: "bg-[#e8dcc8]/60 dark:bg-[#2a2420]/80",
+    sky: "bg-[#f5f0e6]/80 dark:bg-[#2a2420]/80",
+    amber: "bg-amber-100/60 dark:bg-[#2a2218]/80",
+    rose: "bg-red-100/60 dark:bg-[#2a2018]/80",
   }
 
   return (
@@ -45,11 +46,12 @@ export function PixelDisclosure({
           "flex w-full min-h-[48px] items-center justify-between px-4 py-4 md:px-6",
           `rounded-none border-b-4 ${PIXEL_SECTION_BORDER} hover:no-underline`,
           toneBg[headerTone],
-          "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/60",
+          "focus:outline-none focus-visible:ring-4",
+          THEME.accent.ring,
         ].join(" ")}
       >
         <span className="text-left">
-          <CardTitle className="font-mono text-xl md:text-2xl text-emerald-700 dark:text-emerald-400">{title}</CardTitle>
+          <CardTitle className={`font-mono text-xl md:text-2xl ${THEME.accent.link}`}>{title}</CardTitle>
         </span>
         <ChevronDown
           className={[

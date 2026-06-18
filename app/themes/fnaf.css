@@ -1,0 +1,206 @@
+/** FNAF night-shift theme — CSS variables and hero styling. */
+[data-site-theme="fnaf"] {
+  /* Daytime security office */
+  --office-wall: #e8e4dc;
+  --office-ceiling: #f5f2eb;
+  --office-floor: #d4cfc4;
+  --office-shadow: rgba(60, 50, 40, 0.12);
+  --office-laminate: #e8e4dc;
+  --office-laminate-light: #f0ebe3;
+  --office-paper: #f5f0e6;
+  --office-manila: #e8dcc8;
+  --office-border: #8a7a68;
+  --office-text: #3c3228;
+  --office-text-muted: #6b5d4f;
+  --office-fluorescent: rgba(200, 220, 255, 0.12);
+  --office-window: rgba(255, 248, 220, 0.08);
+
+  /* Hero-only daytime monitor cues */
+  --cctv-phosphor: #8b7355;
+  --cctv-phosphor-bright: #a89070;
+  --cctv-feed-dark: #d4cfc4;
+  --cctv-feed-mid: #f0ebe3;
+  --cctv-tint: rgba(120, 100, 80, 0.04);
+  --cctv-tint-strong: rgba(120, 100, 80, 0.06);
+  --cctv-vignette: rgba(60, 50, 40, 0.18);
+  --cctv-scanline: rgba(0, 0, 0, 0.025);
+  --cctv-scanline-accent: rgba(120, 100, 80, 0.02);
+  --cctv-noise-opacity: 0.35;
+  --cctv-glow: rgba(120, 100, 80, 0.03);
+
+  /* Page shell — light mode */
+  --background: oklch(0.91 0.012 75);
+  --foreground: oklch(0.28 0.025 55);
+  --card: oklch(0.94 0.015 80);
+  --card-foreground: oklch(0.28 0.025 55);
+  --popover: oklch(0.94 0.015 80);
+  --popover-foreground: oklch(0.28 0.025 55);
+  --primary: oklch(0.48 0.04 55);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.88 0.018 75);
+  --secondary-foreground: oklch(0.32 0.025 55);
+  --muted: oklch(0.88 0.018 75);
+  --muted-foreground: oklch(0.48 0.03 55);
+  --accent: oklch(0.9 0.02 80);
+  --accent-foreground: oklch(0.32 0.025 55);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.62 0.035 55);
+  --input: oklch(0.85 0.02 75);
+  --ring: oklch(0.58 0.04 55);
+  --chart-1: oklch(0.48 0.04 55);
+  --chart-2: oklch(0.6 0.15 25);
+  --chart-3: oklch(0.5 0.03 55);
+  --chart-4: oklch(0.7 0.15 85);
+  --chart-5: oklch(0.65 0.18 145);
+  --sidebar: oklch(0.91 0.012 75);
+  --sidebar-foreground: oklch(0.28 0.025 55);
+  --sidebar-primary: oklch(0.48 0.04 55);
+  --sidebar-primary-foreground: oklch(0.98 0.01 80);
+  --sidebar-accent: oklch(0.88 0.018 75);
+  --sidebar-accent-foreground: oklch(0.32 0.025 55);
+  --sidebar-border: oklch(0.62 0.035 55);
+  --sidebar-ring: oklch(0.58 0.04 55);
+}
+
+[data-site-theme="fnaf"].dark {
+  /* Nighttime security desk */
+  --desk-wood: #1a1410;
+  --desk-wood-light: #221c16;
+  --desk-wood-dark: #14100c;
+  --desk-wood-dark: #14100c;
+  --desk-lamp: rgba(251, 191, 36, 0.09);
+  --desk-monitor-glow: rgba(74, 222, 128, 0.05);
+  --desk-paper: #2f2922;
+  --desk-border: #5c4d3a;
+
+  /* FNAF static CRT — hero only */
+  --static-base: #000000;
+  --static-surface: #0a0a0a;
+  --static-line: rgba(255, 255, 255, 0.06);
+  --static-scanline: rgba(255, 255, 255, 0.04);
+  --static-vignette: rgba(0, 0, 0, 0.5);
+  --static-noise-opacity: 0.9;
+
+  /* Legacy aliases for hero-scoped layers */
+  --cctv-phosphor: #f5f5f5;
+  --cctv-phosphor-bright: #ffffff;
+  --cctv-feed-dark: #000000;
+  --cctv-feed-mid: #0a0a0a;
+  --cctv-tint: transparent;
+  --cctv-tint-strong: transparent;
+  --cctv-vignette: var(--static-vignette);
+  --cctv-scanline: var(--static-line);
+  --cctv-scanline-accent: rgba(255, 255, 255, 0.03);
+  --cctv-noise-opacity: var(--static-noise-opacity);
+  --cctv-glow: var(--static-scanline);
+
+  /* Page shell — dark mode */
+  --background: oklch(0.14 0.02 55);
+  --foreground: oklch(0.91 0.02 75);
+  --card: oklch(0.19 0.025 50);
+  --card-foreground: oklch(0.91 0.02 75);
+  --popover: oklch(0.19 0.025 50);
+  --popover-foreground: oklch(0.91 0.02 75);
+  --primary: oklch(0.72 0.16 145);
+  --primary-foreground: oklch(0.14 0.02 55);
+  --secondary: oklch(0.22 0.025 50);
+  --secondary-foreground: oklch(0.88 0.02 75);
+  --muted: oklch(0.22 0.025 50);
+  --muted-foreground: oklch(0.68 0.04 65);
+  --accent: oklch(0.24 0.03 55);
+  --accent-foreground: oklch(0.91 0.02 75);
+  --destructive: oklch(0.55 0.18 30);
+  --destructive-foreground: oklch(0.95 0.02 75);
+  --border: oklch(0.38 0.04 55);
+  --input: oklch(0.22 0.025 50);
+  --ring: oklch(0.72 0.16 145);
+  --chart-1: oklch(0.72 0.16 145);
+  --chart-2: oklch(0.75 0.12 75);
+  --chart-3: oklch(0.55 0.04 55);
+  --chart-4: oklch(0.68 0.14 30);
+  --chart-5: oklch(0.62 0.1 145);
+  --sidebar: oklch(0.16 0.02 55);
+  --sidebar-foreground: oklch(0.91 0.02 75);
+  --sidebar-primary: oklch(0.72 0.16 145);
+  --sidebar-primary-foreground: oklch(0.14 0.02 55);
+  --sidebar-accent: oklch(0.22 0.025 50);
+  --sidebar-accent-foreground: oklch(0.91 0.02 75);
+  --sidebar-border: oklch(0.38 0.04 55);
+  --sidebar-ring: oklch(0.72 0.16 145);
+}
+
+/* FNAF hanging sign + roadside-logo hero title */
+[data-site-theme="fnaf"] .hero-sign__bar {
+  background: linear-gradient(180deg, #6a6560 0%, #3a3530 100%);
+}
+
+[data-site-theme="fnaf"].dark .hero-sign__bar {
+  background: linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%);
+}
+
+[data-site-theme="fnaf"] .hero-sign__wire-line {
+  stroke: #6a6258;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
+}
+
+[data-site-theme="fnaf"].dark .hero-sign__wire-line {
+  stroke: #b0b0b0;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 1)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.15));
+}
+
+[data-site-theme="fnaf"] .hero-sign__panel {
+  background: #2a2620;
+  box-shadow:
+    inset 0 -8px 20px rgba(180, 60, 0, 0.1),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
+    0 5px 0 #1a1814,
+    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+[data-site-theme="fnaf"].dark .hero-sign__panel {
+  background: #101010;
+  box-shadow:
+    inset 0 -10px 28px rgba(255, 40, 0, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 5px 0 #080808,
+    0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+[data-site-theme="fnaf"] .hero-logo::before {
+  opacity: 0.75;
+  filter: blur(14px);
+}
+
+[data-site-theme="fnaf"] .hero-logo__text {
+  filter: drop-shadow(0 4px 5px rgba(220, 45, 0, 0.8))
+    drop-shadow(0 8px 14px rgba(200, 35, 0, 0.55))
+    drop-shadow(0 14px 24px rgba(160, 25, 0, 0.35));
+}
+
+[data-site-theme="fnaf"].dark .hero-logo::before {
+  opacity: 0.9;
+  filter: blur(18px);
+}
+
+[data-site-theme="fnaf"].dark .hero-logo__text {
+  filter: drop-shadow(0 5px 6px rgba(255, 50, 0, 0.95))
+    drop-shadow(0 10px 16px rgba(255, 35, 0, 0.75))
+    drop-shadow(0 18px 32px rgba(200, 25, 0, 0.55))
+    drop-shadow(0 28px 48px rgba(160, 15, 0, 0.35));
+}
+
+[data-site-theme="fnaf"] .hero-logo::before {
+  color: #ff3a00;
+}
+
+[data-site-theme="fnaf"] .hero-logo__text {
+  color: #edbb4f;
+  -webkit-text-stroke: 6.5px #000000;
+}
+
+[data-site-theme="fnaf"].dark .sr-only:focus {
+  border-color: #5c4d3a;
+  background: #2f2922;
+  color: #e8dfd0;
+}

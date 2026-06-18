@@ -1,83 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.cdnfonts.com/css/compacta");
+@import "./themes/index.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Minecraft-inspired color palette */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Shared layout token — palette tokens live in app/themes/*.css */
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: Consolas, "Courier New", monospace;
+  --font-mono: Consolas, "Courier New", monospace;
+  --font-display:
+    "Compacta", "Compacta Bold", Impact, "Arial Narrow Bold", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -122,6 +59,38 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image:
+      linear-gradient(180deg, var(--office-fluorescent) 0%, transparent 35%),
+      radial-gradient(
+        ellipse 50% 35% at 15% 8%,
+        var(--office-window) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        var(--office-ceiling) 0%,
+        var(--office-wall) 40%,
+        var(--office-floor) 100%
+      );
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background-color: var(--desk-wood-dark);
+    background-image:
+      linear-gradient(180deg, var(--desk-lamp) 0%, transparent 38%),
+      radial-gradient(
+        ellipse 55% 40% at 85% 12%,
+        var(--desk-monitor-glow) 0%,
+        transparent 65%
+      ),
+      linear-gradient(
+        180deg,
+        var(--desk-wood-light) 0%,
+        var(--desk-wood) 48%,
+        var(--desk-wood-dark) 100%
+      );
+    background-attachment: fixed;
   }
 
   .sr-only {
@@ -148,64 +117,417 @@
     overflow: visible;
     clip: auto;
     white-space: normal;
-    border: 4px solid #171717;
-    background: white;
-    font-family: var(--font-geist-mono), monospace;
+    border: 4px solid var(--office-border);
+    background: var(--office-ceiling);
+    color: var(--office-text);
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     font-weight: 700;
   }
 
-  .dark .sr-only:focus {
-    border-color: #d4d4d4;
-    background: #171717;
-    color: #f5f5f5;
+  @keyframes hero-scanline-fine {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 2px;
+    }
   }
 
-  /* Pixelated texture overlay */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.02) 2px,
-        rgba(255, 255, 255, 0.02) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.02) 2px,
-        rgba(255, 255, 255, 0.02) 4px
-      );
-    pointer-events: none;
-    z-index: 1;
+  @keyframes scanline-drift {
+    0% {
+      background-position:
+        0 0,
+        0 0;
+    }
+    100% {
+      background-position:
+        0 48px,
+        0 96px;
+    }
   }
 
-  .dark body::before {
-    background-image: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.015) 2px,
-        rgba(255, 255, 255, 0.015) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.015) 2px,
-        rgba(255, 255, 255, 0.015) 4px
-      );
+  @keyframes cctv-static {
+    0%,
+    100% {
+      filter: brightness(1) contrast(1.05);
+    }
+    25% {
+      filter: brightness(1.04) contrast(1.08);
+    }
+    50% {
+      filter: brightness(0.97) contrast(1.1);
+    }
+    75% {
+      filter: brightness(1.02) contrast(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dark body::before,
+    .dark body::after {
+      animation: none;
+    }
+
+    .hero-scanline-animated {
+      animation: none !important;
+    }
   }
 
   body > * {
     position: relative;
     z-index: 2;
   }
+}
+
+/* Hero sign + logo — structural layout; theme colors in app/themes/*.css */
+.hero-sign-mount {
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-sign__bar {
+  display: block;
+  width: min(14rem, 70vw);
+  height: 5px;
+  border: 1px solid #000;
+  border-radius: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+
+.hero-sign__wires {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+  overflow: visible;
+}
+
+.hero-sign__wire-line {
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.hero-sign {
+  position: relative;
+  z-index: 26;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  margin-inline: auto;
+}
+
+.hero-sign__swing {
+  transform-origin: top center;
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero-sign__attach {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.hero-sign__attach--left {
+  left: 10%;
+}
+
+.hero-sign__attach--right {
+  left: 90%;
+}
+
+.hero-sign__panel {
+  position: relative;
+  border: 4px solid #000;
+  padding: 0.45rem 1rem 0.55rem;
+}
+
+.hero-logo {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: clamp(2rem, 8.5vw, 5.5rem);
+  line-height: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .hero-logo {
+    font-size: clamp(1.5rem, 7.5vw, 2rem);
+    letter-spacing: 0.02em;
+    white-space: normal;
+  }
+}
+
+.hero-logo::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  transform: translateY(8px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-logo__text {
+  position: relative;
+  z-index: 2;
+  display: block;
+  paint-order: stroke fill;
+}
+
+/* Alert banner headlines — missing poster + heads-up */
+.heads-up__headline,
+.missing-poster__headline {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #fff8e0;
+}
+
+@media (min-width: 768px) {
+  .missing-poster__headline {
+    font-size: 1.5rem;
+  }
+}
+
+.heads-up__headline {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+@media (min-width: 768px) {
+  .heads-up__headline {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Below-hero desk shell — opt-in coffee rings + manila folder cues */
+.desk-prop-ring {
+  position: relative;
+  background-repeat: no-repeat;
+}
+
+.desk-prop-ring::after {
+  content: "";
+  position: absolute;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  border: 2px solid rgba(92, 64, 35, 0.28);
+  box-shadow:
+    inset 0 0 18px rgba(92, 64, 35, 0.12),
+    0 0 0 5px rgba(92, 64, 35, 0.06);
+  opacity: 0.85;
+}
+
+.desk-prop-ring--br {
+  background-image: radial-gradient(
+    circle at 92% 88%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--br::after {
+  right: 1.1rem;
+  bottom: 0.85rem;
+}
+
+.desk-prop-ring--bl {
+  background-image: radial-gradient(
+    circle at 8% 88%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--bl::after {
+  left: 1.1rem;
+  bottom: 0.85rem;
+}
+
+.desk-prop-ring--tr {
+  background-image: radial-gradient(
+    circle at 90% 14%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--tr::after {
+  right: 1rem;
+  top: 0.75rem;
+}
+
+.desk-prop-ring--tl {
+  background-image: radial-gradient(
+    circle at 10% 16%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--tl::after {
+  left: 0.85rem;
+  top: 0.7rem;
+}
+
+.dark .desk-prop-ring--br {
+  background-image: radial-gradient(
+    circle at 92% 88%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--bl {
+  background-image: radial-gradient(
+    circle at 8% 88%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--tr {
+  background-image: radial-gradient(
+    circle at 90% 14%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--tl {
+  background-image: radial-gradient(
+    circle at 10% 16%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring::after {
+  border-color: rgba(200, 155, 90, 0.35);
+  box-shadow:
+    inset 0 0 20px rgba(180, 130, 70, 0.15),
+    0 0 0 5px rgba(180, 130, 70, 0.08);
+  opacity: 0.9;
+}
+
+.desk-prop-manila {
+  position: relative;
+}
+
+/* Manila folder tab strip along the top edge */
+.desk-prop-manila::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.45rem;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(160, 125, 75, 0.55) 0%,
+    rgba(200, 170, 120, 0.35) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 2px 6px rgba(80, 60, 35, 0.12);
+}
+
+/* Folded corner + staple cluster (top-left) */
+.desk-prop-manila::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(190, 155, 100, 0.75) 0%,
+      rgba(170, 135, 85, 0.55) 42%,
+      transparent 44%
+    ),
+    radial-gradient(circle at 0.55rem 0.7rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px),
+    radial-gradient(circle at 1.35rem 0.55rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px);
+  box-shadow:
+    2px 2px 4px rgba(60, 45, 30, 0.2),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.dark .desk-prop-manila::before {
+  background: linear-gradient(
+    180deg,
+    rgba(120, 95, 60, 0.5) 0%,
+    rgba(90, 70, 45, 0.3) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.dark .desk-prop-manila::after {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(110, 85, 55, 0.7) 0%,
+      rgba(80, 60, 40, 0.45) 42%,
+      transparent 44%
+    ),
+    radial-gradient(circle at 0.55rem 0.7rem, #c4a060 0, #c4a060 2px, transparent 2.5px),
+    radial-gradient(circle at 1.35rem 0.55rem, #c4a060 0, #c4a060 2px, transparent 2.5px);
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.35),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Keep desk decorations behind interactive content */
+.desk-prop-ring > *,
+.desk-prop-manila > * {
+  position: relative;
+  z-index: 2;
 }

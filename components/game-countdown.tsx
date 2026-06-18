@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useGameLive } from "@/hooks/use-game-live"
+import { useNightShift } from "@/hooks/use-night-shift"
 import { getGameStartLabel, getTimeUntilGameStart } from "@/lib/game-start"
-import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
+import { THEME_COPY } from "@/content/theme"
+import { PIXEL_HERO_SURFACE, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 type TimeLeft = {
@@ -27,9 +29,9 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
     <div className="flex flex-col items-center gap-2">
       <div
         className={[
-          `min-w-[4.5rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} px-3 py-4 md:min-w-[5.5rem] md:px-4 md:py-5`,
+          `min-w-[4.5rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_HERO_SURFACE} px-3 py-4 md:min-w-[5.5rem] md:px-4 md:py-5`,
           `font-mono text-3xl font-black tabular-nums ${PIXEL_TEXT} md:text-5xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.08)]",
+          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.06)]",
         ].join(" ")}
       >
         {value.toString().padStart(2, "0")}
@@ -43,6 +45,7 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
 
 export function GameCountdown() {
   const live = useGameLive()
+  const nightHour = useNightShift()
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null)
 
   useEffect(() => {
@@ -57,26 +60,33 @@ export function GameCountdown() {
     return () => window.clearInterval(id)
   }, [live])
 
-  if (live) {
+  if (live && nightHour !== null) {
     return (
-      <div
-        className={[
-          `mx-auto mb-8 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-emerald-500 px-6 py-4`,
-          `font-mono text-xl font-black uppercase tracking-wider ${PIXEL_TEXT} md:text-2xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.08)]",
-        ].join(" ")}
-      >
-        {`>> GAME ON — HvZ ${SITE_CONFIG.gameYear} <<`}
+      <div className="mx-auto mb-8 max-w-3xl text-center">
+        <div
+          className={[
+            `inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-amber-500 px-6 py-4 text-white dark:border-amber-800/60 dark:bg-[#2a2218] dark:text-amber-200`,
+            `font-mono text-xl font-black uppercase tracking-wider md:text-2xl`,
+            "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.06)]",
+          ].join(" ")}
+        >
+          {THEME_COPY.nightCheckIn(nightHour)}
+        </div>
+        <p className={`mt-3 font-mono text-xs font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT_MUTED} md:text-sm`}>
+          {THEME_COPY.sections.gameOn(SITE_CONFIG.gameYear)}
+        </p>
       </div>
     )
   }
+
+  if (live) return null
 
   if (!timeLeft) return null
 
   return (
     <div className="mx-auto mb-8 max-w-3xl">
       <p className={`mb-3 font-mono text-sm font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT} md:text-base`}>
-        {">> Game starts in"}
+        {THEME_COPY.sections.countdown}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
         <CountdownUnit value={timeLeft.days} label="Days" />

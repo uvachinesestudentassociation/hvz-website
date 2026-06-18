@@ -14,9 +14,9 @@ export function BlockPanel({
   children: React.ReactNode
 }) {
   const toneMap: Record<string, string> = {
-    primary: "border-emerald-600 bg-emerald-500/10",
-    danger: "border-rose-600 bg-rose-500/10",
-    stone: "border-stone-600 bg-stone-500/10",
+    primary: "border-[#8a7a68] bg-[#e8dcc8]/50 dark:border-[#5c4d3a] dark:bg-[#2f2922]/60",
+    danger: "border-red-700 bg-red-100/50 dark:border-amber-900/50 dark:bg-[#2a2018]/70",
+    stone: "border-stone-500 bg-stone-200/50 dark:border-[#5c4d3a] dark:bg-[#2a2420]/60",
   }
 
   return (
@@ -30,7 +30,7 @@ export function BlockPanel({
       ].join(" ")}
     >
       {title && (
-        <div className={`rounded-none border-b-4 ${PIXEL_SECTION_BORDER} bg-black/10 dark:bg-white/10 px-4 py-3 [background-clip:padding-box]`}>
+        <div className={`rounded-none border-b-4 ${PIXEL_SECTION_BORDER} bg-black/10 dark:bg-[#1a1410]/70 px-4 py-3 [background-clip:padding-box]`}>
           <CardTitle className="font-mono text-xl md:text-2xl tracking-wider drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]">
             {title}
           </CardTitle>

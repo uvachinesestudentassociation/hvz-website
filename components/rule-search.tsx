@@ -5,7 +5,6 @@ import Link from "next/link"
 import { Search, X } from "lucide-react"
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import { THEME } from "@/content/theme"
 import { searchRules, type SearchResult } from "@/lib/search-index"
 
 type RuleSearchProps = {
@@ -35,9 +35,9 @@ function SearchResults({ results, onSelect }: { results: SearchResult[]; onSelec
           <Link
             href={result.href}
             onClick={onSelect}
-            className={`block rounded-none border-2 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-3 hover:bg-emerald-50 dark:hover:bg-emerald-950/40`}
+            className={`block rounded-none border-2 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-3 hover:bg-[#e8dcc8]/80 dark:hover:bg-[#2a2420]/90`}
           >
-            <div className="font-mono text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+            <div className={`font-mono text-[10px] uppercase tracking-wider ${THEME.accent.link}`}>
               {result.section}
             </div>
             <div className={`font-mono text-sm font-bold ${PIXEL_TEXT}`}>{result.title}</div>
@@ -49,11 +49,30 @@ function SearchResults({ results, onSelect }: { results: SearchResult[]; onSelec
   )
 }
 
+function blurActiveElement() {
+  const active = document.activeElement
+  if (active instanceof HTMLElement) {
+    active.blur()
+  }
+}
+
 export function RuleSearch({ variant }: RuleSearchProps) {
   const [query, setQuery] = useState("")
   const [open, setOpen] = useState(false)
 
   const results = useMemo(() => searchRules(query), [query])
+
+  const handleOpenChange = (next: boolean) => {
+    if (!next) {
+      blurActiveElement()
+    }
+    setOpen(next)
+  }
+
+  const closeSearch = () => {
+    blurActiveElement()
+    setOpen(false)
+  }
 
   if (variant === "desktop") {
     return (
@@ -61,7 +80,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
         <DrawerTrigger asChild>
           <button
             type="button"
-            className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-neutral-700 hover:text-emerald-600 dark:text-neutral-300 dark:hover:text-emerald-400"
+            className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`}
           >
             <Search className="h-4 w-4" aria-hidden="true" />
             Search
@@ -81,7 +100,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
               autoFocus
             />
             <div className="mt-4">
-              <SearchResults results={results} onSelect={() => setOpen(false)} />
+              <SearchResults results={results} onSelect={closeSearch} />
             </div>
           </div>
         </DrawerContent>
@@ -90,31 +109,30 @@ export function RuleSearch({ variant }: RuleSearchProps) {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={handleOpenChange} repositionInputs={false}>
       <DrawerTrigger asChild>
         <button
           type="button"
           aria-label="Search rules"
           className={[
-            `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-white dark:bg-neutral-900`,
-            "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] active:translate-x-[1px] active:translate-y-[1px]",
+            `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-[#f5f0e6] dark:bg-[#2a2420]`,
+            "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] active:translate-x-[1px] active:translate-y-[1px]",
           ].join(" ")}
         >
-          <Search className="h-5 w-5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
+          <Search className={`h-5 w-5 ${THEME.accent.link}`} aria-hidden="true" />
         </button>
       </DrawerTrigger>
       <DrawerContent className={`rounded-none border-t-4 ${PIXEL_SECTION_BORDER} pb-[env(safe-area-inset-bottom)]`}>
         <DrawerHeader className="relative">
           <DrawerTitle className="font-mono text-lg">Search Rules</DrawerTitle>
-          <DrawerClose asChild>
-            <button
-              type="button"
-              aria-label="Close search"
-              className="absolute right-4 top-4 text-neutral-700 dark:text-neutral-300"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </DrawerClose>
+          <button
+            type="button"
+            aria-label="Close search"
+            onClick={closeSearch}
+            className={`absolute right-4 top-4 ${PIXEL_TEXT_MUTED} dark:text-[#a89580]`}
+          >
+            <X className="h-5 w-5" />
+          </button>
         </DrawerHeader>
         <div className="px-4 pb-6">
           <Input
@@ -126,7 +144,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
             autoFocus
           />
           <div className="mt-4">
-            <SearchResults results={results} onSelect={() => setOpen(false)} />
+            <SearchResults results={results} onSelect={closeSearch} />
           </div>
         </div>
       </DrawerContent>
