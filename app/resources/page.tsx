@@ -21,7 +21,7 @@ export default function ResourcesPage() {
             className={[
               `inline-flex min-h-[48px] items-center justify-center px-4 py-2 font-mono text-xs font-bold uppercase tracking-wide`,
               `rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} ${PIXEL_TEXT}`,
-              "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] hover:translate-x-[1px] hover:translate-y-[1px]",
+              "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
             ].join(" ")}
           >
             {"<< Back to Home"}
@@ -29,7 +29,7 @@ export default function ResourcesPage() {
         </div>
 
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className={`font-mono text-3xl md:text-4xl font-black tracking-[0.18em] ${PIXEL_TEXT} drop-shadow-[4px_4px_0_rgba(0,0,0,0.3)] dark:drop-shadow-[4px_4px_0_rgba(255,255,255,0.08)]`}>
+          <h1 className={`font-mono text-3xl md:text-4xl font-black tracking-[0.18em] ${PIXEL_TEXT} drop-shadow-[4px_4px_0_rgba(0,0,0,0.3)] dark:drop-shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
             {">> PUBLIC HVZ RESOURCES"}
           </h1>
           <p className={`mt-4 font-mono text-base md:text-sm ${PIXEL_TEXT_MUTED} break-words`}>

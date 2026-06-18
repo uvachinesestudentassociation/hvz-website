@@ -35,7 +35,7 @@ function SearchResults({ results, onSelect }: { results: SearchResult[]; onSelec
           <Link
             href={result.href}
             onClick={onSelect}
-            className={`block rounded-none border-2 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-3 hover:bg-purple-950/30 dark:hover:bg-purple-950/40`}
+            className={`block rounded-none border-2 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-3 hover:bg-[#e8dcc8]/80 dark:hover:bg-[#2a2420]/90`}
           >
             <div className={`font-mono text-[10px] uppercase tracking-wider ${THEME.accent.link}`}>
               {result.section}
@@ -80,7 +80,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
         <DrawerTrigger asChild>
           <button
             type="button"
-            className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-neutral-700 ${THEME.accent.textHover} dark:text-neutral-300`}
+            className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`}
           >
             <Search className="h-4 w-4" aria-hidden="true" />
             Search
@@ -115,8 +115,8 @@ export function RuleSearch({ variant }: RuleSearchProps) {
           type="button"
           aria-label="Search rules"
           className={[
-            `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-white dark:bg-neutral-900`,
-            "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] active:translate-x-[1px] active:translate-y-[1px]",
+            `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-[#f5f0e6] dark:bg-[#2a2420]`,
+            "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] active:translate-x-[1px] active:translate-y-[1px]",
           ].join(" ")}
         >
           <Search className={`h-5 w-5 ${THEME.accent.link}`} aria-hidden="true" />
@@ -129,7 +129,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
             type="button"
             aria-label="Close search"
             onClick={closeSearch}
-            className="absolute right-4 top-4 text-neutral-700 dark:text-neutral-300"
+            className={`absolute right-4 top-4 ${PIXEL_TEXT_MUTED} dark:text-[#a89580]`}
           >
             <X className="h-5 w-5" />
           </button>

@@ -29,10 +29,10 @@ export function PixelDisclosure({
   const panelId = id ? `${id}-panel` : autoId
 
   const toneBg: Record<string, string> = {
-    emerald: "bg-purple-500/20",
-    sky: "bg-purple-500/15",
-    amber: "bg-amber-500/20",
-    rose: "bg-red-500/20",
+    emerald: "bg-[#e8dcc8]/60 dark:bg-[#2a2420]/80",
+    sky: "bg-[#f5f0e6]/80 dark:bg-[#2a2420]/80",
+    amber: "bg-amber-100/60 dark:bg-[#2a2218]/80",
+    rose: "bg-red-100/60 dark:bg-[#2a2018]/80",
   }
 
   return (

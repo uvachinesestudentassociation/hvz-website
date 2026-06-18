@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useGameLive } from "@/hooks/use-game-live"
 import { getGameStartLabel, getTimeUntilGameStart } from "@/lib/game-start"
 import { THEME_COPY } from "@/content/theme"
-import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
+import { PIXEL_HERO_SURFACE, PIXEL_SECTION_BORDER, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 type TimeLeft = {
@@ -28,9 +28,9 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
     <div className="flex flex-col items-center gap-2">
       <div
         className={[
-          `min-w-[4.5rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} px-3 py-4 md:min-w-[5.5rem] md:px-4 md:py-5`,
+          `min-w-[4.5rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_HERO_SURFACE} px-3 py-4 md:min-w-[5.5rem] md:px-4 md:py-5`,
           `font-mono text-3xl font-black tabular-nums ${PIXEL_TEXT} md:text-5xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(123,45,142,0.2)]",
+          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.06)]",
         ].join(" ")}
       >
         {value.toString().padStart(2, "0")}
@@ -62,9 +62,9 @@ export function GameCountdown() {
     return (
       <div
         className={[
-          `mx-auto mb-8 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-green-600 px-6 py-4 dark:bg-green-700`,
-          `font-mono text-xl font-black uppercase tracking-wider ${PIXEL_TEXT} md:text-2xl`,
-          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(123,45,142,0.2)]",
+          `mx-auto mb-8 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-amber-500 px-6 py-4 text-white dark:border-amber-800/60 dark:bg-[#2a2218] dark:text-amber-200`,
+          `font-mono text-xl font-black uppercase tracking-wider md:text-2xl`,
+          "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.06)]",
         ].join(" ")}
       >
         {THEME_COPY.sections.gameOn(SITE_CONFIG.gameYear)}

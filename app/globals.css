@@ -1,84 +1,145 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.cdnfonts.com/css/compacta");
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* FNAF day-shift — dim industrial, not bright */
-  --background: oklch(0.88 0.01 280);
-  --foreground: oklch(0.2 0.02 280);
-  --card: oklch(0.9 0.01 280);
-  --card-foreground: oklch(0.2 0.02 280);
-  --popover: oklch(0.9 0.01 280);
-  --popover-foreground: oklch(0.2 0.02 280);
-  --primary: oklch(0.45 0.18 300);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.82 0.02 280);
-  --secondary-foreground: oklch(0.25 0.02 280);
-  --muted: oklch(0.82 0.02 280);
-  --muted-foreground: oklch(0.45 0.02 280);
-  --accent: oklch(0.82 0.03 280);
-  --accent-foreground: oklch(0.25 0.02 280);
+  /* Daytime security office */
+  --office-wall: #e8e4dc;
+  --office-ceiling: #f5f2eb;
+  --office-floor: #d4cfc4;
+  --office-shadow: rgba(60, 50, 40, 0.12);
+  --office-laminate: #e8e4dc;
+  --office-laminate-light: #f0ebe3;
+  --office-paper: #f5f0e6;
+  --office-manila: #e8dcc8;
+  --office-border: #8a7a68;
+  --office-text: #3c3228;
+  --office-text-muted: #6b5d4f;
+  --office-fluorescent: rgba(200, 220, 255, 0.12);
+  --office-window: rgba(255, 248, 220, 0.08);
+
+  /* Hero-only daytime monitor cues (subtle, warm) */
+  --cctv-phosphor: #8b7355;
+  --cctv-phosphor-bright: #a89070;
+  --cctv-feed-dark: #d4cfc4;
+  --cctv-feed-mid: #f0ebe3;
+  --cctv-tint: rgba(120, 100, 80, 0.04);
+  --cctv-tint-strong: rgba(120, 100, 80, 0.06);
+  --cctv-vignette: rgba(60, 50, 40, 0.18);
+  --cctv-scanline: rgba(0, 0, 0, 0.025);
+  --cctv-scanline-accent: rgba(120, 100, 80, 0.02);
+  --cctv-noise-opacity: 0.35;
+  --cctv-glow: rgba(120, 100, 80, 0.03);
+
+  /* Daytime security office — page shell below hero */
+  --background: oklch(0.91 0.012 75);
+  --foreground: oklch(0.28 0.025 55);
+  --card: oklch(0.94 0.015 80);
+  --card-foreground: oklch(0.28 0.025 55);
+  --popover: oklch(0.94 0.015 80);
+  --popover-foreground: oklch(0.28 0.025 55);
+  --primary: oklch(0.48 0.04 55);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.88 0.018 75);
+  --secondary-foreground: oklch(0.32 0.025 55);
+  --muted: oklch(0.88 0.018 75);
+  --muted-foreground: oklch(0.48 0.03 55);
+  --accent: oklch(0.9 0.02 80);
+  --accent-foreground: oklch(0.32 0.025 55);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.7 0.04 280);
-  --input: oklch(0.75 0.03 280);
-  --ring: oklch(0.55 0.15 300);
-  --chart-1: oklch(0.55 0.2 300);
+  --border: oklch(0.62 0.035 55);
+  --input: oklch(0.85 0.02 75);
+  --ring: oklch(0.58 0.04 55);
+  --chart-1: oklch(0.48 0.04 55);
   --chart-2: oklch(0.6 0.15 25);
-  --chart-3: oklch(0.5 0.12 280);
+  --chart-3: oklch(0.5 0.03 55);
   --chart-4: oklch(0.7 0.15 85);
   --chart-5: oklch(0.65 0.18 145);
   --radius: 0.625rem;
-  --sidebar: oklch(0.88 0.01 280);
-  --sidebar-foreground: oklch(0.2 0.02 280);
-  --sidebar-primary: oklch(0.45 0.18 300);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.82 0.02 280);
-  --sidebar-accent-foreground: oklch(0.25 0.02 280);
-  --sidebar-border: oklch(0.7 0.04 280);
-  --sidebar-ring: oklch(0.55 0.15 300);
+  --sidebar: oklch(0.91 0.012 75);
+  --sidebar-foreground: oklch(0.28 0.025 55);
+  --sidebar-primary: oklch(0.48 0.04 55);
+  --sidebar-primary-foreground: oklch(0.98 0.01 80);
+  --sidebar-accent: oklch(0.88 0.018 75);
+  --sidebar-accent-foreground: oklch(0.32 0.025 55);
+  --sidebar-border: oklch(0.62 0.035 55);
+  --sidebar-ring: oklch(0.58 0.04 55);
 }
 
 .dark {
-  /* FNAF night office */
-  --background: oklch(0.12 0.02 280);
-  --foreground: oklch(0.92 0.01 280);
-  --card: oklch(0.15 0.02 280);
-  --card-foreground: oklch(0.92 0.01 280);
-  --popover: oklch(0.15 0.02 280);
-  --popover-foreground: oklch(0.92 0.01 280);
-  --primary: oklch(0.72 0.18 145);
-  --primary-foreground: oklch(0.12 0.02 280);
-  --secondary: oklch(0.22 0.03 280);
-  --secondary-foreground: oklch(0.92 0.01 280);
-  --muted: oklch(0.22 0.03 280);
-  --muted-foreground: oklch(0.65 0.02 280);
-  --accent: oklch(0.22 0.03 280);
-  --accent-foreground: oklch(0.92 0.01 280);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.92 0.01 280);
-  --border: oklch(0.28 0.04 280);
-  --input: oklch(0.25 0.03 280);
-  --ring: oklch(0.55 0.15 300);
-  --chart-1: oklch(0.55 0.2 300);
-  --chart-2: oklch(0.65 0.18 145);
-  --chart-3: oklch(0.5 0.12 280);
-  --chart-4: oklch(0.6 0.15 25);
-  --chart-5: oklch(0.7 0.15 85);
-  --sidebar: oklch(0.15 0.02 280);
-  --sidebar-foreground: oklch(0.92 0.01 280);
-  --sidebar-primary: oklch(0.55 0.2 300);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.22 0.03 280);
-  --sidebar-accent-foreground: oklch(0.92 0.01 280);
-  --sidebar-border: oklch(0.28 0.04 280);
-  --sidebar-ring: oklch(0.55 0.15 300);
+  /* Nighttime security desk — below hero */
+  --desk-wood: #1a1410;
+  --desk-wood-light: #221c16;
+  --desk-wood-dark: #14100c;
+  --desk-lamp: rgba(251, 191, 36, 0.09);
+  --desk-monitor-glow: rgba(74, 222, 128, 0.05);
+  --desk-paper: #2f2922;
+  --desk-border: #5c4d3a;
+
+  /* FNAF static CRT — hero only (via hero-background.tsx) */
+  --static-base: #000000;
+  --static-surface: #0a0a0a;
+  --static-line: rgba(255, 255, 255, 0.06);
+  --static-scanline: rgba(255, 255, 255, 0.04);
+  --static-vignette: rgba(0, 0, 0, 0.5);
+  --static-noise-opacity: 0.9;
+
+  /* Legacy aliases for hero-scoped layers */
+  --cctv-phosphor: #f5f5f5;
+  --cctv-phosphor-bright: #ffffff;
+  --cctv-feed-dark: #000000;
+  --cctv-feed-mid: #0a0a0a;
+  --cctv-tint: transparent;
+  --cctv-tint-strong: transparent;
+  --cctv-vignette: var(--static-vignette);
+  --cctv-scanline: var(--static-line);
+  --cctv-scanline-accent: rgba(255, 255, 255, 0.03);
+  --cctv-noise-opacity: var(--static-noise-opacity);
+  --cctv-glow: var(--static-scanline);
+
+  /* Nighttime security desk — page shell below hero */
+  --background: oklch(0.14 0.02 55);
+  --foreground: oklch(0.91 0.02 75);
+  --card: oklch(0.19 0.025 50);
+  --card-foreground: oklch(0.91 0.02 75);
+  --popover: oklch(0.19 0.025 50);
+  --popover-foreground: oklch(0.91 0.02 75);
+  --primary: oklch(0.72 0.16 145);
+  --primary-foreground: oklch(0.14 0.02 55);
+  --secondary: oklch(0.22 0.025 50);
+  --secondary-foreground: oklch(0.88 0.02 75);
+  --muted: oklch(0.22 0.025 50);
+  --muted-foreground: oklch(0.68 0.04 65);
+  --accent: oklch(0.24 0.03 55);
+  --accent-foreground: oklch(0.91 0.02 75);
+  --destructive: oklch(0.55 0.18 30);
+  --destructive-foreground: oklch(0.95 0.02 75);
+  --border: oklch(0.38 0.04 55);
+  --input: oklch(0.22 0.025 50);
+  --ring: oklch(0.72 0.16 145);
+  --chart-1: oklch(0.72 0.16 145);
+  --chart-2: oklch(0.75 0.12 75);
+  --chart-3: oklch(0.55 0.04 55);
+  --chart-4: oklch(0.68 0.14 30);
+  --chart-5: oklch(0.62 0.1 145);
+  --sidebar: oklch(0.16 0.02 55);
+  --sidebar-foreground: oklch(0.91 0.02 75);
+  --sidebar-primary: oklch(0.72 0.16 145);
+  --sidebar-primary-foreground: oklch(0.14 0.02 55);
+  --sidebar-accent: oklch(0.22 0.025 50);
+  --sidebar-accent-foreground: oklch(0.91 0.02 75);
+  --sidebar-border: oklch(0.38 0.04 55);
+  --sidebar-ring: oklch(0.72 0.16 145);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: Consolas, "Courier New", monospace;
+  --font-mono: Consolas, "Courier New", monospace;
+  --font-display:
+    "Compacta", "Compacta Bold", Impact, "Arial Narrow Bold", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -123,6 +184,38 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image:
+      linear-gradient(180deg, var(--office-fluorescent) 0%, transparent 35%),
+      radial-gradient(
+        ellipse 50% 35% at 15% 8%,
+        var(--office-window) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        var(--office-ceiling) 0%,
+        var(--office-wall) 40%,
+        var(--office-floor) 100%
+      );
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background-color: var(--desk-wood-dark);
+    background-image:
+      linear-gradient(180deg, var(--desk-lamp) 0%, transparent 38%),
+      radial-gradient(
+        ellipse 55% 40% at 85% 12%,
+        var(--desk-monitor-glow) 0%,
+        transparent 65%
+      ),
+      linear-gradient(
+        180deg,
+        var(--desk-wood-light) 0%,
+        var(--desk-wood) 48%,
+        var(--desk-wood-dark) 100%
+      );
+    background-attachment: fixed;
   }
 
   .sr-only {
@@ -149,64 +242,232 @@
     overflow: visible;
     clip: auto;
     white-space: normal;
-    border: 4px solid #581c87;
-    background: #e5e5e5;
-    font-family: var(--font-geist-mono), monospace;
+    border: 4px solid var(--office-border);
+    background: var(--office-ceiling);
+    color: var(--office-text);
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     font-weight: 700;
   }
 
   .dark .sr-only:focus {
-    border-color: #a855f7;
-    background: #1a1025;
-    color: #4ade80;
+    border-color: #5c4d3a;
+    background: #2f2922;
+    color: #e8dfd0;
   }
 
-  /* CRT scanline + static overlay */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.04) 2px,
-        rgba(0, 0, 0, 0.04) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 3px,
-        rgba(123, 45, 142, 0.03) 3px,
-        rgba(123, 45, 142, 0.03) 4px
-      );
-    pointer-events: none;
-    z-index: 1;
+  /* CRT scanlines/noise live on hero-background only — not the desk shell */
+  @keyframes hero-scanline-fine {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 2px;
+    }
   }
 
-  .dark body::before {
-    background-image: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.025) 2px,
-        rgba(255, 255, 255, 0.025) 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 3px,
-        rgba(74, 222, 128, 0.02) 3px,
-        rgba(74, 222, 128, 0.02) 4px
-      );
+  @keyframes scanline-drift {
+    0% {
+      background-position:
+        0 0,
+        0 0;
+    }
+    100% {
+      background-position:
+        0 48px,
+        0 96px;
+    }
+  }
+
+  @keyframes cctv-static {
+    0%,
+    100% {
+      filter: brightness(1) contrast(1.05);
+    }
+    25% {
+      filter: brightness(1.04) contrast(1.08);
+    }
+    50% {
+      filter: brightness(0.97) contrast(1.1);
+    }
+    75% {
+      filter: brightness(1.02) contrast(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dark body::before,
+    .dark body::after {
+      animation: none;
+    }
+
+    .hero-scanline-animated {
+      animation: none !important;
+    }
   }
 
   body > * {
     position: relative;
     z-index: 2;
   }
+}
+
+/* Hanging sign rigging + panel behind hero title */
+.hero-sign-mount {
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-sign__bar {
+  display: block;
+  width: min(14rem, 70vw);
+  height: 5px;
+  background: linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%);
+  border: 1px solid #000;
+  border-radius: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+
+.hero-sign__wires {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+  overflow: visible;
+}
+
+.hero-sign__wire-line {
+  stroke: #9a9a9a;
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.12));
+}
+
+:root .hero-sign__wire-line {
+  stroke: #6a6258;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
+}
+
+.dark .hero-sign__wire-line {
+  stroke: #b0b0b0;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 1)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.15));
+}
+
+.hero-sign {
+  position: relative;
+  z-index: 26;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  margin-inline: auto;
+}
+
+.hero-sign__swing {
+  transform-origin: top center;
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero-sign__attach {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.hero-sign__attach--left {
+  left: 10%;
+}
+
+.hero-sign__attach--right {
+  left: 90%;
+}
+
+.hero-sign__panel {
+  position: relative;
+  background: #101010;
+  border: 4px solid #000;
+  padding: 0.45rem 1rem 0.55rem;
+  box-shadow:
+    inset 0 -10px 28px rgba(255, 40, 0, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 5px 0 #080808,
+    0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+:root .hero-sign__bar {
+  background: linear-gradient(180deg, #6a6560 0%, #3a3530 100%);
+}
+
+:root .hero-sign__panel {
+  background: #2a2620;
+  box-shadow:
+    inset 0 -8px 20px rgba(180, 60, 0, 0.1),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
+    0 5px 0 #1a1814,
+    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* FNAF-style hero title — dirty yellow fill, black border, red underglow */
+.hero-logo {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: clamp(2rem, 8.5vw, 5.5rem);
+  line-height: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .hero-logo {
+    font-size: clamp(1.5rem, 7.5vw, 2rem);
+    letter-spacing: 0.02em;
+    white-space: normal;
+  }
+}
+
+/* Red underglow — lit from below like a roadside sign */
+.hero-logo::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #ff3a00;
+  transform: translateY(8px);
+  filter: blur(18px);
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-logo__text {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: #edbb4f;
+  -webkit-text-stroke: 6.5px #000000;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 5px 6px rgba(255, 50, 0, 0.95))
+    drop-shadow(0 10px 16px rgba(255, 35, 0, 0.75))
+    drop-shadow(0 18px 32px rgba(200, 25, 0, 0.55))
+    drop-shadow(0 28px 48px rgba(160, 15, 0, 0.35));
+}
+
+:root .hero-logo::before {
+  opacity: 0.75;
+  filter: blur(14px);
+}
+
+:root .hero-logo__text {
+  filter: drop-shadow(0 4px 5px rgba(220, 45, 0, 0.8))
+    drop-shadow(0 8px 14px rgba(200, 35, 0, 0.55))
+    drop-shadow(0 14px 24px rgba(160, 25, 0, 0.35));
 }

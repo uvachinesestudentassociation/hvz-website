@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 320" fill="#1a1a1a">
+  <!-- Generic hunched humanoid silhouette — original, not based on any franchise character -->
+  <ellipse cx="118" cy="52" rx="38" ry="44" />
+  <path d="M 72 88 Q 55 140 48 200 L 42 310 L 78 310 L 82 210 Q 88 150 95 100 Z" />
+  <path d="M 164 88 Q 175 150 168 220 L 162 310 L 198 310 L 192 200 Q 185 130 168 95 Z" />
+  <path d="M 88 95 Q 75 180 70 310 L 130 310 Q 125 180 112 95 Z" />
+  <!-- Glowing eyes -->
+  <circle cx="104" cy="48" r="5" fill="#e5e5e5" opacity="0.9" />
+  <circle cx="132" cy="48" r="5" fill="#e5e5e5" opacity="0.9" />
+  <!-- Blocky teeth hint -->
+  <rect x="108" y="68" width="8" height="6" fill="#0a0a0a" opacity="0.5" />
+  <rect x="118" y="68" width="8" height="6" fill="#0a0a0a" opacity="0.5" />
+  <rect x="128" y="68" width="8" height="6" fill="#0a0a0a" opacity="0.5" />
+</svg>

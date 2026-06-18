@@ -1,9 +1,12 @@
 import Link from "next/link"
 import { GameCountdown } from "@/components/game-countdown"
+import { HeroBackground } from "@/components/hero-background"
+import { HeroLogo } from "@/components/hero-logo"
 import { JoinGameButton } from "@/components/join-game-button"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import { THEME, THEME_COPY } from "@/content/theme"
 import {
+  PIXEL_HERO_SURFACE,
   PIXEL_SECTION_BORDER,
   PIXEL_SECTION_PRIMARY,
   PIXEL_SECTION_SECONDARY,
@@ -31,18 +34,12 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className={`relative overflow-hidden border-b-8 ${PIXEL_SECTION_BORDER}`}>
-        <div className="absolute inset-0 bg-[linear-gradient(#1a1025,#0f0a18)] dark:bg-[linear-gradient(#1a1025,#0a0610)]" />
-        <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(90deg,rgba(123,45,142,0.08)_8px,transparent_8px),linear-gradient(rgba(123,45,142,0.06)_8px,transparent_8px)] bg-[size:32px_32px]" />
-        {/* Checkerboard pizzeria floor */}
-        <div className="absolute bottom-0 left-0 right-0 h-6 [background-image:linear-gradient(45deg,#2d1b4e_25%,transparent_25%),linear-gradient(-45deg,#2d1b4e_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#2d1b4e_75%),linear-gradient(-45deg,transparent_75%,#2d1b4e_75%)] [background-size:16px_16px] [background-position:0_0,0_8px,8px_-8px,-8px_0px] bg-[#1a1025] shadow-[0_-6px_0_rgba(0,0,0,0.5)_inset]" />
-        <div className="absolute -bottom-6 left-0 right-0 h-6 [background-image:linear-gradient(45deg,#1a0a2e_25%,transparent_25%),linear-gradient(-45deg,#1a0a2e_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#1a0a2e_75%),linear-gradient(-45deg,transparent_75%,#1a0a2e_75%)] [background-size:16px_16px] [background-position:0_0,0_8px,8px_-8px,-8px_0px] bg-[#0f0a18] shadow-[0_6px_0_rgba(0,0,0,0.5)_inset]" />
+        <HeroBackground />
 
         <div className="container relative mx-auto px-4 py-16 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className={`mb-4 font-mono text-4xl md:text-6xl lg:text-7xl font-black tracking-[0.04em] md:tracking-[0.08em] ${PIXEL_TEXT} drop-shadow-[4px_4px_0_rgba(123,45,142,0.5)]`}>
-              HUMANS VS. ZOMBIES
-            </h1>
-            <p className={`mx-auto mb-8 max-w-xl font-mono text-base md:text-lg ${PIXEL_TEXT_MUTED} bg-neutral-900/50 dark:bg-neutral-950/70 px-3 py-2 rounded-none border-4 ${PIXEL_SECTION_BORDER} shadow-[4px_4px_0_rgba(123,45,142,0.3)] break-words`}>
+            <HeroLogo />
+            <p className={`mx-auto mb-8 max-w-xl font-mono text-base md:text-lg ${PIXEL_TEXT_MUTED} ${PIXEL_HERO_SURFACE} px-3 py-2 rounded-none border-4 ${PIXEL_SECTION_BORDER} shadow-[4px_4px_0_rgba(88,28,135,0.2)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] break-words`}>
               {SITE_CONFIG.tagline}
             </p>
             <GameCountdown />
@@ -101,7 +98,7 @@ export default function HomePage() {
                 href={link.href}
                 className={[
                   `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
-                  "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(123,45,142,0.15)] hover:translate-x-[1px] hover:translate-y-[1px]",
+                  "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
                 ].join(" ")}
               >
                 <div className={`font-mono text-lg font-bold ${THEME.accent.link}`}>{link.label}</div>

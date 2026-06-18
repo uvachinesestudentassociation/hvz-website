@@ -15,7 +15,7 @@ import { getFormResources } from "@/lib/public-resources";
 import { RuleSearch } from "@/components/rule-search";
 import { MobileThemeToggle } from "@/components/theme-toggle";
 import { THEME } from "@/content/theme";
-import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles";
+import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles";
 
 type NavItem = {
   label: string;
@@ -63,7 +63,7 @@ function NavLink({
   const Icon = item.icon;
   const baseClass = [
     "flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
-    active ? `${THEME.accent.link}` : `text-neutral-700 ${THEME.accent.textHover} dark:text-neutral-300`,
+    active ? `${THEME.accent.link}` : `${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`,
     className,
   ]
     .filter(Boolean)
@@ -147,8 +147,8 @@ export function MobileSiteNav() {
                 className={[
                   "flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 font-mono text-[9px] font-bold uppercase tracking-tight",
                   active
-                    ? `${THEME.accent.bgSubtle} text-green-700 dark:text-green-300`
-                    : "text-neutral-700 dark:text-neutral-300",
+                    ? `${THEME.accent.bgSubtle} ${THEME.accent.navActive}`
+                    : `${PIXEL_TEXT_MUTED} dark:text-[#a89580]`,
                 ].join(" ")}
               >
                 <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />

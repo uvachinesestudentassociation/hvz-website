@@ -14,17 +14,17 @@ import { THINGS_TO_NOTE } from "@/content/things-to-note"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 const toneBorder: Record<string, string> = {
-  rose: "border-rose-600 bg-rose-500/10",
-  emerald: "border-purple-700 bg-purple-500/10",
-  amber: "border-amber-700 bg-amber-500/10",
-  sky: "border-sky-700 bg-sky-500/10",
+  rose: "border-rose-600 bg-rose-100/50 dark:border-amber-900/40 dark:bg-[#2a2018]/60",
+  emerald: "border-[#8a7a68] bg-[#e8dcc8]/50 dark:border-[#5c4d3a] dark:bg-[#2f2922]/60",
+  amber: "border-amber-700 bg-amber-100/50 dark:border-amber-900/40 dark:bg-[#2a2218]/60",
+  sky: "border-sky-700 bg-sky-100/50 dark:border-[#5c4d3a] dark:bg-[#2a2420]/60",
 }
 
 const toneText: Record<string, string> = {
-  rose: "text-rose-700 dark:text-rose-400",
+  rose: "text-rose-700 dark:text-amber-300/90",
   emerald: `${THEME.accent.link}`,
-  amber: "text-amber-800 dark:text-amber-400",
-  sky: "text-sky-800 dark:text-sky-400",
+  amber: "text-amber-800 dark:text-amber-300/90",
+  sky: "text-sky-800 dark:text-green-400/80",
 }
 
 export function RulesContent() {
@@ -39,8 +39,8 @@ export function RulesContent() {
           <PageToc items={RULES_TOC} />
 
           <div id="things-to-note" className="scroll-mt-24">
-            <BlockPanel title={<span className="text-rose-700">⚠ THINGS TO NOTE</span>} tone="danger">
-              <p className="font-bold text-rose-700">{THINGS_TO_NOTE.warning}</p>
+            <BlockPanel title={<span className="text-rose-700 dark:text-amber-300/90">⚠ THINGS TO NOTE</span>} tone="danger">
+              <p className="font-bold text-rose-700 dark:text-amber-300/90">{THINGS_TO_NOTE.warning}</p>
               <br />
               {THINGS_TO_NOTE.paragraphs.map((p) => (
                 <p key={p} className="break-words">
@@ -58,7 +58,7 @@ export function RulesContent() {
                   <br />
                 </p>
               ))}
-              <p className="font-bold text-lg text-rose-700 text-center">{THINGS_TO_NOTE.honorCode}</p>
+              <p className="font-bold text-lg text-rose-700 dark:text-amber-300/90 text-center">{THINGS_TO_NOTE.honorCode}</p>
             </BlockPanel>
           </div>
 
@@ -85,7 +85,7 @@ export function RulesContent() {
                       {p.includes("RESPECT PRIVACY") ? (
                         <>
                           Humans cannot be killed in the safe zones below. Read carefully to understand how they work.
-                          <span className="block font-bold text-rose-700">
+                          <span className="block font-bold text-rose-700 dark:text-amber-300/90">
                             RESPECT PRIVACY AND DO NOT DISTURB EXTERNAL MEETINGS/ORGS. If we see/hear breaches, you may
                             be removed from HvZ and your family may face consequences.
                           </span>
@@ -121,12 +121,12 @@ export function RulesContent() {
                   )}
                   {sub.id === "quests" && (
                     <div className="mt-3 space-y-3">
-                      <div className="border-l-4 border-purple-700 bg-purple-500/20 p-3">
+                      <div className="border-l-4 border-[#8a7a68] bg-[#e8dcc8]/40 p-3">
                         <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           Quest points are given to the first family to complete the quest unless stated otherwise.
                         </p>
                       </div>
-                      <div className="border-l-4 border-purple-700 bg-purple-500/20 p-3">
+                      <div className="border-l-4 border-[#8a7a68] bg-[#e8dcc8]/40 p-3">
                         <p className={`font-mono text-sm font-bold ${THEME.accent.link}`}>
                           You are not safe while completing quests unless stated otherwise.
                         </p>

@@ -2,8 +2,8 @@
 
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect, useRef, useState } from "react"
-import { THEME } from "@/content/theme"
+import { useEffect, useState } from "react"
+import { DESK, OFFICE, THEME } from "@/content/theme"
 import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 
 function useThemeState() {
@@ -23,30 +23,13 @@ function useThemeState() {
 
 export function ThemeToggle() {
   const { mounted, isDark, setTheme, setIsDark } = useThemeState()
-  const themeTimeoutRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (themeTimeoutRef.current !== null) {
-        window.clearTimeout(themeTimeoutRef.current)
-      }
-    }
-  }, [])
 
   const label = isDark ? "Switch to light mode" : "Switch to dark mode"
 
   const handleToggle = () => {
     const next = !isDark
     setIsDark(next)
-
-    if (themeTimeoutRef.current !== null) {
-      window.clearTimeout(themeTimeoutRef.current)
-    }
-
-    themeTimeoutRef.current = window.setTimeout(() => {
-      setTheme(next ? "dark" : "light")
-      themeTimeoutRef.current = null
-    }, 320)
+    setTheme(next ? "dark" : "light")
   }
 
   return (
@@ -68,10 +51,10 @@ export function ThemeToggle() {
             !mounted && "pointer-events-none opacity-0",
           ].join(" ")}
           style={{
-            borderColor: isDark ? "#a855f7" : "#581c87",
-            backgroundColor: isDark ? "#1a1025" : "#d4d4d4",
+            borderColor: isDark ? DESK.border : OFFICE.border,
+            backgroundColor: isDark ? DESK.wood : OFFICE.laminate,
             boxShadow: isDark
-              ? "3px 3px 0 rgba(123,45,142,0.3)"
+              ? "3px 3px 0 rgba(0,0,0,0.55)"
               : "3px 3px 0 rgba(0,0,0,0.35)",
             transition:
               "background-color 320ms ease-in-out, border-color 320ms ease-in-out, box-shadow 320ms ease-in-out",
@@ -83,7 +66,7 @@ export function ThemeToggle() {
                 <Sun
                   className="h-5 w-5"
                   style={{
-                    color: isDark ? "#4ade80" : "#6b7280",
+                    color: isDark ? DESK.textMuted : OFFICE.textMuted,
                     opacity: isDark ? 0.35 : 1,
                     transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
                   }}
@@ -94,7 +77,7 @@ export function ThemeToggle() {
                 <Moon
                   className="h-5 w-5"
                   style={{
-                    color: isDark ? "#a855f7" : "#581c87",
+                    color: isDark ? "#fbbf24" : OFFICE.text,
                     opacity: isDark ? 1 : 0.35,
                     transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
                   }}
@@ -106,10 +89,10 @@ export function ThemeToggle() {
             <span
               className="absolute inset-y-0 left-0 w-1/2 rounded-none border-[3px]"
               style={{
-                borderColor: isDark ? "#a855f7" : "#581c87",
-                backgroundColor: isDark ? "#262626" : "#e5e5e5",
+                borderColor: isDark ? DESK.border : OFFICE.border,
+                backgroundColor: isDark ? DESK.paper : OFFICE.paper,
                 boxShadow: isDark
-                  ? "2px 2px 0 rgba(255,255,255,0.08)"
+                  ? "2px 2px 0 rgba(0,0,0,0.55)"
                   : "2px 2px 0 rgba(0,0,0,0.2)",
                 transform: isDark ? "translateX(100%)" : "translateX(0)",
                 transition:
@@ -135,17 +118,17 @@ export function MobileThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={[
         `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-        "bg-neutral-200 dark:bg-neutral-900",
-        "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)]",
+        "bg-[#f0ebe3] dark:bg-[#2a2420]",
+        "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]",
         "active:translate-x-[1px] active:translate-y-[1px]",
         "touch-manipulation",
         !mounted && "pointer-events-none opacity-0",
       ].join(" ")}
     >
       {isDark ? (
-        <Sun className="h-5 w-5 text-green-400" aria-hidden="true" />
+        <Sun className="h-5 w-5 text-amber-300" aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5 text-purple-700 dark:text-purple-300" aria-hidden="true" />
+        <Moon className="h-5 w-5 text-[#5c4a38] dark:text-purple-300" aria-hidden="true" />
       )}
     </button>
   )

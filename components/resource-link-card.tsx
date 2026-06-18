@@ -9,26 +9,33 @@ type ResourceLinkCardProps = {
   className?: string
 }
 
+const DARK_DESK = {
+  card: "dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+  icon: "dark:border-[#5c4d3a] dark:bg-[#1e1814] dark:text-amber-200",
+  label: "dark:text-[#e8dfd0]",
+  badge: "dark:bg-[#1a1410] dark:text-amber-300",
+}
+
 const ACTION_STYLES: Record<string, { card: string; icon: string; label: string; badge: string; badgeText: string }> = {
   "Kill Report": {
-    card: "border-red-800 bg-red-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] dark:border-red-950 dark:bg-red-950 dark:shadow-[8px_8px_0_rgba(255,255,255,0.06)]",
-    icon: "border-red-950 bg-red-200 text-red-900 dark:border-red-950 dark:bg-red-900/70 dark:text-red-200",
-    label: "text-red-950 dark:text-red-100",
-    badge: "bg-red-900 text-red-50 dark:bg-red-950 dark:text-red-100",
+    card: `border-red-800 bg-red-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
+    icon: `border-red-950 bg-red-200 text-red-900 ${DARK_DESK.icon}`,
+    label: `text-red-950 ${DARK_DESK.label}`,
+    badge: `bg-red-900 text-red-50 ${DARK_DESK.badge}`,
     badgeText: "Report now",
   },
   "Quest Board": {
-    card: "border-purple-800 bg-purple-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] dark:border-purple-950 dark:bg-purple-950 dark:shadow-[8px_8px_0_rgba(255,255,255,0.06)]",
-    icon: "border-purple-950 bg-purple-200 text-purple-900 dark:border-purple-950 dark:bg-purple-900/70 dark:text-purple-200",
-    label: "text-purple-950 dark:text-purple-100",
-    badge: "bg-purple-900 text-purple-50 dark:bg-purple-950 dark:text-purple-100",
+    card: `border-purple-800 bg-purple-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
+    icon: `border-purple-950 bg-purple-200 text-purple-900 ${DARK_DESK.icon}`,
+    label: `text-purple-950 ${DARK_DESK.label}`,
+    badge: `bg-purple-900 text-purple-50 ${DARK_DESK.badge}`,
     badgeText: "View board",
   },
   "Quest Report": {
-    card: "border-amber-800 bg-amber-600 shadow-[8px_8px_0_rgba(0,0,0,0.5)] dark:border-amber-950 dark:bg-amber-950 dark:shadow-[8px_8px_0_rgba(255,255,255,0.06)]",
-    icon: "border-amber-950 bg-amber-200 text-amber-900 dark:border-amber-950 dark:bg-amber-900/70 dark:text-amber-200",
-    label: "text-amber-950 dark:text-amber-100",
-    badge: "bg-amber-900 text-amber-50 dark:bg-amber-950 dark:text-amber-100",
+    card: `border-amber-800 bg-amber-600 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
+    icon: `border-amber-950 bg-amber-200 text-amber-900 ${DARK_DESK.icon}`,
+    label: `text-amber-950 ${DARK_DESK.label}`,
+    badge: `bg-amber-900 text-amber-50 ${DARK_DESK.badge}`,
     badgeText: "Report now",
   },
 }
@@ -50,12 +57,12 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
         isAction && actionStyle
           ? actionStyle.card
           : isHighPriority
-            ? "border-purple-700 bg-purple-950/30 dark:bg-purple-950/40"
+            ? "border-[#8a7a68] bg-[#f5f0e6]/90 dark:border-[#5c4d3a] dark:bg-[#2f2922]/90"
             : PIXEL_SURFACE,
         isAction ? "p-5 md:p-6" : variant === "compact" ? "p-3 text-center" : "p-4 md:p-5 text-left",
         isAction
-          ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] dark:hover:shadow-[6px_6px_0_rgba(255,255,255,0.08)] active:translate-x-[3px] active:translate-y-[3px]"
-          : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(255,255,255,0.06)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)] dark:hover:shadow-[5px_5px_0_rgba(255,255,255,0.08)]",
+          ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] dark:hover:shadow-[6px_6px_0_rgba(0,0,0,0.6)] active:translate-x-[3px] active:translate-y-[3px]"
+          : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)] dark:hover:shadow-[5px_5px_0_rgba(0,0,0,0.6)]",
         "overflow-hidden [background-clip:padding-box]",
         className,
       ].join(" ")}
@@ -76,8 +83,8 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
           isAction
             ? `mb-4 mt-5 size-14 ${actionStyle?.icon}`
             : variant === "compact"
-              ? `mb-2 size-11 mx-auto ${PIXEL_SECTION_BORDER} bg-neutral-200 dark:bg-neutral-800`
-              : `mb-3 size-12 ${PIXEL_SECTION_BORDER} bg-neutral-200 dark:bg-neutral-800`,
+              ? `mb-2 size-11 mx-auto ${PIXEL_SECTION_BORDER} bg-[#f0ebe3] dark:bg-[#1e1814]`
+              : `mb-3 size-12 ${PIXEL_SECTION_BORDER} bg-[#f0ebe3] dark:bg-[#1e1814]`,
         ].join(" ")}
       >
         <Icon

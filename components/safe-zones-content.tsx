@@ -21,9 +21,9 @@ export function SafeZonesContent() {
                 {zone.paragraphs.map((p) => (
                   <p key={p} className="break-words">
                     {p.includes("NO BRAIN-EATING") ? (
-                      <span className="font-bold text-rose-700">{p}</span>
+                      <span className="font-bold text-rose-700 dark:text-amber-300/90">{p}</span>
                     ) : p.includes("RESPECT PRIVACY") ? (
-                      <span className="font-bold text-rose-700">{p}</span>
+                      <span className="font-bold text-rose-700 dark:text-amber-300/90">{p}</span>
                     ) : (
                       p
                     )}

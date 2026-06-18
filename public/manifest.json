@@ -4,8 +4,8 @@
   "description": "Official Humans vs. Zombies rules and resources for CSA@UVA.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1a1025",
-  "theme_color": "#1a1025",
+  "background_color": "#e8e4dc",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [
     {
