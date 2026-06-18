@@ -1,5 +1,5 @@
-import { LINKS } from "@/content/links"
-import { THEME_COLOR, THEME_COLOR_LIGHT, THEME_COPY } from "@/content/theme"
+import { LINKS } from "@/content/links";
+import { THEME_COLOR, THEME_COLOR_LIGHT, THEME_COPY } from "@/content/theme";
 
 export const SITE_CONFIG = {
   title: "CSA@UVA HvZ",
