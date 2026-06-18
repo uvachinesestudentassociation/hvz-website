@@ -5,14 +5,17 @@ import { usePathname } from "next/navigation"
 import { ArrowUp } from "lucide-react"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
+import { ThemeGate } from "@/components/theme-gate"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
+import { useThemeGate } from "@/hooks/use-theme-gate"
 import { HERO } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const { showGate, grantBypass } = useThemeGate()
   const showHeroSignMount = pathname === "/"
 
   useEffect(() => {
@@ -20,6 +23,10 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
+
+  if (showGate) {
+    return <ThemeGate onUnlock={grantBypass} />
+  }
 
   return (
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0`}>

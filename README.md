@@ -66,14 +66,14 @@ Most game-week edits are a few config files — no need to touch layout code.
 
 ### Site-wide settings — `lib/site-config.ts`
 
-| Field           | Purpose                                           |
-| --------------- | ------------------------------------------------- |
-| `gameYear`      | Season year (footer, countdown, “Game ON” banner) |
-| `tagline`       | Hero subtitle (from the active event theme)       |
+| Field           | Purpose                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| `gameYear`      | Season year (footer, countdown, “Game ON” banner)                                        |
+| `tagline`       | Hero subtitle (from the active event theme)                                              |
 | `signupFormUrl` | Join-game button link (via `content/links.ts`; button label comes from the active theme) |
-| `contactEmail`  | Shown in rules                                    |
-| `commChairs`    | Named in safe zone section                        |
-| `url`           | Used for Open Graph / social previews             |
+| `contactEmail`  | Shown in rules                                                                           |
+| `commChairs`    | Named in safe zone section                                                               |
+| `url`           | Used for Open Graph / social previews                                                    |
 
 ### Game start countdown — `lib/game-start.ts`
 
@@ -105,21 +105,21 @@ The site supports swappable event themes (colors, copy, hero effects, and UI sty
 export const ACTIVE_THEME_ID: ThemeId = "fnaf"; // or "default"
 ```
 
-| Theme ID    | Description                                      |
-| ----------- | ------------------------------------------------ |
-| `fnaf`      | FNAF night-shift — CRT static, hanging sign logo |
-| `default`   | Baseline purple HvZ — plain hero, no event effects |
+| Theme ID  | Description                                        |
+| --------- | -------------------------------------------------- |
+| `fnaf`    | FNAF night-shift — CRT static, hanging sign logo   |
+| `default` | Baseline purple HvZ — plain hero, no event effects |
 
 Each theme file under `content/themes/` defines:
 
-| Export area | What it controls                                              |
-| ----------- | ------------------------------------------------------------- |
-| `copy`      | Tagline, join button text, section headings, countdown labels |
-| `tailwind`  | Accent, alarm, monitor, and button class groups             |
-| `pixel`     | Border, surface, and section background classes               |
-| `hero`      | Background layers, TV static, zombie silhouette, logo style   |
-| `office` / `desk` | Light/dark shell palette tokens                         |
-| `themeColor` | PWA / browser chrome color                                 |
+| Export area       | What it controls                                              |
+| ----------------- | ------------------------------------------------------------- |
+| `copy`            | Tagline, join button text, section headings, countdown labels |
+| `tailwind`        | Accent, alarm, monitor, and button class groups               |
+| `pixel`           | Border, surface, and section background classes               |
+| `hero`            | Background layers, TV static, zombie silhouette, logo style   |
+| `office` / `desk` | Light/dark shell palette tokens                               |
+| `themeColor`      | PWA / browser chrome color                                    |
 
 Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, scoped with `[data-site-theme="<id>"]`. The root layout sets `data-site-theme` on `<html>` from `ACTIVE_THEME_ID`.
 
