@@ -3,6 +3,8 @@ import { GameCountdown } from "@/components/game-countdown"
 import { HeroBackground } from "@/components/hero-background"
 import { HeroLogo } from "@/components/hero-logo"
 import { JoinGameButton } from "@/components/join-game-button"
+import { MissingPosterCard } from "@/components/missing-poster-card"
+import { NightShiftSectionHeader } from "@/components/night-shift-section-header"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import { THEME, THEME_COPY } from "@/content/theme"
 import {
@@ -14,6 +16,7 @@ import {
   PIXEL_TEXT,
   PIXEL_TEXT_MUTED,
   PIXEL_TEXT_SUBTLE,
+  DESK_RING,
 } from "@/components/hvz/pixel-styles"
 import { getResource, getSortedResources } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
@@ -23,11 +26,13 @@ function getHomeQuickActions() {
     killReport: getResource("killReport"),
     questBoard: getResource("questBoard"),
     questReport: getResource("questReport"),
+    graveyard: getResource("graveyard"),
+    populationList: getResource("populationList"),
   }
 }
 
 export default function HomePage() {
-  const { killReport, questBoard, questReport } = getHomeQuickActions()
+  const { killReport, questBoard, questReport, graveyard, populationList } = getHomeQuickActions()
   const otherResources = getSortedResources(true).filter((r) => r.priority !== "high" && r.label !== "Quest Board").slice(0, 2)
 
   return (
@@ -53,9 +58,9 @@ export default function HomePage() {
       {/* Quick resources */}
       <section id="resources" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
-          <h2 className={`mb-4 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
+          <NightShiftSectionHeader showNightWhenLive>
             {THEME_COPY.sections.quickLinks}
-          </h2>
+          </NightShiftSectionHeader>
           <p className={`mb-6 text-center font-mono text-sm ${PIXEL_TEXT_MUTED}`}>
             Submit kills and quests right away — standings and more on the{" "}
             <Link href="/resources" className={`${THEME.accent.linkUnderline}`}>
@@ -73,9 +78,17 @@ export default function HomePage() {
           <h3 className={`mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider ${PIXEL_TEXT_SUBTLE}`}>
             {THEME_COPY.sections.alsoCheck}
           </h3>
+          <div className="mx-auto mb-4 max-w-5xl">
+            <MissingPosterCard graveyard={graveyard} population={populationList} />
+          </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
-            {otherResources.map((resource) => (
-              <ResourceLinkCard key={resource.label} resource={resource} variant="full" />
+            {otherResources.map((resource, index) => (
+              <ResourceLinkCard
+                key={resource.label}
+                resource={resource}
+                variant="full"
+                className={index === 0 ? DESK_RING.br : undefined}
+              />
             ))}
           </div>
         </div>
@@ -92,12 +105,13 @@ export default function HomePage() {
               { href: "/rules", label: "Game Rules", desc: "Basic rules, specific rules, and things to note" },
               { href: "/safe-zones", label: "Safe Zones", desc: "Residences, classes, gym, CSA events, and more" },
               { href: "/resources", label: "All Resources", desc: "Points, population, graveyard, quest board, forms" },
-            ].map((link) => (
+            ].map((link, index) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={[
                   `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
+                  index === 1 ? DESK_RING.tr : "",
                   "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
                 ].join(" ")}
               >

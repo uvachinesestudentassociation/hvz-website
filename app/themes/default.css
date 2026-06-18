@@ -1,0 +1,150 @@
+/** Default HvZ theme — purple campus palette. */
+[data-site-theme="default"] {
+  --office-wall: #f3e8ff;
+  --office-ceiling: #faf5ff;
+  --office-floor: #e9d5ff;
+  --office-shadow: rgba(88, 28, 135, 0.1);
+  --office-laminate: #f3e8ff;
+  --office-laminate-light: #faf5ff;
+  --office-paper: #faf5ff;
+  --office-manila: #ede9fe;
+  --office-border: #a78bfa;
+  --office-text: #3b0764;
+  --office-text-muted: #6b21a8;
+  --office-fluorescent: rgba(167, 139, 250, 0.1);
+  --office-window: rgba(233, 213, 255, 0.12);
+
+  --cctv-phosphor: #7c3aed;
+  --cctv-phosphor-bright: #8b5cf6;
+  --cctv-feed-dark: #e9d5ff;
+  --cctv-feed-mid: #f3e8ff;
+  --cctv-tint: rgba(88, 28, 135, 0.04);
+  --cctv-tint-strong: rgba(88, 28, 135, 0.06);
+  --cctv-vignette: rgba(88, 28, 135, 0.12);
+  --cctv-scanline: rgba(88, 28, 135, 0.025);
+  --cctv-scanline-accent: rgba(88, 28, 135, 0.02);
+  --cctv-noise-opacity: 0.2;
+  --cctv-glow: rgba(88, 28, 135, 0.03);
+
+  --background: oklch(0.97 0.02 300);
+  --foreground: oklch(0.28 0.08 300);
+  --card: oklch(0.98 0.015 300);
+  --card-foreground: oklch(0.28 0.08 300);
+  --popover: oklch(0.98 0.015 300);
+  --popover-foreground: oklch(0.28 0.08 300);
+  --primary: oklch(0.52 0.22 300);
+  --primary-foreground: oklch(0.98 0.01 300);
+  --secondary: oklch(0.94 0.03 300);
+  --secondary-foreground: oklch(0.32 0.08 300);
+  --muted: oklch(0.94 0.03 300);
+  --muted-foreground: oklch(0.48 0.08 300);
+  --accent: oklch(0.92 0.04 300);
+  --accent-foreground: oklch(0.32 0.08 300);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.78 0.08 300);
+  --input: oklch(0.92 0.03 300);
+  --ring: oklch(0.58 0.18 300);
+  --chart-1: oklch(0.52 0.22 300);
+  --chart-2: oklch(0.6 0.15 25);
+  --chart-3: oklch(0.5 0.08 300);
+  --chart-4: oklch(0.7 0.15 85);
+  --chart-5: oklch(0.65 0.18 145);
+  --sidebar: oklch(0.97 0.02 300);
+  --sidebar-foreground: oklch(0.28 0.08 300);
+  --sidebar-primary: oklch(0.52 0.22 300);
+  --sidebar-primary-foreground: oklch(0.98 0.01 300);
+  --sidebar-accent: oklch(0.94 0.03 300);
+  --sidebar-accent-foreground: oklch(0.32 0.08 300);
+  --sidebar-border: oklch(0.78 0.08 300);
+  --sidebar-ring: oklch(0.58 0.18 300);
+}
+
+[data-site-theme="default"].dark {
+  --desk-wood: #1e1b2e;
+  --desk-wood-light: #2d2640;
+  --desk-wood-dark: #161320;
+  --desk-lamp: rgba(167, 139, 250, 0.1);
+  --desk-monitor-glow: rgba(139, 92, 246, 0.08);
+  --desk-paper: #2d2640;
+  --desk-border: #5b21b6;
+
+  --static-base: #1e1b2e;
+  --static-surface: #2d2640;
+  --static-line: rgba(167, 139, 250, 0.06);
+  --static-scanline: rgba(167, 139, 250, 0.04);
+  --static-vignette: rgba(0, 0, 0, 0.45);
+  --static-noise-opacity: 0.4;
+
+  --cctv-phosphor: #c4b5fd;
+  --cctv-phosphor-bright: #ddd6fe;
+  --cctv-feed-dark: #1e1b2e;
+  --cctv-feed-mid: #2d2640;
+  --cctv-tint: rgba(167, 139, 250, 0.04);
+  --cctv-tint-strong: rgba(167, 139, 250, 0.06);
+  --cctv-vignette: rgba(0, 0, 0, 0.35);
+  --cctv-scanline: rgba(167, 139, 250, 0.04);
+  --cctv-scanline-accent: rgba(167, 139, 250, 0.03);
+  --cctv-noise-opacity: 0.4;
+  --cctv-glow: rgba(167, 139, 250, 0.05);
+
+  --background: oklch(0.18 0.04 300);
+  --foreground: oklch(0.94 0.02 300);
+  --card: oklch(0.22 0.05 300);
+  --card-foreground: oklch(0.94 0.02 300);
+  --popover: oklch(0.22 0.05 300);
+  --popover-foreground: oklch(0.94 0.02 300);
+  --primary: oklch(0.72 0.16 300);
+  --primary-foreground: oklch(0.18 0.04 300);
+  --secondary: oklch(0.26 0.05 300);
+  --secondary-foreground: oklch(0.9 0.02 300);
+  --muted: oklch(0.26 0.05 300);
+  --muted-foreground: oklch(0.68 0.08 300);
+  --accent: oklch(0.28 0.06 300);
+  --accent-foreground: oklch(0.94 0.02 300);
+  --destructive: oklch(0.55 0.18 30);
+  --destructive-foreground: oklch(0.95 0.02 300);
+  --border: oklch(0.38 0.08 300);
+  --input: oklch(0.26 0.05 300);
+  --ring: oklch(0.72 0.16 300);
+  --chart-1: oklch(0.72 0.16 300);
+  --chart-2: oklch(0.75 0.12 75);
+  --chart-3: oklch(0.55 0.06 300);
+  --chart-4: oklch(0.68 0.14 30);
+  --chart-5: oklch(0.62 0.1 300);
+  --sidebar: oklch(0.2 0.04 300);
+  --sidebar-foreground: oklch(0.94 0.02 300);
+  --sidebar-primary: oklch(0.72 0.16 300);
+  --sidebar-primary-foreground: oklch(0.18 0.04 300);
+  --sidebar-accent: oklch(0.26 0.05 300);
+  --sidebar-accent-foreground: oklch(0.94 0.02 300);
+  --sidebar-border: oklch(0.38 0.08 300);
+  --sidebar-ring: oklch(0.72 0.16 300);
+}
+
+/* Plain hero title — no hanging sign */
+[data-site-theme="default"] .hero-logo {
+  color: #581c87;
+  text-shadow: 0 2px 12px rgba(88, 28, 135, 0.25);
+}
+
+[data-site-theme="default"].dark .hero-logo {
+  color: #c4b5fd;
+  text-shadow: 0 2px 16px rgba(139, 92, 246, 0.35);
+}
+
+[data-site-theme="default"] .hero-logo::before {
+  display: none;
+}
+
+[data-site-theme="default"] .hero-logo__text {
+  color: inherit;
+  -webkit-text-stroke: 0;
+  filter: none;
+}
+
+[data-site-theme="default"].dark .sr-only:focus {
+  border-color: #5b21b6;
+  background: #2d2640;
+  color: #ede9fe;
+}

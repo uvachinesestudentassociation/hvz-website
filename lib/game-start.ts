@@ -13,6 +13,9 @@ export const GAME_START = {
   utcOffsetHours: -4,
 } as const
 
+/** Whole-game span — night segments split evenly across this duration. */
+export const GAME_DURATION_DAYS = 7
+
 const MONTH_NAMES = [
   "January",
   "February",
@@ -49,4 +52,32 @@ export function getTimeUntilGameStart(now = Date.now()): number {
 
 export function isGameLive(now = Date.now()): boolean {
   return getTimeUntilGameStart(now) <= 0
+}
+
+export function getGameEndDate(): Date {
+  const start = getGameStartDate()
+  return new Date(start.getTime() + GAME_DURATION_DAYS * 24 * 60 * 60 * 1000)
+}
+
+/** FNAF-style night hours shown during the live game (12 → 3 → 6 AM). */
+export type NightShiftHour = 12 | 3 | 6
+
+const NIGHT_SHIFT_HOURS: NightShiftHour[] = [12, 3, 6]
+
+export function getNightShiftHour(now = Date.now()): NightShiftHour {
+  const start = getGameStartDate().getTime()
+  const end = getGameEndDate().getTime()
+  const duration = end - start
+  if (duration <= 0) return 12
+
+  const elapsed = Math.min(Math.max(0, now - start), duration)
+  const segment = Math.min(
+    NIGHT_SHIFT_HOURS.length - 1,
+    Math.floor((elapsed / duration) * NIGHT_SHIFT_HOURS.length),
+  )
+  return NIGHT_SHIFT_HOURS[segment]!
+}
+
+export function getGuardBadgeNumber(gameYear: number): string {
+  return (gameYear % 1000).toString().padStart(3, "0")
 }

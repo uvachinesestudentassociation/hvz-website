@@ -1,138 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import url("https://fonts.cdnfonts.com/css/compacta");
+@import "./themes/index.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Daytime security office */
-  --office-wall: #e8e4dc;
-  --office-ceiling: #f5f2eb;
-  --office-floor: #d4cfc4;
-  --office-shadow: rgba(60, 50, 40, 0.12);
-  --office-laminate: #e8e4dc;
-  --office-laminate-light: #f0ebe3;
-  --office-paper: #f5f0e6;
-  --office-manila: #e8dcc8;
-  --office-border: #8a7a68;
-  --office-text: #3c3228;
-  --office-text-muted: #6b5d4f;
-  --office-fluorescent: rgba(200, 220, 255, 0.12);
-  --office-window: rgba(255, 248, 220, 0.08);
-
-  /* Hero-only daytime monitor cues (subtle, warm) */
-  --cctv-phosphor: #8b7355;
-  --cctv-phosphor-bright: #a89070;
-  --cctv-feed-dark: #d4cfc4;
-  --cctv-feed-mid: #f0ebe3;
-  --cctv-tint: rgba(120, 100, 80, 0.04);
-  --cctv-tint-strong: rgba(120, 100, 80, 0.06);
-  --cctv-vignette: rgba(60, 50, 40, 0.18);
-  --cctv-scanline: rgba(0, 0, 0, 0.025);
-  --cctv-scanline-accent: rgba(120, 100, 80, 0.02);
-  --cctv-noise-opacity: 0.35;
-  --cctv-glow: rgba(120, 100, 80, 0.03);
-
-  /* Daytime security office — page shell below hero */
-  --background: oklch(0.91 0.012 75);
-  --foreground: oklch(0.28 0.025 55);
-  --card: oklch(0.94 0.015 80);
-  --card-foreground: oklch(0.28 0.025 55);
-  --popover: oklch(0.94 0.015 80);
-  --popover-foreground: oklch(0.28 0.025 55);
-  --primary: oklch(0.48 0.04 55);
-  --primary-foreground: oklch(0.98 0.01 80);
-  --secondary: oklch(0.88 0.018 75);
-  --secondary-foreground: oklch(0.32 0.025 55);
-  --muted: oklch(0.88 0.018 75);
-  --muted-foreground: oklch(0.48 0.03 55);
-  --accent: oklch(0.9 0.02 80);
-  --accent-foreground: oklch(0.32 0.025 55);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.62 0.035 55);
-  --input: oklch(0.85 0.02 75);
-  --ring: oklch(0.58 0.04 55);
-  --chart-1: oklch(0.48 0.04 55);
-  --chart-2: oklch(0.6 0.15 25);
-  --chart-3: oklch(0.5 0.03 55);
-  --chart-4: oklch(0.7 0.15 85);
-  --chart-5: oklch(0.65 0.18 145);
+  /* Shared layout token — palette tokens live in app/themes/*.css */
   --radius: 0.625rem;
-  --sidebar: oklch(0.91 0.012 75);
-  --sidebar-foreground: oklch(0.28 0.025 55);
-  --sidebar-primary: oklch(0.48 0.04 55);
-  --sidebar-primary-foreground: oklch(0.98 0.01 80);
-  --sidebar-accent: oklch(0.88 0.018 75);
-  --sidebar-accent-foreground: oklch(0.32 0.025 55);
-  --sidebar-border: oklch(0.62 0.035 55);
-  --sidebar-ring: oklch(0.58 0.04 55);
-}
-
-.dark {
-  /* Nighttime security desk — below hero */
-  --desk-wood: #1a1410;
-  --desk-wood-light: #221c16;
-  --desk-wood-dark: #14100c;
-  --desk-lamp: rgba(251, 191, 36, 0.09);
-  --desk-monitor-glow: rgba(74, 222, 128, 0.05);
-  --desk-paper: #2f2922;
-  --desk-border: #5c4d3a;
-
-  /* FNAF static CRT — hero only (via hero-background.tsx) */
-  --static-base: #000000;
-  --static-surface: #0a0a0a;
-  --static-line: rgba(255, 255, 255, 0.06);
-  --static-scanline: rgba(255, 255, 255, 0.04);
-  --static-vignette: rgba(0, 0, 0, 0.5);
-  --static-noise-opacity: 0.9;
-
-  /* Legacy aliases for hero-scoped layers */
-  --cctv-phosphor: #f5f5f5;
-  --cctv-phosphor-bright: #ffffff;
-  --cctv-feed-dark: #000000;
-  --cctv-feed-mid: #0a0a0a;
-  --cctv-tint: transparent;
-  --cctv-tint-strong: transparent;
-  --cctv-vignette: var(--static-vignette);
-  --cctv-scanline: var(--static-line);
-  --cctv-scanline-accent: rgba(255, 255, 255, 0.03);
-  --cctv-noise-opacity: var(--static-noise-opacity);
-  --cctv-glow: var(--static-scanline);
-
-  /* Nighttime security desk — page shell below hero */
-  --background: oklch(0.14 0.02 55);
-  --foreground: oklch(0.91 0.02 75);
-  --card: oklch(0.19 0.025 50);
-  --card-foreground: oklch(0.91 0.02 75);
-  --popover: oklch(0.19 0.025 50);
-  --popover-foreground: oklch(0.91 0.02 75);
-  --primary: oklch(0.72 0.16 145);
-  --primary-foreground: oklch(0.14 0.02 55);
-  --secondary: oklch(0.22 0.025 50);
-  --secondary-foreground: oklch(0.88 0.02 75);
-  --muted: oklch(0.22 0.025 50);
-  --muted-foreground: oklch(0.68 0.04 65);
-  --accent: oklch(0.24 0.03 55);
-  --accent-foreground: oklch(0.91 0.02 75);
-  --destructive: oklch(0.55 0.18 30);
-  --destructive-foreground: oklch(0.95 0.02 75);
-  --border: oklch(0.38 0.04 55);
-  --input: oklch(0.22 0.025 50);
-  --ring: oklch(0.72 0.16 145);
-  --chart-1: oklch(0.72 0.16 145);
-  --chart-2: oklch(0.75 0.12 75);
-  --chart-3: oklch(0.55 0.04 55);
-  --chart-4: oklch(0.68 0.14 30);
-  --chart-5: oklch(0.62 0.1 145);
-  --sidebar: oklch(0.16 0.02 55);
-  --sidebar-foreground: oklch(0.91 0.02 75);
-  --sidebar-primary: oklch(0.72 0.16 145);
-  --sidebar-primary-foreground: oklch(0.14 0.02 55);
-  --sidebar-accent: oklch(0.22 0.025 50);
-  --sidebar-accent-foreground: oklch(0.91 0.02 75);
-  --sidebar-border: oklch(0.38 0.04 55);
-  --sidebar-ring: oklch(0.72 0.16 145);
 }
 
 @theme inline {
@@ -250,13 +125,6 @@
     font-weight: 700;
   }
 
-  .dark .sr-only:focus {
-    border-color: #5c4d3a;
-    background: #2f2922;
-    color: #e8dfd0;
-  }
-
-  /* CRT scanlines/noise live on hero-background only — not the desk shell */
   @keyframes hero-scanline-fine {
     0% {
       background-position: 0 0;
@@ -312,7 +180,7 @@
   }
 }
 
-/* Hanging sign rigging + panel behind hero title */
+/* Hero sign + logo — structural layout; theme colors in app/themes/*.css */
 .hero-sign-mount {
   display: flex;
   justify-content: center;
@@ -323,7 +191,6 @@
   display: block;
   width: min(14rem, 70vw);
   height: 5px;
-  background: linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%);
   border: 1px solid #000;
   border-radius: 1px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
@@ -340,20 +207,8 @@
 }
 
 .hero-sign__wire-line {
-  stroke: #9a9a9a;
   stroke-width: 5;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.12));
-}
-
-:root .hero-sign__wire-line {
-  stroke: #6a6258;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
-}
-
-.dark .hero-sign__wire-line {
-  stroke: #b0b0b0;
-  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 1)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.15));
 }
 
 .hero-sign {
@@ -389,30 +244,10 @@
 
 .hero-sign__panel {
   position: relative;
-  background: #101010;
   border: 4px solid #000;
   padding: 0.45rem 1rem 0.55rem;
-  box-shadow:
-    inset 0 -10px 28px rgba(255, 40, 0, 0.14),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 5px 0 #080808,
-    0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-:root .hero-sign__bar {
-  background: linear-gradient(180deg, #6a6560 0%, #3a3530 100%);
-}
-
-:root .hero-sign__panel {
-  background: #2a2620;
-  box-shadow:
-    inset 0 -8px 20px rgba(180, 60, 0, 0.1),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
-    0 5px 0 #1a1814,
-    0 8px 18px rgba(0, 0, 0, 0.35);
-}
-
-/* FNAF-style hero title — dirty yellow fill, black border, red underglow */
 .hero-logo {
   position: relative;
   display: block;
@@ -435,15 +270,11 @@
   }
 }
 
-/* Red underglow — lit from below like a roadside sign */
 .hero-logo::before {
   content: attr(data-text);
   position: absolute;
   inset: 0;
-  color: #ff3a00;
   transform: translateY(8px);
-  filter: blur(18px);
-  opacity: 0.9;
   z-index: 0;
   pointer-events: none;
 }
@@ -452,22 +283,251 @@
   position: relative;
   z-index: 2;
   display: block;
-  color: #edbb4f;
-  -webkit-text-stroke: 6.5px #000000;
   paint-order: stroke fill;
-  filter: drop-shadow(0 5px 6px rgba(255, 50, 0, 0.95))
-    drop-shadow(0 10px 16px rgba(255, 35, 0, 0.75))
-    drop-shadow(0 18px 32px rgba(200, 25, 0, 0.55))
-    drop-shadow(0 28px 48px rgba(160, 15, 0, 0.35));
 }
 
-:root .hero-logo::before {
-  opacity: 0.75;
-  filter: blur(14px);
+/* Alert banner headlines — missing poster + heads-up */
+.heads-up__headline,
+.missing-poster__headline {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #fff8e0;
 }
 
-:root .hero-logo__text {
-  filter: drop-shadow(0 4px 5px rgba(220, 45, 0, 0.8))
-    drop-shadow(0 8px 14px rgba(200, 35, 0, 0.55))
-    drop-shadow(0 14px 24px rgba(160, 25, 0, 0.35));
+@media (min-width: 768px) {
+  .missing-poster__headline {
+    font-size: 1.5rem;
+  }
+}
+
+.heads-up__headline {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+@media (min-width: 768px) {
+  .heads-up__headline {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Below-hero desk shell — opt-in coffee rings + manila folder cues */
+.desk-prop-ring {
+  position: relative;
+  background-repeat: no-repeat;
+}
+
+.desk-prop-ring::after {
+  content: "";
+  position: absolute;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  border: 2px solid rgba(92, 64, 35, 0.28);
+  box-shadow:
+    inset 0 0 18px rgba(92, 64, 35, 0.12),
+    0 0 0 5px rgba(92, 64, 35, 0.06);
+  opacity: 0.85;
+}
+
+.desk-prop-ring--br {
+  background-image: radial-gradient(
+    circle at 92% 88%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--br::after {
+  right: 1.1rem;
+  bottom: 0.85rem;
+}
+
+.desk-prop-ring--bl {
+  background-image: radial-gradient(
+    circle at 8% 88%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--bl::after {
+  left: 1.1rem;
+  bottom: 0.85rem;
+}
+
+.desk-prop-ring--tr {
+  background-image: radial-gradient(
+    circle at 90% 14%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--tr::after {
+  right: 1rem;
+  top: 0.75rem;
+}
+
+.desk-prop-ring--tl {
+  background-image: radial-gradient(
+    circle at 10% 16%,
+    transparent 1.35rem,
+    rgba(92, 64, 35, 0.22) 1.4rem,
+    rgba(92, 64, 35, 0.38) 1.85rem,
+    rgba(120, 85, 45, 0.16) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.desk-prop-ring--tl::after {
+  left: 0.85rem;
+  top: 0.7rem;
+}
+
+.dark .desk-prop-ring--br {
+  background-image: radial-gradient(
+    circle at 92% 88%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--bl {
+  background-image: radial-gradient(
+    circle at 8% 88%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--tr {
+  background-image: radial-gradient(
+    circle at 90% 14%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring--tl {
+  background-image: radial-gradient(
+    circle at 10% 16%,
+    transparent 1.35rem,
+    rgba(180, 130, 70, 0.18) 1.4rem,
+    rgba(180, 130, 70, 0.32) 1.85rem,
+    rgba(160, 110, 60, 0.14) 2.15rem,
+    transparent 2.2rem
+  );
+}
+
+.dark .desk-prop-ring::after {
+  border-color: rgba(200, 155, 90, 0.35);
+  box-shadow:
+    inset 0 0 20px rgba(180, 130, 70, 0.15),
+    0 0 0 5px rgba(180, 130, 70, 0.08);
+  opacity: 0.9;
+}
+
+.desk-prop-manila {
+  position: relative;
+}
+
+/* Manila folder tab strip along the top edge */
+.desk-prop-manila::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.45rem;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(160, 125, 75, 0.55) 0%,
+    rgba(200, 170, 120, 0.35) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 2px 6px rgba(80, 60, 35, 0.12);
+}
+
+/* Folded corner + staple cluster (top-left) */
+.desk-prop-manila::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(190, 155, 100, 0.75) 0%,
+      rgba(170, 135, 85, 0.55) 42%,
+      transparent 44%
+    ),
+    radial-gradient(circle at 0.55rem 0.7rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px),
+    radial-gradient(circle at 1.35rem 0.55rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px);
+  box-shadow:
+    2px 2px 4px rgba(60, 45, 30, 0.2),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.dark .desk-prop-manila::before {
+  background: linear-gradient(
+    180deg,
+    rgba(120, 95, 60, 0.5) 0%,
+    rgba(90, 70, 45, 0.3) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.dark .desk-prop-manila::after {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(110, 85, 55, 0.7) 0%,
+      rgba(80, 60, 40, 0.45) 42%,
+      transparent 44%
+    ),
+    radial-gradient(circle at 0.55rem 0.7rem, #c4a060 0, #c4a060 2px, transparent 2.5px),
+    radial-gradient(circle at 1.35rem 0.55rem, #c4a060 0, #c4a060 2px, transparent 2.5px);
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.35),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Keep desk decorations behind interactive content */
+.desk-prop-ring > *,
+.desk-prop-manila > * {
+  position: relative;
+  z-index: 2;
 }

@@ -1,4 +1,5 @@
 import { HEADS_UP_ITEMS } from "@/content/heads-up"
+import { ACTIVE_THEME } from "@/content/themes"
 import {
   BASIC_RULES_INTRO,
   BASIC_RULES_SUBSECTIONS,
@@ -31,11 +32,13 @@ function buildSnippet(text: string, query: string): string {
 export function buildSearchIndex(): SearchResult[] {
   const results: SearchResult[] = []
 
+  const { headsUp } = ACTIVE_THEME.copy
+
   HEADS_UP_ITEMS.forEach((item, i) => {
     results.push({
       id: `heads-up-${i}`,
-      section: "Heads up",
-      title: "Latest rule tweaks",
+      section: headsUp.searchSection,
+      title: headsUp.searchTitle,
       snippet: item,
       href: "#heads-up",
     })

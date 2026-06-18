@@ -69,8 +69,8 @@ Most game-week edits are a few config files — no need to touch layout code.
 | Field           | Purpose                                           |
 | --------------- | ------------------------------------------------- |
 | `gameYear`      | Season year (footer, countdown, “Game ON” banner) |
-| `tagline`       | Hero subtitle (from `content/theme.ts`)           |
-| `signupFormUrl` | “Start Night Shift” button link (via `content/links.ts`) |
+| `tagline`       | Hero subtitle (from the active event theme)       |
+| `signupFormUrl` | Join-game button link (via `content/links.ts`; button label comes from the active theme) |
 | `contactEmail`  | Shown in rules                                    |
 | `commChairs`    | Named in safe zone section                        |
 | `url`           | Used for Open Graph / social previews             |
@@ -95,9 +95,43 @@ The year is taken from `gameYear` in `lib/site-config.ts`. After the start time 
 
 Google Forms, Sheets, Docs, and the Quest Board Slides URL. High-priority items (Kill Report, Quest Report) appear first on the home page and in the mobile nav.
 
-### Event theme (colors + copy) — `content/theme.ts`
+### Event theme — `content/themes/`
 
-FNAF night-shift styling and UI labels. Edit `THEME_COPY` for tagline, button text, and section headings. Edit `THEME_COLOR` for PWA/browser chrome. Revert to default HvZ values after the event.
+The site supports swappable event themes (colors, copy, hero effects, and UI styling). Components read from the active theme via `content/theme.ts`, which re-exports the current theme’s values.
+
+**To switch themes**, change one line in `content/themes/index.ts`:
+
+```ts
+export const ACTIVE_THEME_ID: ThemeId = "fnaf"; // or "default"
+```
+
+| Theme ID    | Description                                      |
+| ----------- | ------------------------------------------------ |
+| `fnaf`      | FNAF night-shift — CRT static, hanging sign logo |
+| `default`   | Baseline purple HvZ — plain hero, no event effects |
+
+Each theme file under `content/themes/` defines:
+
+| Export area | What it controls                                              |
+| ----------- | ------------------------------------------------------------- |
+| `copy`      | Tagline, join button text, section headings, countdown labels |
+| `tailwind`  | Accent, alarm, monitor, and button class groups             |
+| `pixel`     | Border, surface, and section background classes               |
+| `hero`      | Background layers, TV static, zombie silhouette, logo style   |
+| `office` / `desk` | Light/dark shell palette tokens                         |
+| `themeColor` | PWA / browser chrome color                                 |
+
+Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, scoped with `[data-site-theme="<id>"]`. The root layout sets `data-site-theme` on `<html>` from `ACTIVE_THEME_ID`.
+
+**After an event**, set `ACTIVE_THEME_ID` to `"default"` (or swap in a new theme for the next game week).
+
+**To add a new theme:**
+
+1. Create `content/themes/my-theme.ts` implementing `SiteTheme` (see `types.ts`).
+2. Register it in `content/themes/index.ts`.
+3. Add `app/themes/my-theme.css` with `[data-site-theme="my-theme"]` selectors.
+4. Import the CSS file in `app/themes/index.css`.
+5. Set `ACTIVE_THEME_ID = "my-theme"`.
 
 ### Rule text — `content/`
 
@@ -119,6 +153,7 @@ app/
   safe-zones/page.tsx   Safe zones
   resources/page.tsx    All external links
   layout.tsx            Root layout, metadata, analytics
+  themes/               Per-theme CSS variables and hero styling
 components/
   game-countdown.tsx    Hero countdown (client)
   site-nav.tsx          Desktop + mobile navigation
@@ -127,7 +162,14 @@ components/
   safe-zones-content.tsx
   resource-link-card.tsx
   heads-up-banner.tsx
-content/                Editable rule copy + links + theme
+content/
+  themes/               Event theme definitions (fnaf, default, …)
+  theme.ts              Re-exports active theme for components
+  heads-up.ts           Latest rule tweaks (banner + rules page)
+  things-to-note.ts     Warnings and honor code block
+  rules.ts              Basic and specific rules
+  safe-zones.ts         Safe zone sections
+  links.ts              External form/sheet URLs
 lib/
   site-config.ts        Site constants
   game-start.ts         Countdown date/time

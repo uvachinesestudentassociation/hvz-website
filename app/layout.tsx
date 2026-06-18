@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { SiteShell } from "@/components/site-shell"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ACTIVE_THEME_ID } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 import "./globals.css"
 
@@ -46,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-site-theme={ACTIVE_THEME_ID} suppressHydrationWarning>
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <a href="#main-content" className="sr-only">

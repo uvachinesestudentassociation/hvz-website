@@ -6,5 +6,3 @@ export const HEADS_UP_ITEMS = [
   "You can still stun someone in a safe zone.",
   "Shotgun challenge clips only count if you also film the cleanup when the spot is indoors.",
 ] as const
-
-export const HEADS_UP_FOOTER = "DM Comm if anything feels fuzzy."

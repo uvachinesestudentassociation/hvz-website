@@ -6,7 +6,8 @@ import { ArrowUp } from "lucide-react"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
+import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
+import { HERO } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
@@ -26,7 +27,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         <div id="site-header-sticky" className="sticky top-0 z-40 md:bg-[#f0ebe3] md:dark:bg-[#1e1814]">
           <DesktopSiteNav />
           <HeadsUpBanner />
-          {showHeroSignMount && (
+          {showHeroSignMount && HERO.showSignMount && (
             <div id="hero-sign-mount" className="hero-sign-mount" aria-hidden="true">
               <span className="hero-sign__bar" />
             </div>
@@ -39,7 +40,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <footer className={`border-t-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
         <div className="container mx-auto px-4 py-10">
           <div className={`text-center font-mono text-xs md:text-sm ${PIXEL_TEXT_MUTED}`}>
-            <p className={`mx-auto inline-block ${PIXEL_FRAME} px-3 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
+            <p className={`mx-auto inline-block ${PIXEL_FRAME} ${DESK_RING.bl} px-3 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
               {`>> HUMANS VS. ZOMBIES ${SITE_CONFIG.gameYear} <<`}
             </p>
           </div>

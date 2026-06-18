@@ -1,37 +1,47 @@
-export const PIXEL_BORDER = "border-[#8a7a68] dark:border-[#5c4d3a]"
+import { PIXEL as themePixel } from "@/content/theme";
 
-export const PIXEL_FRAME =
-  "rounded-none border-4 border-[#8a7a68] bg-[#f5f0e6]/90 dark:border-[#5c4d3a] dark:bg-[#2a2420] overflow-hidden [background-clip:padding-box]"
+/** Coffee ring — opt-in per panel; pair with a DESK_RING position class */
+export const DESK_RING_BASE = "desk-prop-ring";
 
-/** Shell + page background — daytime office / nighttime security desk */
-export const PIXEL_GRID_BG =
-  "bg-[#e8e4dc] bg-[linear-gradient(180deg,rgba(200,220,255,0.12)_0%,transparent_35%),linear-gradient(90deg,rgba(120,100,80,0.06)_1px,transparent_1px),linear-gradient(rgba(120,100,80,0.06)_1px,transparent_1px)] dark:bg-[#1a1410] dark:bg-[linear-gradient(180deg,rgba(251,191,36,0.08)_0%,transparent_32%),linear-gradient(90deg,rgba(0,0,0,0.14)_1px,transparent_1px),linear-gradient(rgba(0,0,0,0.09)_2px,transparent_2px)] bg-[size:100%_100%,24px_24px,24px_24px] dark:bg-[size:100%_100%,40px_40px,40px_40px]"
+/** Coffee ring positions — use at most one per surface, not on every panel */
+export const DESK_RING = {
+  br: `${DESK_RING_BASE} desk-prop-ring--br`,
+  bl: `${DESK_RING_BASE} desk-prop-ring--bl`,
+  tr: `${DESK_RING_BASE} desk-prop-ring--tr`,
+  tl: `${DESK_RING_BASE} desk-prop-ring--tl`,
+} as const;
 
-/** Hero CRT readout panels — stays monochrome on static feed */
-export const PIXEL_HERO_SURFACE =
-  "bg-neutral-200/80 dark:bg-neutral-900/80"
+/** Stapled manila folder cues — section backgrounds only */
+export const DESK_PROP_MANILA = "desk-prop-manila";
 
-/** Desk paperwork / folder surfaces below hero */
-export const PIXEL_SURFACE = "bg-[#f5f0e6]/90 dark:bg-[#2f2922]"
+export const PIXEL_BORDER = themePixel.border;
 
-export const PIXEL_TEXT = "text-[#3c3228] dark:text-[#e8dfd0]"
+export const PIXEL_FRAME = themePixel.frame;
 
-export const PIXEL_TEXT_MUTED = "text-[#6b5d4f] dark:text-[#a89580]"
+export const PIXEL_GRID_BG = themePixel.gridBg;
 
-export const PIXEL_TEXT_SUBTLE = "text-[#8a7868] dark:text-[#8a7868]"
+export const PIXEL_HERO_SURFACE = themePixel.heroSurface;
 
-export const PIXEL_NAV_BG = "bg-[#f0ebe3] dark:bg-[#1e1814]"
+export const PIXEL_SURFACE = themePixel.surface;
 
-export const PIXEL_SECTION_BORDER = "border-[#8a7a68] dark:border-[#5c4d3a]"
+export const PIXEL_TEXT = themePixel.text;
 
-export const PIXEL_SECTION_PRIMARY = "bg-[#e8dcc8]/50 dark:bg-[#221c16]"
+export const PIXEL_TEXT_MUTED = themePixel.textMuted;
 
-export const PIXEL_SECTION_SECONDARY = "bg-[#e8e4dc]/70 dark:bg-[#1c1612]"
+export const PIXEL_TEXT_SUBTLE = themePixel.textSubtle;
+
+export const PIXEL_NAV_BG = themePixel.navBg;
+
+export const PIXEL_SECTION_BORDER = themePixel.sectionBorder;
+
+export const PIXEL_SECTION_PRIMARY = `${themePixel.sectionPrimary} ${DESK_PROP_MANILA}`;
+
+export const PIXEL_SECTION_SECONDARY = themePixel.sectionSecondary;
 
 /** @deprecated Use PIXEL_SECTION_PRIMARY */
-export const PIXEL_SECTION_EMERALD = PIXEL_SECTION_PRIMARY
+export const PIXEL_SECTION_EMERALD = PIXEL_SECTION_PRIMARY;
 
 /** @deprecated Use PIXEL_SECTION_SECONDARY */
-export const PIXEL_SECTION_AMBER = PIXEL_SECTION_SECONDARY
+export const PIXEL_SECTION_AMBER = PIXEL_SECTION_SECONDARY;
 
-export const RULE_BODY_CLASS = "font-mono text-base md:text-sm leading-relaxed break-words"
+export const RULE_BODY_CLASS = "font-mono text-base md:text-sm leading-relaxed break-words";
