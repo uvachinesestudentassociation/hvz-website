@@ -31,7 +31,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const { showGate, grantBypass } = useThemeGate()
+  const { showGate, grantBypass, resolving } = useThemeGate()
   const showHeroSignMount = pathname === "/" || isAltExperimentPath(pathname)
 
   useEffect(() => {
@@ -39,6 +39,10 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
+
+  if (resolving) {
+    return <div className="fixed inset-0 z-[100] bg-zinc-950" aria-hidden="true" />
+  }
 
   if (showGate) {
     return <ThemeGate onUnlock={grantBypass} />
