@@ -2,11 +2,8 @@
 
 import { useGameLive } from "@/hooks/use-game-live"
 import { useGameLiveOverride } from "@/hooks/game-live-override"
-import { useNightShift } from "@/hooks/use-night-shift"
-import type { NightShiftHour } from "@/lib/game-start"
+import { getGameStartDate } from "@/lib/game-start"
 import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
-
-const NIGHT_HOURS: NightShiftHour[] = [12, 3, 6]
 
 function ModeButton({
   active,
@@ -34,14 +31,33 @@ function ModeButton({
   )
 }
 
+function formatStartCountdown(simulatedNow: number | null, live: boolean): string {
+  if (live) return "flipped"
+  if (simulatedNow == null) return "…"
+  const ms = getGameStartDate().getTime() - simulatedNow
+  const sec = Math.max(0, Math.ceil(ms / 1000))
+  return sec === 0 ? "00:00 → live" : `${sec}s → live`
+}
+
 export function GameLiveDevPanel() {
   const ctx = useGameLiveOverride()
   const live = useGameLive()
-  const nightHour = useNightShift()
 
   if (!ctx?.enabled) return null
 
-  const { liveOverride, setLiveOverride, nightOverride, setNightOverride } = ctx
+  const {
+    liveOverride,
+    setLiveOverride,
+    replayStartPreview,
+    simulatedNow,
+  } = ctx
+
+  const inStartPreview = liveOverride === "start"
+  const showingLabel = inStartPreview
+    ? live
+      ? "Live @ T=0"
+      : `Pre · ${formatStartCountdown(simulatedNow, live)}`
+    : `Showing: ${live ? "Live" : "Pre-game"}`
 
   return (
     <div
@@ -55,8 +71,7 @@ export function GameLiveDevPanel() {
         Dev · Game state
       </p>
       <p className="mb-2 font-mono text-[11px] font-bold text-[#5c4a38] dark:text-amber-100">
-        Showing: {live ? "Live" : "Pre-game"}
-        {live && nightHour != null ? ` · ${nightHour} AM` : ""}
+        {showingLabel}
       </p>
       <div className="mb-2 flex flex-wrap gap-1">
         <ModeButton active={liveOverride === null} onClick={() => setLiveOverride(null)}>
@@ -64,38 +79,27 @@ export function GameLiveDevPanel() {
         </ModeButton>
         <ModeButton
           active={liveOverride === false}
-          onClick={() => {
-            setLiveOverride(false)
-            setNightOverride(null)
-          }}
+          onClick={() => setLiveOverride(false)}
         >
           Pre
         </ModeButton>
         <ModeButton active={liveOverride === true} onClick={() => setLiveOverride(true)}>
           Live
         </ModeButton>
+        <ModeButton
+          active={inStartPreview}
+          onClick={() => {
+            if (inStartPreview) replayStartPreview()
+            else setLiveOverride("start")
+          }}
+        >
+          T→0
+        </ModeButton>
       </div>
-      {live && (
-        <div className="flex flex-wrap items-center gap-1">
-          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#8a7a68] dark:text-amber-200/70">
-            Night
-          </span>
-          <ModeButton active={nightOverride === null} onClick={() => setNightOverride(null)}>
-            Auto
-          </ModeButton>
-          {NIGHT_HOURS.map((hour) => (
-            <ModeButton
-              key={hour}
-              active={nightOverride === hour}
-              onClick={() => setNightOverride(hour)}
-            >
-              {hour}
-            </ModeButton>
-          ))}
-        </div>
-      )}
       <p className="mt-2 font-mono text-[9px] leading-snug text-[#8a7a68] dark:text-amber-200/50">
-        Or use ?live=0|1&night=12|3|6
+        {inStartPreview
+          ? "T→0 counts 5s, flips live, then plays the resume ceremony. Click again to replay."
+          : "Or use ?live=0|1|start"}
       </p>
     </div>
   )

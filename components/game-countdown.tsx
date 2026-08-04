@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useGameLiveOverride } from "@/hooks/game-live-override"
 import { useGameLive } from "@/hooks/use-game-live"
 import { getGameStartLabel, getTimeUntilGameStart } from "@/lib/game-start"
 import { THEME_COPY } from "@/content/theme"
@@ -43,6 +44,7 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
 
 export function GameCountdown() {
   const live = useGameLive()
+  const override = useGameLiveOverride()
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null)
 
   useEffect(() => {
@@ -51,11 +53,18 @@ export function GameCountdown() {
       return
     }
 
-    const tick = () => setTimeLeft(parseTimeLeft(getTimeUntilGameStart()))
+    const tick = () => {
+      const now = override?.simulatedNow ?? Date.now()
+      setTimeLeft(parseTimeLeft(getTimeUntilGameStart(now)))
+    }
     tick()
+
+    // Start preview advances simulatedNow from the override provider — just re-sync.
+    if (override?.simulatedNow != null) return
+
     const id = window.setInterval(tick, 1000)
     return () => window.clearInterval(id)
-  }, [live])
+  }, [live, override?.simulatedNow])
 
   if (live) return null
 
@@ -63,7 +72,9 @@ export function GameCountdown() {
 
   return (
     <div className="mx-auto mb-8 max-w-3xl">
-      <p className={`mb-3 font-mono text-sm font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT} md:text-base`}>
+      <p
+        className={`mb-3 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_HERO_SURFACE} px-3 py-1.5 font-mono text-sm font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT} shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] md:text-base`}
+      >
         {THEME_COPY.sections.countdown}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">

@@ -1,11 +1,14 @@
 "use client"
 
 import type React from "react"
-import { useId, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
+import { animate, utils } from "animejs"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
 import { PIXEL_FRAME, RULE_BODY_CLASS, PIXEL_SECTION_BORDER, PIXEL_TEXT } from "@/components/hvz/pixel-styles"
 import { THEME } from "@/content/theme"
+
+const REDUCED_MQ = "(prefers-reduced-motion: reduce)"
 
 export type PixelDisclosureProps = {
   id?: string
@@ -27,6 +30,25 @@ export function PixelDisclosure({
   const [open, setOpen] = useState(defaultOpen)
   const autoId = useId()
   const panelId = id ? `${id}-panel` : autoId
+  const chevronRef = useRef<HTMLSpanElement>(null)
+  const prevOpen = useRef<boolean | null>(null)
+
+  useEffect(() => {
+    const chevron = chevronRef.current
+    if (!chevron) return
+
+    const reduced = window.matchMedia(REDUCED_MQ).matches
+    const duration = reduced || prevOpen.current === null ? 0 : 220
+    const rotate = open ? 180 : 0
+
+    if (duration === 0) {
+      utils.set(chevron, { rotate })
+    } else {
+      animate(chevron, { rotate, duration, ease: "outQuad" })
+    }
+
+    prevOpen.current = open
+  }, [open])
 
   const toneBg: Record<string, string> = {
     emerald: "bg-[#e8dcc8]/60 dark:bg-[#2a2420]/80",
@@ -53,13 +75,9 @@ export function PixelDisclosure({
         <span className="text-left">
           <CardTitle className={`font-mono text-xl md:text-2xl ${THEME.accent.link}`}>{title}</CardTitle>
         </span>
-        <ChevronDown
-          className={[
-            `h-5 w-5 shrink-0 ${PIXEL_TEXT} transition-transform`,
-            open ? "rotate-180" : "rotate-0",
-          ].join(" ")}
-          aria-hidden="true"
-        />
+        <span ref={chevronRef} className={`inline-flex shrink-0 ${PIXEL_TEXT}`}>
+          <ChevronDown className="h-5 w-5" aria-hidden="true" />
+        </span>
       </button>
 
       <div id={panelId} hidden={!open}>

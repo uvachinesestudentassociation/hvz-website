@@ -2,9 +2,13 @@
 
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { animate, utils } from "animejs"
 import { DESK, OFFICE, THEME } from "@/content/theme"
 import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
+
+const REDUCED_MQ = "(prefers-reduced-motion: reduce)"
+const TOGGLE_MS = 320
 
 function useThemeState() {
   const { resolvedTheme, setTheme } = useTheme()
@@ -23,8 +27,68 @@ function useThemeState() {
 
 export function ThemeToggle() {
   const { mounted, isDark, setTheme, setIsDark } = useThemeState()
+  const trackRef = useRef<HTMLButtonElement>(null)
+  const knobRef = useRef<HTMLSpanElement>(null)
+  const sunRef = useRef<HTMLSpanElement>(null)
+  const moonRef = useRef<HTMLSpanElement>(null)
+  const prevDark = useRef<boolean | null>(null)
 
   const label = isDark ? "Switch to light mode" : "Switch to dark mode"
+
+  useEffect(() => {
+    const track = trackRef.current
+    const knob = knobRef.current
+    const sun = sunRef.current
+    const moon = moonRef.current
+    if (!mounted || !track || !knob || !sun || !moon) return
+
+    const reduced = window.matchMedia(REDUCED_MQ).matches
+    const duration = reduced || prevDark.current === null ? 0 : TOGGLE_MS
+
+    const trackColors = {
+      borderColor: isDark ? DESK.border : OFFICE.border,
+      backgroundColor: isDark ? DESK.wood : OFFICE.laminate,
+    }
+    const knobColors = {
+      borderColor: isDark ? DESK.border : OFFICE.border,
+      backgroundColor: isDark ? DESK.paper : OFFICE.paper,
+    }
+
+    if (duration === 0) {
+      utils.set(track, trackColors)
+      utils.set(knob, { ...knobColors, x: isDark ? "100%" : "0%" })
+      utils.set(sun, {
+        opacity: isDark ? 0.35 : 1,
+        color: isDark ? DESK.textMuted : OFFICE.textMuted,
+      })
+      utils.set(moon, {
+        opacity: isDark ? 1 : 0.35,
+        color: isDark ? "#fbbf24" : OFFICE.text,
+      })
+    } else {
+      animate(track, { ...trackColors, duration, ease: "inOutQuad" })
+      animate(knob, {
+        ...knobColors,
+        x: isDark ? "100%" : "0%",
+        duration,
+        ease: "inOutQuad",
+      })
+      animate(sun, {
+        opacity: isDark ? 0.35 : 1,
+        color: isDark ? DESK.textMuted : OFFICE.textMuted,
+        duration,
+        ease: "inOutQuad",
+      })
+      animate(moon, {
+        opacity: isDark ? 1 : 0.35,
+        color: isDark ? "#fbbf24" : OFFICE.text,
+        duration,
+        ease: "inOutQuad",
+      })
+    }
+
+    prevDark.current = isDark
+  }, [isDark, mounted])
 
   const handleToggle = () => {
     const next = !isDark
@@ -36,6 +100,7 @@ export function ThemeToggle() {
     <div className="pointer-events-none absolute inset-x-0 top-full z-30 hidden pt-3 md:block">
       <div className="container mx-auto flex justify-end px-4">
         <button
+          ref={trackRef}
           type="button"
           role="switch"
           aria-checked={isDark}
@@ -51,52 +116,28 @@ export function ThemeToggle() {
             !mounted && "pointer-events-none opacity-0",
           ].join(" ")}
           style={{
-            borderColor: isDark ? DESK.border : OFFICE.border,
-            backgroundColor: isDark ? DESK.wood : OFFICE.laminate,
             boxShadow: isDark
               ? "3px 3px 0 rgba(0,0,0,0.55)"
               : "3px 3px 0 rgba(0,0,0,0.35)",
-            transition:
-              "background-color 320ms ease-in-out, border-color 320ms ease-in-out, box-shadow 320ms ease-in-out",
           }}
         >
           <span className="absolute inset-1" aria-hidden="true">
             <span className="relative z-10 grid h-full grid-cols-2">
-              <span className="flex items-center justify-center">
-                <Sun
-                  className="h-5 w-5"
-                  style={{
-                    color: isDark ? DESK.textMuted : OFFICE.textMuted,
-                    opacity: isDark ? 0.35 : 1,
-                    transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
-                  }}
-                  aria-hidden="true"
-                />
+              <span ref={sunRef} className="flex items-center justify-center">
+                <Sun className="h-5 w-5" aria-hidden="true" />
               </span>
-              <span className="flex items-center justify-center">
-                <Moon
-                  className="h-5 w-5"
-                  style={{
-                    color: isDark ? "#fbbf24" : OFFICE.text,
-                    opacity: isDark ? 1 : 0.35,
-                    transition: "opacity 320ms ease-in-out, color 320ms ease-in-out",
-                  }}
-                  aria-hidden="true"
-                />
+              <span ref={moonRef} className="flex items-center justify-center">
+                <Moon className="h-5 w-5" aria-hidden="true" />
               </span>
             </span>
 
             <span
+              ref={knobRef}
               className="absolute inset-y-0 left-0 w-1/2 rounded-none border-[3px]"
               style={{
-                borderColor: isDark ? DESK.border : OFFICE.border,
-                backgroundColor: isDark ? DESK.paper : OFFICE.paper,
                 boxShadow: isDark
                   ? "2px 2px 0 rgba(0,0,0,0.55)"
                   : "2px 2px 0 rgba(0,0,0,0.2)",
-                transform: isDark ? "translateX(100%)" : "translateX(0)",
-                transition:
-                  "transform 320ms ease-in-out, background-color 320ms ease-in-out, border-color 320ms ease-in-out, box-shadow 320ms ease-in-out",
               }}
             />
           </span>

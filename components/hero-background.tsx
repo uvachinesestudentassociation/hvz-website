@@ -1,11 +1,12 @@
-import { HeroTvStatic } from "@/components/hero-tv-static";
-import { HERO } from "@/content/theme";
+import { HeroScanlines } from "@/components/hero-scanlines"
+import { HeroTvStatic } from "@/components/hero-tv-static"
+import { HERO } from "@/content/theme"
 
-const STATIC_NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+const STATIC_NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`
 
 /** Hero background — driven by the active event theme. */
 export function HeroBackground() {
-  const { light, dark } = HERO.background;
+  const { light, dark } = HERO.background
 
   return (
     <>
@@ -73,18 +74,7 @@ export function HeroBackground() {
         />
       )}
 
-      <div
-        className="hero-scanline-animated absolute inset-0 hidden opacity-60 motion-reduce:animate-none [animation:hero-scanline-fine_0.2s_linear_infinite] dark:block"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 1px, ${dark.scanlineFine} 1px, ${dark.scanlineFine} 2px)`,
-        }}
-      />
-      <div
-        className="hero-scanline-animated absolute inset-0 hidden opacity-40 motion-reduce:animate-none [animation:scanline-drift_16s_linear_infinite] dark:block"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 47px, ${dark.scanlineCoarse} 47px, ${dark.scanlineCoarse} 48px)`,
-        }}
-      />
+      <HeroScanlines />
 
       {HERO.showTvStatic && <HeroTvStatic />}
 
@@ -95,5 +85,5 @@ export function HeroBackground() {
         }}
       />
     </>
-  );
+  )
 }

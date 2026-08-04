@@ -10,6 +10,11 @@
   --radius: 0.625rem;
 }
 
+html {
+  /* Keep layout stable when overlays lock scroll / scrollbar appears or vanishes. */
+  scrollbar-gutter: stable;
+}
+
 @theme inline {
   --font-sans: Consolas, "Courier New", monospace;
   --font-mono: Consolas, "Courier New", monospace;
@@ -123,55 +128,6 @@
     font-family: var(--font-mono);
     font-size: 0.875rem;
     font-weight: 700;
-  }
-
-  @keyframes hero-scanline-fine {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 0 2px;
-    }
-  }
-
-  @keyframes scanline-drift {
-    0% {
-      background-position:
-        0 0,
-        0 0;
-    }
-    100% {
-      background-position:
-        0 48px,
-        0 96px;
-    }
-  }
-
-  @keyframes cctv-static {
-    0%,
-    100% {
-      filter: brightness(1) contrast(1.05);
-    }
-    25% {
-      filter: brightness(1.04) contrast(1.08);
-    }
-    50% {
-      filter: brightness(0.97) contrast(1.1);
-    }
-    75% {
-      filter: brightness(1.02) contrast(1.06);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dark body::before,
-    .dark body::after {
-      animation: none;
-    }
-
-    .hero-scanline-animated {
-      animation: none !important;
-    }
   }
 
   body > * {
@@ -316,21 +272,10 @@
   }
 }
 
-/* Slight paper tilt — opt-in crooked panels (same energy as neo stickers) */
-.desk-prop-tilt {
-  transition: rotate 80ms linear;
-}
-
-.desk-prop-tilt--left {
-  rotate: -0.8deg;
-}
-
+/* Slight paper tilt — rest angles + hover motion via anime.js (DeskTiltEffects) */
+.desk-prop-tilt--left,
 .desk-prop-tilt--right {
-  rotate: 0.8deg;
-}
-
-.desk-prop-tilt:hover {
-  rotate: 0deg;
+  will-change: transform;
 }
 
 /* Below-hero desk shell — opt-in coffee rings + manila folder cues */
@@ -510,8 +455,18 @@
       rgba(170, 135, 85, 0.55) 42%,
       transparent 44%
     ),
-    radial-gradient(circle at 0.55rem 0.7rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px),
-    radial-gradient(circle at 1.35rem 0.55rem, #6a5a48 0, #6a5a48 2px, transparent 2.5px);
+    radial-gradient(
+      circle at 0.55rem 0.7rem,
+      #6a5a48 0,
+      #6a5a48 2px,
+      transparent 2.5px
+    ),
+    radial-gradient(
+      circle at 1.35rem 0.55rem,
+      #6a5a48 0,
+      #6a5a48 2px,
+      transparent 2.5px
+    );
   box-shadow:
     2px 2px 4px rgba(60, 45, 30, 0.2),
     inset -1px -1px 0 rgba(255, 255, 255, 0.25);
@@ -535,8 +490,18 @@
       rgba(80, 60, 40, 0.45) 42%,
       transparent 44%
     ),
-    radial-gradient(circle at 0.55rem 0.7rem, #c4a060 0, #c4a060 2px, transparent 2.5px),
-    radial-gradient(circle at 1.35rem 0.55rem, #c4a060 0, #c4a060 2px, transparent 2.5px);
+    radial-gradient(
+      circle at 0.55rem 0.7rem,
+      #c4a060 0,
+      #c4a060 2px,
+      transparent 2.5px
+    ),
+    radial-gradient(
+      circle at 1.35rem 0.55rem,
+      #c4a060 0,
+      #c4a060 2px,
+      transparent 2.5px
+    );
   box-shadow:
     2px 2px 6px rgba(0, 0, 0, 0.35),
     inset -1px -1px 0 rgba(255, 255, 255, 0.06);
@@ -549,31 +514,418 @@
   z-index: 2;
 }
 
-/* Mobile scroll reveals — hidden only after JS marks --ready (SSR stays visible) */
-.scroll-reveal {
-  will-change: opacity, transform;
+/* ── Game-start ceremony (pre → live) ───────────────────────────── */
+.gsc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  overflow: hidden;
 }
 
-.scroll-reveal--ready {
+.gsc-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(40, 32, 24, 0.35) 0%,
+      rgba(20, 16, 12, 0.72) 70%
+    ),
+    rgba(24, 18, 12, 0.55);
   opacity: 0;
-  transform: translateY(14px);
 }
 
-.scroll-reveal--in {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 680ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+.gsc-stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: min(1600px, 140vw);
+  padding: clamp(0.5rem, 2vw, 1.5rem);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scroll-reveal--ready {
-    opacity: 1;
-    transform: none;
+.gsc-carrier {
+  /* Shrink-wrap the folder so the hand anchors to its left edge, not the viewport. */
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  height: fit-content;
+  max-height: 100%;
+  will-change: transform, opacity;
+}
+
+.gsc-hand {
+  /* Overlap ~45% of the hand onto the folder's left edge so it reads as a grip. */
+  --gsc-hand-w: clamp(7rem, 18vw, 14rem);
+  position: absolute;
+  left: calc(var(--gsc-hand-w) * -0.45);
+  bottom: clamp(6%, 10vh, 16%);
+  width: var(--gsc-hand-w);
+  height: calc(var(--gsc-hand-w) * 1.35);
+  z-index: 20;
+  transform-origin: left center;
+  filter: drop-shadow(5px 6px 0 rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.gsc-hand__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.gsc-folder {
+  /* Portrait letter-ish sheet — taller than wide, not a square. */
+  position: relative;
+  aspect-ratio: 8.5 / 11;
+  width: min(68vw, 34rem);
+  max-width: calc(90vh * 8.5 / 11);
+  height: auto;
+  max-height: 90vh;
+  transform-style: preserve-3d;
+}
+
+.gsc-envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Stationary resume page — cover hinges open over it like a book. */
+.gsc-envelope__page {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border: 6px solid #8a7a68;
+  background: #f5f0e6;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.gsc-envelope__cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  /* No filter here — filters flatten preserve-3d and break backface-visibility. */
+  will-change: transform;
+}
+
+.gsc-envelope__cover-front,
+.gsc-envelope__cover-inside {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 6px solid #8a7a68;
+  border-radius: 0;
+  /* Keep each leaf in its own GPU layer so title ink never bleeds through. */
+  -webkit-font-smoothing: antialiased;
+}
+
+.gsc-envelope__cover-front {
+  background: linear-gradient(180deg, #e8dcc8 0%, #dcc9a8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  overflow: hidden;
+  /* Nudge forward so it wins over the inside face while closed */
+  transform: translateZ(1px);
+  box-shadow:
+    inset 10px 0 18px -12px rgba(60, 40, 20, 0.45),
+    8px 10px 0 rgba(0, 0, 0, 0.28);
+}
+
+.gsc-envelope__cover-inside {
+  background:
+    linear-gradient(90deg, rgba(60, 40, 20, 0.18) 0%, transparent 16%),
+    linear-gradient(180deg, #d4c4a4 0%, #c4b090 100%);
+  transform: rotateY(180deg) translateZ(1px);
+  box-shadow: -6px 10px 0 rgba(0, 0, 0, 0.22);
+}
+
+.gsc-envelope__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  width: 100%;
+  max-width: min(36rem, 80%);
+  border: 5px solid #5c4a38;
+  background: #f5f0e6;
+  padding: clamp(1.25rem, 3.5vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+  text-align: center;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.gsc-envelope__label-eyebrow {
+  font-family: var(--font-mono), Consolas, monospace;
+  font-size: clamp(0.75rem, 1.6vw, 1.1rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8a7868;
+}
+
+.gsc-envelope__label-title {
+  font-family: var(--font-mono), Consolas, monospace;
+  font-size: clamp(1.35rem, 4.5vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #3c3228;
+  line-height: 1.2;
+}
+
+.gsc-envelope__label-sub {
+  font-family: var(--font-mono), Consolas, monospace;
+  font-size: clamp(0.8rem, 2vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b5d4f;
+}
+
+.gsc-resume {
+  height: 100%;
+  min-height: 0;
+  padding: clamp(0.85rem, 2.4vw, 1.75rem) clamp(0.9rem, 2.6vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.45rem, 1.2vh, 0.85rem);
+  overflow: hidden;
+  font-family: var(--font-mono), Consolas, monospace;
+  color: #3c3228;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1.35rem,
+      rgba(120, 100, 80, 0.07) 1.35rem,
+      rgba(120, 100, 80, 0.07) 1.4rem
+    ),
+    #f5f0e6;
+}
+
+.gsc-resume__header {
+  border-bottom: 3px solid #8a7a68;
+  padding-bottom: clamp(0.35rem, 1vh, 0.7rem);
+  flex-shrink: 0;
+}
+
+.gsc-resume__org {
+  font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a7868;
+}
+
+.gsc-resume__title {
+  margin-top: 0.15rem;
+  font-size: clamp(1rem, 2.8vw, 1.65rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.gsc-resume__meta {
+  margin-top: 0.15rem;
+  font-size: clamp(0.65rem, 1.3vw, 0.9rem);
+  font-weight: 700;
+  color: #6b5d4f;
+}
+
+.gsc-resume__body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1.1vh, 0.75rem);
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.gsc-resume__body dt {
+  font-size: clamp(0.58rem, 1.1vw, 0.75rem);
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a7868;
+}
+
+.gsc-resume__body dd {
+  margin: 0.1rem 0 0;
+  font-size: clamp(0.7rem, 1.45vw, 0.95rem);
+  line-height: 1.3;
+  font-weight: 600;
+  color: #3c3228;
+}
+
+.gsc-resume__footer {
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: clamp(0.35rem, 0.9vh, 0.6rem);
+  border-top: 2px dashed #8a7a68;
+  font-size: clamp(0.55rem, 1.05vw, 0.75rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7868;
+}
+
+.gsc-stamp {
+  /* Individual transform props so anime.js scale/opacity don't wipe centering. */
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: clamp(12rem, 28vw, 22rem);
+  height: clamp(4rem, 9vw, 7rem);
+  border: 6px solid #b91c1c;
+  color: #b91c1c;
+  background: rgba(254, 226, 226, 0.2);
+  font-family: var(--font-mono), Consolas, monospace;
+  font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  translate: -50% -50%;
+  rotate: -18deg;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 3px rgba(185, 28, 28, 0.35);
+  will-change: transform, opacity;
+}
+
+.gsc-stamp span {
+  translate: 0 1px;
+}
+
+.gsc-stage--reduced .gsc-hand {
+  display: none;
+}
+
+/* Avoid one-frame flash before the anime.js timeline sets poses. */
+.gsc-stage--js .gsc-scrim,
+.gsc-stage--js .gsc-carrier {
+  opacity: 0;
+}
+
+@media (max-width: 640px) {
+  .gsc-hand {
+    --gsc-hand-w: clamp(5.5rem, 22vw, 8rem);
+    bottom: 8%;
   }
 
-  .scroll-reveal--in {
-    transition: none;
+  .gsc-folder {
+    width: min(92vw, calc(88vh * 8.5 / 11));
+    max-width: calc(88vh * 8.5 / 11);
+    max-height: 88vh;
   }
+
+  .gsc-envelope__page,
+  .gsc-envelope__cover-front,
+  .gsc-envelope__cover-inside {
+    border-width: 5px;
+  }
+
+  .gsc-envelope__page {
+    box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .gsc-stamp {
+    width: clamp(10rem, 70vw, 16rem);
+    height: clamp(3.4rem, 12vw, 5rem);
+    font-size: clamp(1.25rem, 6vw, 1.85rem);
+    border-width: 5px;
+  }
+}
+
+.dark .gsc-envelope__cover-front {
+  background: linear-gradient(180deg, #4a4036 0%, #3a322a 100%);
+  border-color: #5c4d3a;
+}
+
+.dark .gsc-envelope__cover-inside {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.25) 0%, transparent 14%),
+    linear-gradient(180deg, #3a322a 0%, #2a2420 100%);
+  border-color: #5c4d3a;
+}
+
+.dark .gsc-envelope__page {
+  background: #2f2922;
+  border-color: #5c4d3a;
+}
+
+.dark .gsc-envelope__label {
+  background: #2a2420;
+  border-color: #a89580;
+}
+
+.dark .gsc-envelope__label-title {
+  color: #e8dfd0;
+}
+
+.dark .gsc-envelope__label-eyebrow,
+.dark .gsc-envelope__label-sub {
+  color: #a89580;
+}
+
+.dark .gsc-resume {
+  color: #e8dfd0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1.15rem,
+      rgba(0, 0, 0, 0.18) 1.15rem,
+      rgba(0, 0, 0, 0.18) 1.2rem
+    ),
+    #2f2922;
+}
+
+.dark .gsc-resume__header {
+  border-bottom-color: #5c4d3a;
+}
+
+.dark .gsc-resume__org,
+.dark .gsc-resume__meta,
+.dark .gsc-resume__body dt,
+.dark .gsc-resume__footer {
+  color: #a89580;
+}
+
+.dark .gsc-resume__title,
+.dark .gsc-resume__body dd {
+  color: #e8dfd0;
+}
+
+.dark .gsc-resume__footer {
+  border-top-color: #5c4d3a;
+}
+
+.dark .gsc-stamp {
+  border-color: #f87171;
+  color: #f87171;
+  background: rgba(127, 29, 29, 0.25);
+  box-shadow: inset 0 0 0 2px rgba(248, 113, 113, 0.3);
 }

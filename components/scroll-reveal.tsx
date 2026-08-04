@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react"
+import { useLayoutEffect, useRef, type ReactNode } from "react"
+import { animate, onScroll, utils } from "animejs"
 import { cn } from "@/lib/utils"
 
 const MOBILE_MQ = "(max-width: 767px)"
@@ -16,12 +17,12 @@ type ScrollRevealProps = {
 /**
  * Fade/slide-up when entering the viewport. Active on mobile only —
  * desktop keeps content static (hover already provides motion there).
+ * Motion is driven by anime.js.
  */
 export function ScrollReveal({ children, className, delay = 0 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [phase, setPhase] = useState<"pending" | "ready" | "in">("pending")
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
 
@@ -29,7 +30,7 @@ export function ScrollReveal({ children, className, delay = 0 }: ScrollRevealPro
     const isMobile = window.matchMedia(MOBILE_MQ).matches
 
     if (reduced || !isMobile) {
-      setPhase("in")
+      utils.set(el, { opacity: 1, y: 0 })
       return
     }
 
@@ -37,39 +38,37 @@ export function ScrollReveal({ children, className, delay = 0 }: ScrollRevealPro
     const alreadyInView = rect.top < window.innerHeight * 0.92 && rect.bottom > 40
 
     if (alreadyInView) {
-      setPhase("in")
+      utils.set(el, { opacity: 1, y: 0 })
       return
     }
 
-    setPhase("ready")
+    utils.set(el, { opacity: 0, y: 14 })
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return
-        setPhase("in")
-        observer.disconnect()
+    let anim: ReturnType<typeof animate> | null = null
+
+    const observer = onScroll({
+      target: el,
+      enter: "top 92%",
+      repeat: false,
+      onEnter: () => {
+        anim = animate(el, {
+          opacity: 1,
+          y: 0,
+          duration: 680,
+          delay,
+          ease: "outExpo",
+        })
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
-    )
+    })
 
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const style: CSSProperties | undefined =
-    delay > 0 && phase === "in" ? { transitionDelay: `${delay}ms` } : undefined
+    return () => {
+      anim?.revert()
+      observer.revert()
+    }
+  }, [delay])
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "scroll-reveal",
-        phase === "ready" && "scroll-reveal--ready",
-        phase === "in" && "scroll-reveal--in",
-        className,
-      )}
-      style={style}
-    >
+    <div ref={ref} className={cn(className)}>
       {children}
     </div>
   )
