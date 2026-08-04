@@ -105,16 +105,19 @@ export const fnafTheme: SiteTheme = {
     sectionSecondary: "bg-[#e8e4dc]/70 dark:bg-[#1c1612]",
   },
   copy: {
-    tagline: "Survive your shift. Watch the cameras. Don't let them reach you.",
+    tagline: "Survive your shift. Don't let them reach you.",
     joinButton: "Start Night Shift",
     joinButtonDisabled: "Shift opens when the game starts",
-    guardBadgeActive: (badgeNumber) => `GUARD #${badgeNumber} — NIGHT SHIFT ACTIVE`,
+    guardBadgeActive: (badgeNumber) =>
+      `GUARD #${badgeNumber} — NIGHT SHIFT ACTIVE`,
     guardBadgeAwaiting: "GUARD #--- — AWAITING ASSIGNMENT",
-    nightCheckIn: (hour) => `>> ${hour} AM CHECK-IN`,
-    missingPoster: {
-      headline: "HAVE YOU SEEN ME?",
-      subline: "Check the graveyard and population lists for missing personnel.",
-      cta: "Open case file",
+    bounty: {
+      headline: "BOUNTY",
+      subline:
+        "Eliminate this target. Bring proof to Comm to claim the reward.",
+      cta: "Dead or alive",
+      vacant: "No active bounty on file.",
+      sealed: "Classified — pending release",
     },
     headsUp: {
       title: "PRIORITY ALERT — RULE UPDATES",

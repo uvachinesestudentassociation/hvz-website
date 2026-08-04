@@ -110,11 +110,12 @@ export const defaultTheme: SiteTheme = {
     joinButtonDisabled: "Sign-up opens when the game starts",
     guardBadgeActive: (badgeNumber) => `PLAYER #${badgeNumber} — GAME ACTIVE`,
     guardBadgeAwaiting: "PLAYER #--- — SIGN-UP CLOSED",
-    nightCheckIn: (hour) => `>> ${hour} AM CHECK-IN`,
-    missingPoster: {
-      headline: "TRACK PLAYERS",
-      subline: "See who's still in the game and who has been tagged.",
-      cta: "View lists",
+    bounty: {
+      headline: "BOUNTY",
+      subline: "Take down this player for a reward.",
+      cta: "Claim bounty",
+      vacant: "No active bounty right now.",
+      sealed: "Coming soon",
     },
     headsUp: {
       title: "Heads up! Latest rule tweaks:",

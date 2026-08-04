@@ -3,9 +3,10 @@ import { GameCountdown } from "@/components/game-countdown"
 import { HeroBackground } from "@/components/hero-background"
 import { HeroLogo } from "@/components/hero-logo"
 import { JoinGameButton } from "@/components/join-game-button"
-import { MissingPosterCard } from "@/components/missing-poster-card"
+import { BountyCard } from "@/components/bounty-card"
 import { NightShiftSectionHeader } from "@/components/night-shift-section-header"
 import { ResourceLinkCard } from "@/components/resource-link-card"
+import { ScrollReveal } from "@/components/scroll-reveal"
 import { THEME, THEME_COPY } from "@/content/theme"
 import {
   PIXEL_HERO_SURFACE,
@@ -27,13 +28,11 @@ function getHomeQuickActions() {
     killReport: getResource("killReport"),
     questBoard: getResource("questBoard"),
     questReport: getResource("questReport"),
-    graveyard: getResource("graveyard"),
-    populationList: getResource("populationList"),
   }
 }
 
 export default function HomePage() {
-  const { killReport, questBoard, questReport, graveyard, populationList } = getHomeQuickActions()
+  const { killReport, questBoard, questReport } = getHomeQuickActions()
   const otherResources = getSortedResources(true)
     .filter((r) => r.priority !== "high" && r.id !== "questBoard")
     .slice(0, 2)
@@ -61,44 +60,53 @@ export default function HomePage() {
       {/* Quick resources */}
       <section id="resources" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
-          <NightShiftSectionHeader showNightWhenLive>
-            {THEME_COPY.sections.quickLinks}
-          </NightShiftSectionHeader>
-          <p className={`mb-6 text-center font-mono text-sm ${PIXEL_TEXT_MUTED}`}>
-            Submit kills and quests right away — standings and more on the{" "}
-            <Link href="/resources" className={`${THEME.accent.linkUnderline}`}>
-              resources page
-            </Link>
-            .
-          </p>
+          <ScrollReveal>
+            <NightShiftSectionHeader>
+              {THEME_COPY.sections.quickLinks}
+            </NightShiftSectionHeader>
+            <p className={`mb-6 text-center font-mono text-sm ${PIXEL_TEXT_MUTED}`}>
+              Submit kills and quests right away — standings and more on the{" "}
+              <Link href="/resources" className={`${THEME.accent.linkUnderline}`}>
+                resources page
+              </Link>
+              .
+            </p>
+          </ScrollReveal>
 
           <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
-            <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
-            <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
-            <ResourceLinkCard resource={questBoard} variant="action" className="sm:col-span-2" />
+            <ScrollReveal delay={0}>
+              <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
+            </ScrollReveal>
+            <ScrollReveal delay={120}>
+              <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
+            </ScrollReveal>
+            <ScrollReveal delay={240} className="sm:col-span-2">
+              <ResourceLinkCard resource={questBoard} variant="action" />
+            </ScrollReveal>
           </div>
 
-          <h3 className={`mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider ${PIXEL_TEXT_SUBTLE}`}>
-            {THEME_COPY.sections.alsoCheck}
-          </h3>
-          <div className="mx-auto mb-4 max-w-5xl">
-            <MissingPosterCard
-              graveyard={graveyard}
-              population={populationList}
-              className={DESK_TILT.left}
-            />
-          </div>
+          <ScrollReveal>
+            <h3 className={`mb-4 text-center font-mono text-sm font-bold uppercase tracking-wider ${PIXEL_TEXT_SUBTLE}`}>
+              {THEME_COPY.sections.alsoCheck}
+            </h3>
+          </ScrollReveal>
+          <ScrollReveal delay={80}>
+            <div className="mx-auto mb-4 max-w-5xl">
+              <BountyCard className={DESK_TILT.left} />
+            </div>
+          </ScrollReveal>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
             {otherResources.map((resource, index) => (
-              <ResourceLinkCard
-                key={resource.label}
-                resource={resource}
-                variant="full"
-                className={[
-                  index === 0 ? DESK_RING.br : "",
-                  index === 1 ? DESK_TILT.right : "",
-                ].filter(Boolean).join(" ") || undefined}
-              />
+              <ScrollReveal key={resource.label} delay={index * 120}>
+                <ResourceLinkCard
+                  resource={resource}
+                  variant="full"
+                  className={[
+                    index === 0 ? DESK_RING.br : "",
+                    index === 1 ? DESK_TILT.right : "",
+                  ].filter(Boolean).join(" ") || undefined}
+                />
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -107,29 +115,32 @@ export default function HomePage() {
       {/* Deep links */}
       <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
-          <h2 className={`mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
-            {THEME_COPY.sections.explore}
-          </h2>
+          <ScrollReveal>
+            <h2 className={`mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
+              {THEME_COPY.sections.explore}
+            </h2>
+          </ScrollReveal>
           <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-2">
             {[
               { href: "/rules", label: "Game Rules", desc: "Basic rules, specific rules, and things to note" },
               { href: "/safe-zones", label: "Safe Zones", desc: "Residences, classes, gym, CSA events, and more" },
               { href: "/resources", label: "All Resources", desc: "Points, population, graveyard, quest board, forms" },
             ].map((link, index) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={[
-                  `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
-                  index === 1 ? DESK_RING.tr : "",
-                  index === 0 ? DESK_TILT.right : "",
-                  index === 2 ? DESK_TILT.left : "",
-                  "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
-                ].join(" ")}
-              >
-                <div className={`font-mono text-lg font-bold ${THEME.accent.link}`}>{link.label}</div>
-                <div className={`mt-2 font-mono text-sm ${PIXEL_TEXT_MUTED} break-words`}>{link.desc}</div>
-              </Link>
+              <ScrollReveal key={link.href} delay={Math.min(index, 2) * 120}>
+                <Link
+                  href={link.href}
+                  className={[
+                    `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
+                    index === 1 ? DESK_RING.tr : "",
+                    index === 0 ? DESK_TILT.right : "",
+                    index === 2 ? DESK_TILT.left : "",
+                    "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
+                  ].join(" ")}
+                >
+                  <div className={`font-mono text-lg font-bold ${THEME.accent.link}`}>{link.label}</div>
+                  <div className={`mt-2 font-mono text-sm ${PIXEL_TEXT_MUTED} break-words`}>{link.desc}</div>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
         </div>

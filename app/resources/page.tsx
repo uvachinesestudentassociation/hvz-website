@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import { MissingPosterCard } from "@/components/missing-poster-card"
+import { BountyCard } from "@/components/bounty-card"
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import Link from "next/link"
 import { PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
-import { getResource, getSortedResources } from "@/lib/public-resources"
+import { getSortedResources } from "@/lib/public-resources"
 
 export const metadata: Metadata = {
   title: "Resources",
@@ -12,8 +12,6 @@ export const metadata: Metadata = {
 
 export default function ResourcesPage() {
   const resources = getSortedResources(true)
-  const graveyard = getResource("graveyard")
-  const populationList = getResource("populationList")
 
   return (
     <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
@@ -41,7 +39,7 @@ export default function ResourcesPage() {
         </div>
 
         <div className="mx-auto mt-10 max-w-5xl">
-          <MissingPosterCard graveyard={graveyard} population={populationList} className="mb-6" />
+          <BountyCard className="mb-6" />
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

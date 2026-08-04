@@ -25,11 +25,13 @@ export interface ThemeCopy {
   joinButtonDisabled: string;
   guardBadgeActive: (badgeNumber: string) => string;
   guardBadgeAwaiting: string;
-  nightCheckIn: (hour: 12 | 3 | 6) => string;
-  missingPoster: {
+  bounty: {
     headline: string;
     subline: string;
     cta: string;
+    vacant: string;
+    /** Overlay label while the poster is blurred / unrevealed */
+    sealed: string;
   };
   headsUp: {
     title: string;
