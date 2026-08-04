@@ -14,6 +14,12 @@ import { useThemeGate } from "@/hooks/use-theme-gate"
 import { HERO } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
+/** Local /alt experiments only — safe no-op when those folders are gitignored. */
+function isAltExperimentPath(pathname: string | null | undefined): boolean {
+  if (!pathname) return false
+  return pathname === "/alt" || pathname.startsWith("/alt/")
+}
+
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <GameLiveOverrideProvider>
@@ -26,7 +32,7 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
   const { showGate, grantBypass } = useThemeGate()
-  const showHeroSignMount = pathname === "/"
+  const showHeroSignMount = pathname === "/" || isAltExperimentPath(pathname)
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 400)
@@ -69,7 +75,9 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
           className={[
-            "fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-4 z-40 md:bottom-6 md:left-auto md:right-6",
+            isAltExperimentPath(pathname)
+              ? "fixed bottom-[calc(10.5rem+env(safe-area-inset-bottom))] left-4 z-40 md:bottom-28 md:left-auto md:right-6"
+              : "fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-4 z-40 md:bottom-6 md:left-auto md:right-6",
             "flex h-12 w-12 items-center justify-center rounded-none border-4 border-[#8a7a68] bg-[#f5f0e6] text-[#5c4a38] dark:border-[#5c4d3a] dark:bg-[#2a2420]",
             "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] active:translate-x-[1px] active:translate-y-[1px]",
           ].join(" ")}

@@ -24,7 +24,7 @@ function parseTimeLeft(ms: number): TimeLeft {
 function CountdownUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div className="min-w-[3.5rem] border border-zinc-700 bg-zinc-900 px-2 py-3 font-mono text-2xl font-semibold tabular-nums text-zinc-100 md:min-w-[4.5rem] md:text-3xl">
+      <div className="flex min-w-[3.5rem] items-center justify-center border border-zinc-700 bg-zinc-900 px-2 py-3 font-mono text-2xl font-semibold tabular-nums text-zinc-100 md:min-w-[4.5rem] md:text-3xl">
         {value.toString().padStart(2, "0")}
       </div>
       <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">{label}</span>

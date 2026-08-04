@@ -11,6 +11,12 @@ export const DESK_RING = {
   tl: `${DESK_RING_BASE} desk-prop-ring--tl`,
 } as const;
 
+/** Slight paper tilt — use on some panels only, not every card */
+export const DESK_TILT = {
+  left: "desk-prop-tilt desk-prop-tilt--left",
+  right: "desk-prop-tilt desk-prop-tilt--right",
+} as const;
+
 /** Stapled manila folder cues — section backgrounds only */
 const DESK_PROP_MANILA = "desk-prop-manila";
 

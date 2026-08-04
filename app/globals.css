@@ -316,6 +316,23 @@
   }
 }
 
+/* Slight paper tilt — opt-in crooked panels (same energy as neo stickers) */
+.desk-prop-tilt {
+  transition: rotate 80ms linear;
+}
+
+.desk-prop-tilt--left {
+  rotate: -0.8deg;
+}
+
+.desk-prop-tilt--right {
+  rotate: 0.8deg;
+}
+
+.desk-prop-tilt:hover {
+  rotate: 0deg;
+}
+
 /* Below-hero desk shell — opt-in coffee rings + manila folder cues */
 .desk-prop-ring {
   position: relative;

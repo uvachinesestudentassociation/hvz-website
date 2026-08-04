@@ -17,6 +17,7 @@ import {
   PIXEL_TEXT_MUTED,
   PIXEL_TEXT_SUBTLE,
   DESK_RING,
+  DESK_TILT,
 } from "@/components/hvz/pixel-styles"
 import { getResource, getSortedResources } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
@@ -72,8 +73,8 @@ export default function HomePage() {
           </p>
 
           <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
-            <ResourceLinkCard resource={killReport} variant="action" />
-            <ResourceLinkCard resource={questReport} variant="action" />
+            <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
+            <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
             <ResourceLinkCard resource={questBoard} variant="action" className="sm:col-span-2" />
           </div>
 
@@ -81,7 +82,11 @@ export default function HomePage() {
             {THEME_COPY.sections.alsoCheck}
           </h3>
           <div className="mx-auto mb-4 max-w-5xl">
-            <MissingPosterCard graveyard={graveyard} population={populationList} />
+            <MissingPosterCard
+              graveyard={graveyard}
+              population={populationList}
+              className={DESK_TILT.left}
+            />
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2">
             {otherResources.map((resource, index) => (
@@ -89,7 +94,10 @@ export default function HomePage() {
                 key={resource.label}
                 resource={resource}
                 variant="full"
-                className={index === 0 ? DESK_RING.br : undefined}
+                className={[
+                  index === 0 ? DESK_RING.br : "",
+                  index === 1 ? DESK_TILT.right : "",
+                ].filter(Boolean).join(" ") || undefined}
               />
             ))}
           </div>
@@ -114,6 +122,8 @@ export default function HomePage() {
                 className={[
                   `block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE} p-5`,
                   index === 1 ? DESK_RING.tr : "",
+                  index === 0 ? DESK_TILT.right : "",
+                  index === 2 ? DESK_TILT.left : "",
                   "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px]",
                 ].join(" ")}
               >
