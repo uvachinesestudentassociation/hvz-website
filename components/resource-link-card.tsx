@@ -76,11 +76,11 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
         className,
       ].join(" ")}
     >
-      {isAction && (
+      {isAction && actionStyle && (
         <span
           className={[
             "absolute left-0 top-0 px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.2em]",
-            actionStyle?.badge,
+            actionStyle.badge,
           ].join(" ")}
         >
           {actionStyle.badgeText}
