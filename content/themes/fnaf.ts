@@ -6,36 +6,6 @@ export const fnafTheme: SiteTheme = {
   name: "FNAF Night Shift",
   themeColor: "#000000",
   themeColorLight: "#e8e4dc",
-  static: {
-    base: "#000000",
-    surface: "#0a0a0a",
-    text: "#f5f5f5",
-    textMuted: "#737373",
-    textDisabled: "#525252",
-    border: "#525252",
-    scanline: "rgba(255,255,255,0.05)",
-  },
-  heroBg: {
-    light: {
-      gradient: "linear-gradient(180deg,#f5f2eb_0%,#e8e4dc_45%,#d4cfc4_100%)",
-      grid: "rgba(120,100,80,0.05)",
-      scanline: "rgba(120,100,80,0.03)",
-      vignette: "rgba(60,50,40,0.15)",
-      floorLight: "#c9c4b8",
-      floorDark: "#b8b3a8",
-      floorBase: "#d4cfc4",
-      titleShadow: "rgba(88,28,135,0.35)",
-      taglineShadow: "rgba(88,28,135,0.2)",
-    },
-    dark: {
-      gradient: "linear-gradient(180deg,#000000_0%,#0a0a0a_100%)",
-      grid: "rgba(255,255,255,0.05)",
-      scanline: "rgba(255,255,255,0.04)",
-      vignette: "rgba(0,0,0,0.5)",
-      titleShadow: "rgba(255,255,255,0.15)",
-      taglineShadow: "rgba(255,255,255,0.08)",
-    },
-  },
   hero: {
     background: {
       light: {
@@ -135,16 +105,19 @@ export const fnafTheme: SiteTheme = {
     sectionSecondary: "bg-[#e8e4dc]/70 dark:bg-[#1c1612]",
   },
   copy: {
-    tagline: "Survive your shift. Watch the cameras. Don't let them reach you.",
+    tagline: "Survive your shift. Don't let them reach you.",
     joinButton: "Start Night Shift",
     joinButtonDisabled: "Shift opens when the game starts",
-    guardBadgeActive: (badgeNumber) => `GUARD #${badgeNumber} — NIGHT SHIFT ACTIVE`,
+    guardBadgeActive: (badgeNumber) =>
+      `GUARD #${badgeNumber} — NIGHT SHIFT ACTIVE`,
     guardBadgeAwaiting: "GUARD #--- — AWAITING ASSIGNMENT",
-    nightCheckIn: (hour) => `>> ${hour} AM CHECK-IN`,
-    missingPoster: {
-      headline: "HAVE YOU SEEN ME?",
-      subline: "Check the graveyard and population lists for missing personnel.",
-      cta: "Open case file",
+    bounty: {
+      headline: "BOUNTY",
+      subline:
+        "Eliminate this target. Bring proof to Comm to claim the reward.",
+      cta: "Dead or alive",
+      vacant: "No active bounty on file.",
+      sealed: "Classified — pending release",
     },
     headsUp: {
       title: "PRIORITY ALERT — RULE UPDATES",

@@ -25,11 +25,13 @@ export interface ThemeCopy {
   joinButtonDisabled: string;
   guardBadgeActive: (badgeNumber: string) => string;
   guardBadgeAwaiting: string;
-  nightCheckIn: (hour: 12 | 3 | 6) => string;
-  missingPoster: {
+  bounty: {
     headline: string;
     subline: string;
     cta: string;
+    vacant: string;
+    /** Overlay label while the poster is blurred / unrevealed */
+    sealed: string;
   };
   headsUp: {
     title: string;
@@ -52,29 +54,6 @@ export interface SiteTheme {
   name: string;
   themeColor: string;
   themeColorLight: string;
-  static: {
-    base: string;
-    surface: string;
-    text: string;
-    textMuted: string;
-    textDisabled: string;
-    border: string;
-    scanline: string;
-  };
-  heroBg: {
-    light: Omit<HeroBackgroundLayer, "noiseOpacity"> & {
-      titleShadow: string;
-      taglineShadow: string;
-    };
-    dark: {
-      gradient: string;
-      grid: string;
-      scanline: string;
-      vignette: string;
-      titleShadow: string;
-      taglineShadow: string;
-    };
-  };
   hero: {
     background: {
       light: HeroBackgroundLayer;

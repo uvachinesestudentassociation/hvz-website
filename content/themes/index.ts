@@ -18,8 +18,4 @@ const THEMES: Record<ThemeId, SiteTheme> = {
 
 export const ACTIVE_THEME = THEMES[ACTIVE_THEME_ID];
 
-export function getTheme(id: ThemeId): SiteTheme {
-  return THEMES[id];
-}
-
 export type { SiteTheme, ThemeId, ThemeCopy } from "./types";

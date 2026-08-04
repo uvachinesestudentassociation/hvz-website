@@ -180,13 +180,3 @@ export function MobileSiteNav() {
     </>
   );
 }
-
-/** @deprecated Use DesktopSiteNav + MobileSiteNav via SiteShell */
-export function SiteNav() {
-  return (
-    <>
-      <DesktopSiteNav />
-      <MobileSiteNav />
-    </>
-  );
-}

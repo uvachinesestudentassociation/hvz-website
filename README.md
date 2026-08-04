@@ -105,9 +105,10 @@ The site supports swappable event themes (colors, copy, hero effects, and UI sty
 export const ACTIVE_THEME_ID: ThemeId = "default"
 ```
 
-| Theme ID  | Description                                        |
-| --------- | -------------------------------------------------- |
-| `default` | Baseline purple HvZ — plain hero, no event effects |
+| Theme ID  | Description                                                      |
+| --------- | ---------------------------------------------------------------- |
+| `default` | Baseline purple HvZ — plain hero, no event effects               |
+| `fnaf`    | Night-shift / security-office event theme (CRT static, desk UI) |
 
 Each theme file under `content/themes/` defines:
 
@@ -116,7 +117,7 @@ Each theme file under `content/themes/` defines:
 | `copy`            | Tagline, join button text, section headings, countdown labels |
 | `tailwind`        | Accent, alarm, monitor, and button class groups               |
 | `pixel`           | Border, surface, and section background classes               |
-| `hero`            | Background layers, logo style   |
+| `hero`            | Background layers, logo style, and event hero effects         |
 | `office` / `desk` | Light/dark shell palette tokens                               |
 | `themeColor`      | PWA / browser chrome color                                    |
 
@@ -143,6 +144,22 @@ Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, s
 
 Rule search on the site indexes this same content.
 
+### Animations — [anime.js](https://animejs.com/)
+
+Intentional site motion uses **anime.js** (v4). Prefer `animate`, `createTimeline`, `createTimer`, `onScroll`, and `utils.set` from `animejs` for new motion instead of CSS `@keyframes` or class-toggle transitions.
+
+| Area | Component / hook | Notes |
+| ---- | ---------------- | ----- |
+| Game-start ceremony | `components/game-start-ceremony.tsx` | Timeline when the countdown flips to live |
+| Mobile scroll reveals | `components/scroll-reveal.tsx` | `onScroll` + fade/slide-up; desktop stays static |
+| Hero sign swing | `components/hero-logo.tsx` | FNAF hanging-sign rig (`createTimer`) |
+| CRT scanlines | `components/hero-scanlines.tsx` | Looping background-position motion |
+| Theme toggle | `components/theme-toggle.tsx` | Knob + icon crossfade |
+| Desk panel tilt | `components/desk-tilt-effects.tsx` | Hover straighten for `DESK_TILT` classes |
+| Disclosure chevron | `components/hvz/pixel-disclosure.tsx` | Rotate open/closed |
+
+Honor `prefers-reduced-motion: reduce` (skip or shorten motion). Leave tiny CSS hover nudges (e.g. 1px press) and shadcn `animate-in` alone. Canvas TV snow (`hero-tv-static.tsx`) stays procedural pixels, not anime.js.
+
 ## Project structure
 
 ```
@@ -155,6 +172,11 @@ app/
   themes/               Per-theme CSS variables and hero styling
 components/
   game-countdown.tsx    Hero countdown (client)
+  game-start-ceremony.tsx  Pre → live anime.js ceremony
+  scroll-reveal.tsx     Mobile scroll reveals (anime.js)
+  hero-logo.tsx         Hero logo / FNAF sign swing
+  hero-scanlines.tsx    Dark-mode CRT scanline loops
+  desk-tilt-effects.tsx Desk panel tilt hover motion
   site-nav.tsx          Desktop + mobile navigation
   site-shell.tsx        Shared layout shell
   rules-content.tsx     Rules page renderer
@@ -162,7 +184,7 @@ components/
   resource-link-card.tsx
   heads-up-banner.tsx
 content/
-  themes/               Event theme definitions (default, …)
+  themes/               Event theme definitions (default, fnaf, …)
   theme.ts              Re-exports active theme for components
   heads-up.ts           Latest rule tweaks (banner + rules page)
   things-to-note.ts     Warnings and honor code block
@@ -173,6 +195,7 @@ lib/
   site-config.ts        Site constants
   game-start.ts         Countdown date/time
   public-resources.ts   Resource labels/icons (URLs from content/links.ts)
+  theme-gate.ts         Optional exec preview gate for event themes
 ```
 
 ## Using npm instead of pnpm
