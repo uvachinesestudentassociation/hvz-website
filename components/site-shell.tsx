@@ -3,16 +3,26 @@
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { ArrowUp } from "lucide-react"
+import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
 import { ThemeGate } from "@/components/theme-gate"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
+import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { useThemeGate } from "@/hooks/use-theme-gate"
 import { HERO } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
+  return (
+    <GameLiveOverrideProvider>
+      <SiteShellInner>{children}</SiteShellInner>
+    </GameLiveOverrideProvider>
+  )
+}
+
+function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
   const { showGate, grantBypass } = useThemeGate()
@@ -67,6 +77,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           <ArrowUp className="h-5 w-5 text-[#5c4a38] dark:text-amber-200" aria-hidden="true" />
         </button>
       )}
+      <GameLiveDevPanel />
     </div>
   )
 }

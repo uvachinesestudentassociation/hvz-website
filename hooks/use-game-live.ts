@@ -2,16 +2,22 @@
 
 import { useEffect, useState } from "react"
 import { isGameLive } from "@/lib/game-start"
+import { useGameLiveOverride } from "@/hooks/game-live-override"
 
 export function useGameLive() {
-  const [live, setLive] = useState(false)
+  const override = useGameLiveOverride()
+  const [clockLive, setClockLive] = useState(false)
 
   useEffect(() => {
-    const tick = () => setLive(isGameLive())
+    const tick = () => setClockLive(isGameLive())
     tick()
     const id = window.setInterval(tick, 1000)
     return () => window.clearInterval(id)
   }, [])
 
-  return live
+  if (override?.liveOverride !== null && override?.liveOverride !== undefined) {
+    return override.liveOverride
+  }
+
+  return clockLive
 }

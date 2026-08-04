@@ -1,12 +1,21 @@
 import { ExternalLink } from "lucide-react"
 import { THEME } from "@/content/theme"
 import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
+import type { LinkId } from "@/content/links"
 import type { PublicResource } from "@/lib/public-resources"
 
 type ResourceLinkCardProps = {
   resource: PublicResource
   variant?: "compact" | "full" | "action"
   className?: string
+}
+
+type ActionStyle = {
+  card: string
+  icon: string
+  label: string
+  badge: string
+  badgeText: string
 }
 
 const DARK_DESK = {
@@ -16,22 +25,22 @@ const DARK_DESK = {
   badge: "dark:bg-[#1a1410] dark:text-amber-300",
 }
 
-const ACTION_STYLES: Record<string, { card: string; icon: string; label: string; badge: string; badgeText: string }> = {
-  "Kill Report": {
+const ACTION_STYLES: Partial<Record<LinkId, ActionStyle>> = {
+  killReport: {
     card: `border-red-800 bg-red-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
     icon: `border-red-950 bg-red-200 text-red-900 ${DARK_DESK.icon}`,
     label: `text-red-950 ${DARK_DESK.label}`,
     badge: `bg-red-900 text-red-50 ${DARK_DESK.badge}`,
     badgeText: "Report now",
   },
-  "Quest Board": {
+  questBoard: {
     card: `border-purple-800 bg-purple-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
     icon: `border-purple-950 bg-purple-200 text-purple-900 ${DARK_DESK.icon}`,
     label: `text-purple-950 ${DARK_DESK.label}`,
     badge: `bg-purple-900 text-purple-50 ${DARK_DESK.badge}`,
     badgeText: "View board",
   },
-  "Quest Report": {
+  questReport: {
     card: `border-amber-800 bg-amber-600 shadow-[8px_8px_0_rgba(0,0,0,0.5)] ${DARK_DESK.card}`,
     icon: `border-amber-950 bg-amber-200 text-amber-900 ${DARK_DESK.icon}`,
     label: `text-amber-950 ${DARK_DESK.label}`,
@@ -43,7 +52,7 @@ const ACTION_STYLES: Record<string, { card: string; icon: string; label: string;
 export function ResourceLinkCard({ resource, variant = "full", className = "" }: ResourceLinkCardProps) {
   const Icon = resource.icon
   const isAction = variant === "action"
-  const actionStyle = ACTION_STYLES[resource.label]
+  const actionStyle = ACTION_STYLES[resource.id]
   const isHighPriority = resource.priority === "high"
 
   return (

@@ -1,7 +1,7 @@
 import { PIXEL as themePixel } from "@/content/theme";
 
 /** Coffee ring — opt-in per panel; pair with a DESK_RING position class */
-export const DESK_RING_BASE = "desk-prop-ring";
+const DESK_RING_BASE = "desk-prop-ring";
 
 /** Coffee ring positions — use at most one per surface, not on every panel */
 export const DESK_RING = {
@@ -12,9 +12,7 @@ export const DESK_RING = {
 } as const;
 
 /** Stapled manila folder cues — section backgrounds only */
-export const DESK_PROP_MANILA = "desk-prop-manila";
-
-export const PIXEL_BORDER = themePixel.border;
+const DESK_PROP_MANILA = "desk-prop-manila";
 
 export const PIXEL_FRAME = themePixel.frame;
 
@@ -37,11 +35,5 @@ export const PIXEL_SECTION_BORDER = themePixel.sectionBorder;
 export const PIXEL_SECTION_PRIMARY = `${themePixel.sectionPrimary} ${DESK_PROP_MANILA}`;
 
 export const PIXEL_SECTION_SECONDARY = themePixel.sectionSecondary;
-
-/** @deprecated Use PIXEL_SECTION_PRIMARY */
-export const PIXEL_SECTION_EMERALD = PIXEL_SECTION_PRIMARY;
-
-/** @deprecated Use PIXEL_SECTION_SECONDARY */
-export const PIXEL_SECTION_AMBER = PIXEL_SECTION_SECONDARY;
 
 export const RULE_BODY_CLASS = "font-mono text-base md:text-sm leading-relaxed break-words";

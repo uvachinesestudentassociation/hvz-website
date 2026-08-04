@@ -105,9 +105,10 @@ The site supports swappable event themes (colors, copy, hero effects, and UI sty
 export const ACTIVE_THEME_ID: ThemeId = "default"
 ```
 
-| Theme ID  | Description                                        |
-| --------- | -------------------------------------------------- |
-| `default` | Baseline purple HvZ — plain hero, no event effects |
+| Theme ID  | Description                                                      |
+| --------- | ---------------------------------------------------------------- |
+| `default` | Baseline purple HvZ — plain hero, no event effects               |
+| `fnaf`    | Night-shift / security-office event theme (CRT static, desk UI) |
 
 Each theme file under `content/themes/` defines:
 
@@ -116,7 +117,7 @@ Each theme file under `content/themes/` defines:
 | `copy`            | Tagline, join button text, section headings, countdown labels |
 | `tailwind`        | Accent, alarm, monitor, and button class groups               |
 | `pixel`           | Border, surface, and section background classes               |
-| `hero`            | Background layers, logo style   |
+| `hero`            | Background layers, logo style, and event hero effects         |
 | `office` / `desk` | Light/dark shell palette tokens                               |
 | `themeColor`      | PWA / browser chrome color                                    |
 
@@ -162,7 +163,7 @@ components/
   resource-link-card.tsx
   heads-up-banner.tsx
 content/
-  themes/               Event theme definitions (default, …)
+  themes/               Event theme definitions (default, fnaf, …)
   theme.ts              Re-exports active theme for components
   heads-up.ts           Latest rule tweaks (banner + rules page)
   things-to-note.ts     Warnings and honor code block
@@ -173,6 +174,7 @@ lib/
   site-config.ts        Site constants
   game-start.ts         Countdown date/time
   public-resources.ts   Resource labels/icons (URLs from content/links.ts)
+  theme-gate.ts         Optional exec preview gate for event themes
 ```
 
 ## Using npm instead of pnpm

@@ -6,36 +6,6 @@ export const defaultTheme: SiteTheme = {
   name: "Default HvZ",
   themeColor: "#581c87",
   themeColorLight: "#f3e8ff",
-  static: {
-    base: "#1e1b2e",
-    surface: "#2d2640",
-    text: "#f5f3ff",
-    textMuted: "#a78bfa",
-    textDisabled: "#6b7280",
-    border: "#4c1d95",
-    scanline: "rgba(167,139,250,0.06)",
-  },
-  heroBg: {
-    light: {
-      gradient: "linear-gradient(180deg,#faf5ff_0%,#f3e8ff_45%,#e9d5ff_100%)",
-      grid: "rgba(88,28,135,0.06)",
-      scanline: "rgba(88,28,135,0.04)",
-      vignette: "rgba(88,28,135,0.12)",
-      floorLight: "#ddd6fe",
-      floorDark: "#c4b5fd",
-      floorBase: "#e9d5ff",
-      titleShadow: "rgba(88,28,135,0.35)",
-      taglineShadow: "rgba(88,28,135,0.2)",
-    },
-    dark: {
-      gradient: "linear-gradient(180deg,#1e1b2e_0%,#2d2640_100%)",
-      grid: "rgba(167,139,250,0.06)",
-      scanline: "rgba(167,139,250,0.04)",
-      vignette: "rgba(0,0,0,0.45)",
-      titleShadow: "rgba(167,139,250,0.2)",
-      taglineShadow: "rgba(167,139,250,0.1)",
-    },
-  },
   hero: {
     background: {
       light: {

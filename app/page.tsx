@@ -33,7 +33,9 @@ function getHomeQuickActions() {
 
 export default function HomePage() {
   const { killReport, questBoard, questReport, graveyard, populationList } = getHomeQuickActions()
-  const otherResources = getSortedResources(true).filter((r) => r.priority !== "high" && r.label !== "Quest Board").slice(0, 2)
+  const otherResources = getSortedResources(true)
+    .filter((r) => r.priority !== "high" && r.id !== "questBoard")
+    .slice(0, 2)
 
   return (
     <>

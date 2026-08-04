@@ -52,29 +52,6 @@ export interface SiteTheme {
   name: string;
   themeColor: string;
   themeColorLight: string;
-  static: {
-    base: string;
-    surface: string;
-    text: string;
-    textMuted: string;
-    textDisabled: string;
-    border: string;
-    scanline: string;
-  };
-  heroBg: {
-    light: Omit<HeroBackgroundLayer, "noiseOpacity"> & {
-      titleShadow: string;
-      taglineShadow: string;
-    };
-    dark: {
-      gradient: string;
-      grid: string;
-      scanline: string;
-      vignette: string;
-      titleShadow: string;
-      taglineShadow: string;
-    };
-  };
   hero: {
     background: {
       light: HeroBackgroundLayer;
