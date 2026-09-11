@@ -81,6 +81,25 @@ export function HeadsUpBanner() {
   }, [])
 
   useEffect(() => {
+    const sync = () => {
+      if (window.location.hash !== "#heads-up") return
+      setVisible(true)
+      // Second frame: the banner id is unmounted while dismissed.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (window.location.hash === "#heads-up") {
+            document.getElementById("heads-up")?.scrollIntoView()
+          }
+        })
+      })
+    }
+
+    sync()
+    window.addEventListener("hashchange", sync)
+    return () => window.removeEventListener("hashchange", sync)
+  }, [])
+
+  useEffect(() => {
     if (!visible || !isMobile) {
       document.body.style.overflow = ""
       return

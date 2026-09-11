@@ -40,7 +40,7 @@ export function buildSearchIndex(): SearchResult[] {
       section: headsUp.searchSection,
       title: headsUp.searchTitle,
       snippet: item,
-      href: "#heads-up",
+      href: "/#heads-up",
     })
   })
 

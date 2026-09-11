@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import url("https://fonts.cdnfonts.com/css/compacta");
-@import "./themes/index.css";
 
 @custom-variant dark (&:is(.dark *));
 

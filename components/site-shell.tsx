@@ -8,12 +8,10 @@ import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
-import { ThemeGate } from "@/components/theme-gate"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
-import { useThemeGate } from "@/hooks/use-theme-gate"
 import { HERO } from "@/content/theme"
 import { SITE_CONFIG } from "@/lib/site-config"
 
@@ -36,7 +34,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const { showGate, grantBypass, resolving } = useThemeGate()
   const showHeroSignMount = pathname === "/" || isAltExperimentPath(pathname)
 
   useEffect(() => {
@@ -44,14 +41,6 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
-
-  if (resolving) {
-    return <div className="fixed inset-0 z-[100] bg-zinc-950" aria-hidden="true" />
-  }
-
-  if (showGate) {
-    return <ThemeGate onUnlock={grantBypass} />
-  }
 
   return (
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0`}>

@@ -2,11 +2,13 @@
 
 import type React from "react"
 import { useEffect, useId, useRef, useState } from "react"
+import { usePathname } from "next/navigation"
 import { animate, utils } from "animejs"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
 import { PIXEL_FRAME, RULE_BODY_CLASS, PIXEL_SECTION_BORDER, PIXEL_TEXT } from "@/components/hvz/pixel-styles"
 import { THEME } from "@/content/theme"
+import { disclosureShouldOpen } from "@/lib/search-hash"
 
 const REDUCED_MQ = "(prefers-reduced-motion: reduce)"
 
@@ -32,6 +34,30 @@ export function PixelDisclosure({
   const panelId = id ? `${id}-panel` : autoId
   const chevronRef = useRef<HTMLSpanElement>(null)
   const prevOpen = useRef<boolean | null>(null)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const sync = () => {
+      const hash = window.location.hash
+      const hashId = hash.replace(/^#/, "")
+      const panel = document.getElementById(panelId)
+      const descendantIds = panel
+        ? [...panel.querySelectorAll<HTMLElement>("[id]")].map((node) => node.id)
+        : []
+      if (!disclosureShouldOpen(hash, id, descendantIds)) return
+      setOpen(true)
+      // Second frame: React has to drop `hidden` before the browser can scroll.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById(hashId)?.scrollIntoView()
+        })
+      })
+    }
+
+    sync()
+    window.addEventListener("hashchange", sync)
+    return () => window.removeEventListener("hashchange", sync)
+  }, [id, panelId, pathname])
 
   useEffect(() => {
     const chevron = chevronRef.current
