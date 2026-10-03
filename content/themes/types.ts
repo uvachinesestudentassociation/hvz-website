@@ -48,6 +48,13 @@ export interface ThemeCopy {
   };
 }
 
+export interface ThemeActionStyle {
+  card: string;
+  icon: string;
+  label: string;
+  badge: string;
+}
+
 export interface SiteTheme {
   id: ThemeId;
   /** Human-readable label (for docs / tooling). */
@@ -122,12 +129,19 @@ export interface SiteTheme {
       bg: string;
       border: string;
     };
+    /** Home quick-action cards. One alarm, one warning, one monitor — not a second brand color. */
+    actions: {
+      kill: ThemeActionStyle;
+      questBoard: ThemeActionStyle;
+      questReport: ThemeActionStyle;
+    };
   };
   pixel: {
     border: string;
     frame: string;
     gridBg: string;
     heroSurface: string;
+    stamp: string;
     surface: string;
     text: string;
     textMuted: string;

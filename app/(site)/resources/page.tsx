@@ -15,8 +15,8 @@ export default function ResourcesPage() {
 
   return (
     <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="mb-8 flex justify-center">
+      <div className="container mx-auto px-4 py-6 md:py-16">
+        <div className="mb-8 hidden justify-center md:flex">
           <Link
             href="/"
             className={[

@@ -58,7 +58,3 @@ export function getGameEndDate(): Date {
   const start = getGameStartDate()
   return new Date(start.getTime() + GAME_DURATION_DAYS * 24 * 60 * 60 * 1000)
 }
-
-export function getGuardBadgeNumber(gameYear: number): string {
-  return (gameYear % 1000).toString().padStart(3, "0")
-}

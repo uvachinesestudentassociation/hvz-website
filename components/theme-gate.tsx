@@ -2,7 +2,6 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { getGameStartLabel, getTimeUntilGameStart } from "@/lib/game-start";
-import { SITE_CONFIG } from "@/lib/site-config";
 
 type TimeLeft = {
   days: number;
@@ -35,10 +34,10 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
 }
 
 type ThemeGateProps = {
-  onUnlock: () => void;
+  gameYear: number;
 };
 
-export function ThemeGate({ onUnlock }: ThemeGateProps) {
+export function ThemeGate({ gameYear }: ThemeGateProps) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const [code, setCode] = useState("");
   const [error, setError] = useState<"invalid" | "unavailable" | null>(null);
@@ -73,7 +72,7 @@ export function ThemeGate({ onUnlock }: ThemeGateProps) {
       if (response.ok) {
         const data = (await response.json()) as { ok?: boolean };
         if (data.ok) {
-          onUnlock();
+          window.location.assign(window.location.pathname);
           return;
         }
       }
@@ -100,7 +99,7 @@ export function ThemeGate({ onUnlock }: ThemeGateProps) {
     >
       <div className="w-full max-w-lg border border-zinc-800 bg-zinc-900 p-6 shadow-2xl md:p-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
-          {`Humans vs. Zombies ${SITE_CONFIG.gameYear}`}
+          {`Humans vs. Zombies ${gameYear}`}
         </p>
         <h1
           id="theme-gate-title"

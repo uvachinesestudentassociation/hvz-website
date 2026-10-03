@@ -22,8 +22,15 @@ export const LINKS = {
     "https://docs.google.com/spreadsheets/d/1mjVAyJOkQJHWgUUR5L0jiJPyZ0VWZ_gKy-bkdVUJXrY/edit?usp=sharing",
   graveyard:
     "https://docs.google.com/document/d/1CLhtPH0Eu-ZB0QR3JyvgTJB_6UAp-NUJpagDMEl_pl4/edit?usp=sharing",
-  questBoard:
-    "https://docs.google.com/presentation/d/1pbWLdzhPZRhma-ERJi1vzLO1NChjZCdI0bOvgPcdn0w/edit?usp=sharing",
+  /** Paste the public Slides link from comm. Blank shows a home-screen placeholder. */
+  questBoard: "",
 } as const
 
 export type LinkId = keyof typeof LINKS
+
+/** Live slideshow embed. Null when the href is not a Google Slides file. */
+export function questBoardEmbedUrl(href: string): string | null {
+  const match = href.match(/\/presentation\/d\/([a-zA-Z0-9_-]+)/)
+  if (!match) return null
+  return `https://docs.google.com/presentation/d/${match[1]}/embed?start=false&loop=false&rm=minimal`
+}

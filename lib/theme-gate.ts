@@ -1,14 +1,17 @@
+import { cookies } from "next/headers"
 import { isGameLive } from "@/lib/game-start"
-
-/**
- * Theme reveal gate — blocks the site until game start unless an exec enters the preview code.
- * The code lives in EXEC_PREVIEW_CODE (.env.local, gitignored) and is checked server-side.
- * Set `enabled` to false after game week if desired.
- */
-export const THEME_GATE = {
-  enabled: true,
-} as const
+import { PREVIEW_COOKIE, previewCookieMatches } from "@/lib/preview-cookie"
+import { SITE_CONFIG } from "@/lib/site-config"
+import { THEME_GATE } from "@/lib/theme-gate-flag"
 
 export function isSiteUnlocked(now = Date.now()): boolean {
   return !THEME_GATE.enabled || isGameLive(now)
+}
+
+export async function isRequestUnlocked(now = Date.now()): Promise<boolean> {
+  if (!THEME_GATE.enabled || isGameLive(now)) return true
+  const secret = process.env.EXEC_PREVIEW_CODE
+  if (!secret) return false
+  const jar = await cookies()
+  return previewCookieMatches(jar.get(PREVIEW_COOKIE)?.value, secret, SITE_CONFIG.gameYear)
 }

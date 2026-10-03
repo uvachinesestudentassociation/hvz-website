@@ -26,6 +26,8 @@ export const PIXEL_GRID_BG = themePixel.gridBg;
 
 export const PIXEL_HERO_SURFACE = themePixel.heroSurface;
 
+export const PIXEL_STAMP = themePixel.stamp;
+
 export const PIXEL_SURFACE = themePixel.surface;
 
 export const PIXEL_TEXT = themePixel.text;

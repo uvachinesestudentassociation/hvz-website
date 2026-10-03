@@ -87,6 +87,26 @@ export const defaultTheme: SiteTheme = {
       bg: "bg-purple-700",
       border: "border-purple-500 dark:border-purple-700",
     },
+    actions: {
+      kill: {
+        card: "border-red-800 bg-red-700 shadow-[8px_8px_0_rgba(0,0,0,0.5)] dark:border-purple-800 dark:bg-[#2d2640] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-red-950 bg-red-200 text-red-900 dark:border-purple-800 dark:bg-[#1e1b2e] dark:text-purple-100",
+        label: "text-red-950 dark:text-purple-100",
+        badge: "bg-red-900 text-red-50 dark:bg-[#1e1b2e] dark:text-purple-200",
+      },
+      questBoard: {
+        card: "border-purple-800 bg-purple-700 shadow-[8px_8px_0_rgba(88,28,135,0.35)] dark:border-purple-800 dark:bg-[#2d2640] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-purple-950 bg-purple-200 text-purple-900 dark:border-purple-800 dark:bg-[#1e1b2e] dark:text-purple-100",
+        label: "text-purple-950 dark:text-purple-100",
+        badge: "bg-purple-900 text-purple-50 dark:bg-[#1e1b2e] dark:text-purple-200",
+      },
+      questReport: {
+        card: "border-amber-800 bg-amber-600 shadow-[8px_8px_0_rgba(0,0,0,0.5)] dark:border-purple-800 dark:bg-[#2d2640] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-amber-950 bg-amber-200 text-amber-900 dark:border-purple-800 dark:bg-[#1e1b2e] dark:text-purple-100",
+        label: "text-amber-950 dark:text-purple-100",
+        badge: "bg-amber-900 text-amber-50 dark:bg-[#1e1b2e] dark:text-purple-200",
+      },
+    },
   },
   pixel: {
     border: "border-purple-300 dark:border-purple-800",
@@ -95,6 +115,7 @@ export const defaultTheme: SiteTheme = {
     gridBg:
       "bg-[#f3e8ff] bg-[linear-gradient(180deg,rgba(167,139,250,0.12)_0%,transparent_35%),linear-gradient(90deg,rgba(88,28,135,0.06)_1px,transparent_1px),linear-gradient(rgba(88,28,135,0.06)_1px,transparent_1px)] dark:bg-[#1e1b2e] dark:bg-[linear-gradient(180deg,rgba(139,92,246,0.08)_0%,transparent_32%),linear-gradient(90deg,rgba(0,0,0,0.14)_1px,transparent_1px),linear-gradient(rgba(0,0,0,0.09)_2px,transparent_2px)] bg-[size:100%_100%,24px_24px,24px_24px] dark:bg-[size:100%_100%,40px_40px,40px_40px]",
     heroSurface: "bg-purple-100/80 dark:bg-purple-950/80",
+    stamp: "shadow-[4px_4px_0_rgba(88,28,135,0.22)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]",
     surface: "bg-purple-50/90 dark:bg-[#2d2640]",
     text: "text-purple-950 dark:text-purple-100",
     textMuted: "text-purple-800 dark:text-purple-300",

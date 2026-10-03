@@ -5,7 +5,7 @@ import { useTheme } from "next-themes"
 import { useEffect, useRef, useState } from "react"
 import { animate, utils } from "animejs"
 import { DESK, OFFICE, THEME } from "@/content/theme"
-import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
+import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 
 const REDUCED_MQ = "(prefers-reduced-motion: reduce)"
 const TOGGLE_MS = 320
@@ -159,7 +159,7 @@ export function MobileThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={[
         `flex h-12 w-12 items-center justify-center rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-        "bg-[#f0ebe3] dark:bg-[#2a2420]",
+        PIXEL_NAV_BG,
         "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]",
         "active:translate-x-[1px] active:translate-y-[1px]",
         "touch-manipulation",
@@ -169,7 +169,7 @@ export function MobileThemeToggle() {
       {isDark ? (
         <Sun className="h-5 w-5 text-amber-300" aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5 text-[#5c4a38] dark:text-purple-300" aria-hidden="true" />
+        <Moon className={`h-5 w-5 ${THEME.accent.text}`} aria-hidden="true" />
       )}
     </button>
   )

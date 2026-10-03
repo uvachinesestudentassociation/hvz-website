@@ -121,7 +121,7 @@ Each theme file under `content/themes/` defines:
 | `office` / `desk` | Light/dark shell palette tokens                               |
 | `themeColor`      | PWA / browser chrome color                                    |
 
-Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, scoped with `[data-site-theme="<id>"]`. The root layout sets `data-site-theme` on `<html>` from `ACTIVE_THEME_ID`.
+Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, scoped with `[data-site-theme="<id>"]`. The root layout sets `data-site-theme` from `ACTIVE_THEME_ID` when unlocked; locked requests use `data-site-theme="locked"` and do not load event theme CSS.
 
 **After an event**, set `ACTIVE_THEME_ID` to `"default"` (or swap in a new theme for the next game week).
 
@@ -164,12 +164,11 @@ Honor `prefers-reduced-motion: reduce` (skip or shorten motion). Leave tiny CSS 
 
 ```
 app/
-  page.tsx              Home
-  rules/page.tsx        Game rules
-  safe-zones/page.tsx   Safe zones
-  resources/page.tsx    All external links
-  layout.tsx            Root layout, metadata, analytics
-  themes/               Per-theme CSS variables and hero styling
+  (site)/               Public pages (home, rules, safe-zones, resources)
+  locked/page.tsx       Middleware rewrite target while locked
+  layout.tsx            Root layout, metadata, lock vs unlocked shell
+  themes/               Per-theme CSS (imported only when unlocked)
+middleware.ts           Rewrites locked traffic to /locked
 components/
   game-countdown.tsx    Hero countdown (client)
   game-start-ceremony.tsx  Pre → live anime.js ceremony
@@ -179,6 +178,8 @@ components/
   desk-tilt-effects.tsx Desk panel tilt hover motion
   site-nav.tsx          Desktop + mobile navigation
   site-shell.tsx        Shared layout shell
+  unlocked-site.tsx     Theme CSS + ThemeProvider + SiteShell
+  theme-gate.tsx        Pre-game lock screen (countdown + preview code)
   rules-content.tsx     Rules page renderer
   safe-zones-content.tsx
   resource-link-card.tsx
@@ -186,6 +187,7 @@ components/
 content/
   themes/               Event theme definitions (default, fnaf, …)
   theme.ts              Re-exports active theme for components
+  bounty.ts             Active bounty target + reveal flag
   heads-up.ts           Latest rule tweaks (banner + rules page)
   things-to-note.ts     Warnings and honor code block
   rules.ts              Basic and specific rules
@@ -195,7 +197,11 @@ lib/
   site-config.ts        Site constants
   game-start.ts         Countdown date/time
   public-resources.ts   Resource labels/icons (URLs from content/links.ts)
-  theme-gate.ts         Optional exec preview gate for event themes
+  theme-gate-flag.ts    Season kill-switch for the lock
+  theme-gate.ts         Server unlock check (live + preview cookie)
+  preview-cookie*.ts    Signed httpOnly exec-preview cookie helpers
+  bounty-display.ts     Sealed vs revealed bounty view model
+  search-hash.ts        Deep-link helper for disclosures
 ```
 
 ## Using npm instead of pnpm
