@@ -88,39 +88,35 @@ export function RuleSearch({ variant }: RuleSearchProps) {
     )
   }
 
-  if (variant === "desktop") {
-    return (
-      <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
-          <button
-            type="button"
-            className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`}
-          >
-            <Search className="h-4 w-4" aria-hidden="true" />
-            Search
-          </button>
-        </DrawerTrigger>
-        <DrawerContent className={`rounded-none border-t-4 ${PIXEL_SECTION_BORDER}`}>
-          <DrawerHeader>
-            <DrawerTitle className="font-mono text-lg">Search Rules</DrawerTitle>
-          </DrawerHeader>
-          <div className="px-4 pb-6">
-            <Input
-              type="search"
-              placeholder="e.g. gym, stun, safe zone..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className={`rounded-none border-4 ${PIXEL_SECTION_BORDER} font-mono`}
-              autoFocus
-            />
-            <div className="mt-4">
-              <SearchResults results={results} onSelect={closeSearch} />
-            </div>
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <button
+          type="button"
+          className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`}
+        >
+          <Search className="h-4 w-4" aria-hidden="true" />
+          Search
+        </button>
+      </DrawerTrigger>
+      <DrawerContent className={`rounded-none border-t-4 ${PIXEL_SECTION_BORDER}`}>
+        <DrawerHeader>
+          <DrawerTitle className="font-mono text-lg">Search Rules</DrawerTitle>
+        </DrawerHeader>
+        <div className="px-4 pb-6">
+          <Input
+            type="search"
+            placeholder="e.g. gym, stun, safe zone..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className={`rounded-none border-4 ${PIXEL_SECTION_BORDER} font-mono`}
+            autoFocus
+          />
+          <div className="mt-4">
+            <SearchResults results={results} onSelect={closeSearch} />
           </div>
-        </DrawerContent>
-      </Drawer>
-    )
-  }
-
-  return null
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
 }

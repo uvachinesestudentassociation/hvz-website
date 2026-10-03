@@ -5,7 +5,7 @@ import type { PublicResource } from "@/lib/public-resources"
 
 type ResourceLinkCardProps = {
   resource: PublicResource
-  variant?: "compact" | "full" | "action"
+  variant?: "full" | "action"
   className?: string
 }
 
@@ -16,13 +16,14 @@ const ACTION_STYLES = {
 } as const
 
 export function ResourceLinkCard({ resource, variant = "full", className = "" }: ResourceLinkCardProps) {
+  if (!resource.href) return null
+
   const Icon = resource.icon
   const isAction = variant === "action"
   const actionStyle =
     resource.id === "killReport" || resource.id === "questBoard" || resource.id === "questReport"
       ? ACTION_STYLES[resource.id]
       : undefined
-  const isHighPriority = resource.priority === "high"
 
   return (
     <a
@@ -32,12 +33,8 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
       aria-label={resource.description ? `${resource.label}: ${resource.description}` : resource.label}
       className={[
         `group relative block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-        isAction && actionStyle
-          ? actionStyle.card
-          : isHighPriority
-            ? PIXEL_SURFACE
-            : PIXEL_SURFACE,
-        isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : variant === "compact" ? "p-3 text-center" : "p-4 md:p-5 text-left",
+        isAction && actionStyle ? actionStyle.card : PIXEL_SURFACE,
+        isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : "p-4 md:p-5 text-left",
         isAction
           ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] dark:hover:shadow-[6px_6px_0_rgba(0,0,0,0.6)] active:translate-x-[3px] active:translate-y-[3px]"
           : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)] dark:hover:shadow-[5px_5px_0_rgba(0,0,0,0.6)]",
@@ -59,10 +56,8 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
         className={[
           "inline-flex shrink-0 items-center justify-center rounded-none border-4 [background-clip:padding-box]",
           isAction
-            ? `size-11 shrink-0 md:mb-4 md:mt-5 md:size-14 ${actionStyle?.icon}`
-            : variant === "compact"
-              ? `mb-2 size-11 mx-auto ${PIXEL_SECTION_BORDER} ${PIXEL_NAV_BG}`
-              : `mb-3 size-12 ${PIXEL_SECTION_BORDER} ${PIXEL_NAV_BG}`,
+            ? `size-11 md:mb-4 md:mt-5 md:size-14 ${actionStyle?.icon}`
+            : `mb-3 size-12 ${PIXEL_SECTION_BORDER} ${PIXEL_NAV_BG}`,
         ].join(" ")}
       >
         <Icon
@@ -76,23 +71,21 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
       </div>
       <div className={isAction ? "min-w-0 flex-1 pr-6" : undefined}>
         <div
-          className={[
+          className={
             isAction
               ? `font-mono text-lg font-black uppercase tracking-wide md:text-2xl ${actionStyle?.label}`
-              : `font-mono uppercase tracking-[0.18em] ${PIXEL_TEXT_SUBTLE}`,
-            !isAction && (variant === "compact" ? "text-[10px]" : "text-xs"),
-          ].join(" ")}
+              : `font-mono text-xs uppercase tracking-[0.18em] ${PIXEL_TEXT_SUBTLE}`
+          }
         >
           {resource.label}
         </div>
         {resource.description && (
           <div
-            className={[
+            className={
               isAction
                 ? `mt-0.5 font-sans text-sm font-semibold md:mt-2 md:text-base ${actionStyle?.label} opacity-90`
-                : `mt-1 font-mono font-bold tracking-wide ${PIXEL_TEXT}`,
-              !isAction && (variant === "compact" ? "text-xs" : "text-sm uppercase"),
-            ].join(" ")}
+                : `mt-1 font-mono text-sm font-bold uppercase tracking-wide ${PIXEL_TEXT}`
+            }
           >
             {resource.description}
           </div>

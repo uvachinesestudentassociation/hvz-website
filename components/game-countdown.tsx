@@ -71,7 +71,7 @@ export function GameCountdown() {
   if (!timeLeft) return null
 
   return (
-    <div className="mx-auto mb-8 max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <p
         className={`mb-3 inline-block rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_HERO_SURFACE} px-3 py-1.5 font-mono text-sm font-bold uppercase tracking-[0.15em] ${PIXEL_TEXT} shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] md:text-base`}
       >

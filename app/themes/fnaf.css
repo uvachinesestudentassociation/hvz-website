@@ -178,25 +178,35 @@
   filter: none;
 }
 
+/* Night: hot glass fill, glow stuck to the letter strokes. */
 [data-site-theme="fnaf"].dark .hero-logo::before {
-  opacity: 0.9;
-  filter: blur(18px);
+  opacity: 1;
+  transform: none;
+  color: #ff5414;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0 0 3px #ffe7a8,
+    0 0 8px #ff8a1a,
+    0 0 16px #ff3c00,
+    0 0 28px rgba(255, 28, 0, 0.8);
+  filter: none;
 }
 
 [data-site-theme="fnaf"].dark .hero-logo__text {
-  filter: drop-shadow(0 5px 6px rgba(255, 50, 0, 0.95))
-    drop-shadow(0 10px 16px rgba(255, 35, 0, 0.75))
-    drop-shadow(0 18px 32px rgba(200, 25, 0, 0.55))
-    drop-shadow(0 28px 48px rgba(160, 15, 0, 0.35));
-}
-
-[data-site-theme="fnaf"].dark .hero-logo::before {
-  color: #ff3a00;
-}
-
-[data-site-theme="fnaf"].dark .hero-logo__text {
-  color: #edbb4f;
-  -webkit-text-stroke: 4.5px #000000;
+  color: transparent;
+  background-image: linear-gradient(
+    165deg,
+    #fffef8 0%,
+    #fff3c4 18%,
+    #ffc14a 46%,
+    #ff7a18 72%,
+    #ff3a00 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.25px #ffc56a;
+  filter: none;
 }
 
 [data-site-theme="fnaf"].dark .sr-only:focus {

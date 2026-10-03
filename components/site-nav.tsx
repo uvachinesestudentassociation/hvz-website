@@ -19,7 +19,6 @@ type NavItem = {
   label: string;
   href: string;
   icon: LucideIcon;
-  external?: boolean;
   matchPaths?: string[];
 };
 
@@ -48,41 +47,20 @@ function isActive(pathname: string, item: NavItem) {
   );
 }
 
-function NavLink({
-  item,
-  pathname,
-  className,
-}: {
-  item: NavItem;
-  pathname: string;
-  className?: string;
-}) {
+function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
   const active = isActive(pathname, item);
   const Icon = item.icon;
-  const baseClass = [
-    "flex min-h-11 items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
-    active ? `${THEME.accent.link} border-b-2 border-current` : `${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`,
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  if (item.external) {
-    return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={baseClass}
-      >
-        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span>{item.label}</span>
-      </a>
-    );
-  }
 
   return (
-    <Link href={item.href} className={baseClass}>
+    <Link
+      href={item.href}
+      className={[
+        "flex min-h-11 items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
+        active
+          ? `${THEME.accent.link} border-b-2 border-current`
+          : `${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`,
+      ].join(" ")}
+    >
       <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
       <span>{item.label}</span>
     </Link>
