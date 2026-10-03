@@ -8,18 +8,7 @@ import { NightShiftSectionHeader } from "@/components/night-shift-section-header
 import { ResourceLinkCard } from "@/components/resource-link-card"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { THEME, THEME_COPY } from "@/content/theme"
-import {
-  PIXEL_HERO_SURFACE,
-  PIXEL_SECTION_BORDER,
-  PIXEL_SECTION_PRIMARY,
-  PIXEL_SECTION_SECONDARY,
-  PIXEL_SURFACE,
-  PIXEL_TEXT,
-  PIXEL_TEXT_MUTED,
-  PIXEL_TEXT_SUBTLE,
-  DESK_RING,
-  DESK_TILT,
-} from "@/components/hvz/pixel-styles"
+import { PIXEL_HERO_SURFACE, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_SECTION_SECONDARY, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE, PIXEL_STAMP, DESK_RING, DESK_TILT } from "@/components/hvz/pixel-styles"
 import { getResource, getSortedResources } from "@/lib/public-resources"
 import { SITE_CONFIG } from "@/lib/site-config"
 
@@ -40,13 +29,13 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className={`relative overflow-hidden border-b-8 ${PIXEL_SECTION_BORDER}`}>
+      <section className={`hero-crt relative overflow-hidden border-b-8 ${PIXEL_SECTION_BORDER}`}>
         <HeroBackground />
 
-        <div className="container relative mx-auto px-4 py-16 md:py-24">
+        <div className="container relative mx-auto px-4 py-8 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
             <HeroLogo />
-            <p className={`mx-auto mb-8 max-w-xl font-mono text-base md:text-lg ${PIXEL_TEXT_MUTED} ${PIXEL_HERO_SURFACE} px-3 py-2 rounded-none border-4 ${PIXEL_SECTION_BORDER} shadow-[4px_4px_0_rgba(88,28,135,0.2)] dark:shadow-[4px_4px_0_rgba(255,255,255,0.08)] break-words`}>
+            <p className={`mx-auto mb-8 max-w-xl text-balance font-mono text-base md:text-lg ${PIXEL_TEXT_MUTED} ${PIXEL_HERO_SURFACE} px-3 py-2 rounded-none border-4 ${PIXEL_SECTION_BORDER} ${PIXEL_STAMP} break-words`}>
               {SITE_CONFIG.tagline}
             </p>
             <GameCountdown />
@@ -59,7 +48,7 @@ export default function HomePage() {
 
       {/* Quick resources */}
       <section id="resources" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
-        <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="container mx-auto px-4 py-8 md:py-16">
           <ScrollReveal>
             <NightShiftSectionHeader>
               {THEME_COPY.sections.quickLinks}
@@ -113,7 +102,7 @@ export default function HomePage() {
       </section>
 
       {/* Deep links */}
-      <section className={`border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
+      <section className={`hidden border-b-8 md:block ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
         <div className="container mx-auto px-4 py-12 md:py-16">
           <ScrollReveal>
             <h2 className={`mb-8 text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>

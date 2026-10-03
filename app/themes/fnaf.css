@@ -151,8 +151,8 @@
 [data-site-theme="fnaf"] .hero-sign__panel {
   background: #2a2620;
   box-shadow:
-    inset 0 -8px 20px rgba(180, 60, 0, 0.1),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.2),
     0 5px 0 #1a1814,
     0 8px 18px rgba(0, 0, 0, 0.35);
 }
@@ -166,15 +166,16 @@
     0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-[data-site-theme="fnaf"] .hero-logo::before {
-  opacity: 0.75;
-  filter: blur(14px);
+/* Daylight: the tubes are there, the power is off. No bloom. */
+[data-site-theme="fnaf"]:not(.dark) .hero-logo::before {
+  opacity: 0;
+  filter: none;
 }
 
-[data-site-theme="fnaf"] .hero-logo__text {
-  filter: drop-shadow(0 4px 5px rgba(220, 45, 0, 0.8))
-    drop-shadow(0 8px 14px rgba(200, 35, 0, 0.55))
-    drop-shadow(0 14px 24px rgba(160, 25, 0, 0.35));
+[data-site-theme="fnaf"]:not(.dark) .hero-logo__text {
+  color: #c4b49a;
+  -webkit-text-stroke: 2.5px #4a382c;
+  filter: none;
 }
 
 [data-site-theme="fnaf"].dark .hero-logo::before {
@@ -189,17 +190,47 @@
     drop-shadow(0 28px 48px rgba(160, 15, 0, 0.35));
 }
 
-[data-site-theme="fnaf"] .hero-logo::before {
+[data-site-theme="fnaf"].dark .hero-logo::before {
   color: #ff3a00;
 }
 
-[data-site-theme="fnaf"] .hero-logo__text {
+[data-site-theme="fnaf"].dark .hero-logo__text {
   color: #edbb4f;
-  -webkit-text-stroke: 6.5px #000000;
+  -webkit-text-stroke: 4.5px #000000;
 }
 
 [data-site-theme="fnaf"].dark .sr-only:focus {
   border-color: #5c4d3a;
   background: #2f2922;
   color: #e8dfd0;
+}
+
+/* Desk bezel around the existing static. Colors stay the office/desk set. */
+[data-site-theme="fnaf"] .hero-crt {
+  box-shadow:
+    inset 0 0 0 10px var(--office-floor),
+    inset 0 0 0 14px var(--office-border);
+}
+
+[data-site-theme="fnaf"].dark .hero-crt {
+  box-shadow:
+    inset 0 0 0 10px var(--desk-wood-dark),
+    inset 0 0 0 12px var(--desk-border),
+    inset 0 0 90px var(--static-vignette);
+}
+
+[data-site-theme="fnaf"] a[href],
+[data-site-theme="fnaf"] button:not(:disabled) {
+  cursor: pointer;
+}
+
+[data-site-theme="fnaf"] a:focus-visible,
+[data-site-theme="fnaf"] button:focus-visible {
+  outline: 3px solid var(--office-border);
+  outline-offset: 3px;
+}
+
+[data-site-theme="fnaf"].dark a:focus-visible,
+[data-site-theme="fnaf"].dark button:focus-visible {
+  outline-color: #fbbf24;
 }

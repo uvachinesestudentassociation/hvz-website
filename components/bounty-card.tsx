@@ -15,6 +15,12 @@ const POSTER_CLASS = [
   "dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:text-[#e8dfd0] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)]",
 ].join(" ")
 
+const PORTRAIT_FRAME_CLASS = [
+  "mx-auto flex size-28 shrink-0 items-center justify-center overflow-hidden border-4",
+  "border-[#8a7868] bg-[#e8dcc8]/80",
+  "dark:border-[#5c4d3a] dark:bg-[#1e1814]",
+].join(" ")
+
 function PosterStripe() {
   return (
     <div
@@ -38,13 +44,7 @@ function PosterHeadline({ text }: { text: string }) {
 
 function PlaceholderMark() {
   return (
-    <div
-      className={[
-        "mx-auto flex size-28 shrink-0 items-center justify-center overflow-hidden border-4",
-        "border-[#8a7868] bg-[#e8dcc8]/80",
-        "dark:border-[#5c4d3a] dark:bg-[#1e1814]",
-      ].join(" ")}
-    >
+    <div className={PORTRAIT_FRAME_CLASS}>
       <span
         className="font-mono text-5xl font-black text-[#6b5d4f] dark:text-[#a89580]"
         aria-hidden="true"
@@ -115,29 +115,18 @@ export function BountyCard({ className = "" }: BountyCardProps) {
       <PosterHeadline text={bounty.headline} />
 
       <div className="relative flex flex-col gap-4 p-5 md:flex-row md:items-center md:gap-6">
-        <div
-          className={[
-            "mx-auto flex size-28 shrink-0 items-center justify-center overflow-hidden border-4",
-            "border-[#8a7868] bg-[#e8dcc8]/80",
-            "dark:border-[#5c4d3a] dark:bg-[#1e1814]",
-          ].join(" ")}
-        >
-          {display.imageSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element -- local public asset path from content config
+        {display.imageSrc ? (
+          <div className={PORTRAIT_FRAME_CLASS}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- local public asset path from content config */}
             <img
               src={display.imageSrc}
               alt={display.name}
               className="size-full object-cover grayscale contrast-125"
             />
-          ) : (
-            <span
-              className="font-mono text-5xl font-black text-[#6b5d4f] dark:text-[#a89580]"
-              aria-hidden="true"
-            >
-              ?
-            </span>
-          )}
-        </div>
+          </div>
+        ) : (
+          <PlaceholderMark />
+        )}
 
         <div className="min-w-0 flex-1 text-center md:text-left">
           <p className="font-mono text-lg font-black uppercase tracking-[0.14em] md:text-xl">

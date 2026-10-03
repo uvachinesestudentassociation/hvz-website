@@ -6,7 +6,7 @@ import {
   previewCookieValue,
 } from "@/lib/preview-cookie"
 import { SITE_CONFIG } from "@/lib/site-config"
-import { THEME_GATE } from "@/lib/theme-gate"
+import { THEME_GATE } from "@/lib/theme-gate-flag"
 
 const WINDOW_MS = 10 * 60 * 1000
 const MAX_MISMATCHES = 8

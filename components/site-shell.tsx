@@ -8,7 +8,7 @@ import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
 import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { MobileThemeToggle, ThemeToggle } from "@/components/theme-toggle"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
@@ -43,7 +43,7 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0`}>
+    <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0`}>
       <div className="relative">
         <div id="site-header-sticky" className="sticky top-0 z-40 md:bg-[#f0ebe3] md:dark:bg-[#1e1814]">
           <DesktopSiteNav />
@@ -59,7 +59,10 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
       <MobileSiteNav />
       <main id="main-content">{children}</main>
       <footer className={`border-t-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
-        <div className="container mx-auto px-4 py-10">
+        <div className="container mx-auto px-4 py-8 md:py-10">
+          <div className="mb-4 flex justify-center md:hidden">
+            <MobileThemeToggle />
+          </div>
           <div className={`text-center font-mono text-xs md:text-sm ${PIXEL_TEXT_MUTED}`}>
             <p className={`mx-auto inline-block ${PIXEL_FRAME} ${DESK_RING.bl} px-3 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
               {`>> HUMANS VS. ZOMBIES ${SITE_CONFIG.gameYear} <<`}
@@ -76,7 +79,7 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
             isAltExperimentPath(pathname)
               ? "fixed bottom-[calc(10.5rem+env(safe-area-inset-bottom))] left-4 z-40 md:bottom-28 md:left-auto md:right-6"
               : "fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-4 z-40 md:bottom-6 md:left-auto md:right-6",
-            "flex h-12 w-12 items-center justify-center rounded-none border-4 border-[#8a7a68] bg-[#f5f0e6] text-[#5c4a38] dark:border-[#5c4d3a] dark:bg-[#2a2420]",
+            "hidden h-12 w-12 items-center justify-center rounded-none border-4 border-[#8a7a68] bg-[#f5f0e6] text-[#5c4a38] dark:border-[#5c4d3a] dark:bg-[#2a2420] md:flex",
             "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] active:translate-x-[1px] active:translate-y-[1px]",
           ].join(" ")}
         >

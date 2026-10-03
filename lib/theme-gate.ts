@@ -4,8 +4,6 @@ import { PREVIEW_COOKIE, previewCookieMatches } from "@/lib/preview-cookie"
 import { SITE_CONFIG } from "@/lib/site-config"
 import { THEME_GATE } from "@/lib/theme-gate-flag"
 
-export { THEME_GATE }
-
 export function isSiteUnlocked(now = Date.now()): boolean {
   return !THEME_GATE.enabled || isGameLive(now)
 }

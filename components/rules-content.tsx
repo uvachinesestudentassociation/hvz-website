@@ -4,6 +4,7 @@ import { PixelDisclosure } from "@/components/hvz/pixel-disclosure"
 import { PIXEL_SECTION_BORDER, PIXEL_SECTION_SECONDARY, PIXEL_TEXT, PIXEL_TEXT_SUBTLE } from "@/components/hvz/pixel-styles"
 import { THEME } from "@/content/theme"
 import { PageToc } from "@/components/page-toc"
+import { RuleSearch } from "@/components/rule-search"
 import {
   BASIC_RULES_INTRO,
   BASIC_RULES_SUBSECTIONS,
@@ -30,11 +31,15 @@ const toneText: Record<string, string> = {
 export function RulesContent() {
   return (
     <section id="rules" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_SECONDARY}`}>
-      <div className="container mx-auto px-4 py-12 md:py-16">
+      <div className="container mx-auto px-4 py-6 md:py-16">
         <div className="mx-auto max-w-4xl space-y-6">
           <h1 className={`text-center font-mono text-3xl md:text-4xl font-extrabold tracking-wider ${PIXEL_TEXT}`}>
             {">> GAME RULES"}
           </h1>
+
+          <div className="md:hidden">
+            <RuleSearch variant="inline" />
+          </div>
 
           <PageToc items={RULES_TOC} />
 

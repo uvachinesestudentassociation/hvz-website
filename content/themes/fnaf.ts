@@ -87,6 +87,26 @@ export const fnafTheme: SiteTheme = {
       bg: "bg-[#6b5d4f]",
       border: "border-[#8a7a68] dark:border-[#5c4d3a]",
     },
+    actions: {
+      kill: {
+        card: "border-red-800 bg-red-700 shadow-[8px_8px_0_rgba(60,20,20,0.45)] dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-red-950 bg-red-200 text-red-900 dark:border-[#5c4d3a] dark:bg-[#1e1814] dark:text-amber-200",
+        label: "text-red-950 dark:text-[#e8dfd0]",
+        badge: "bg-red-900 text-red-50 dark:bg-[#1a1410] dark:text-amber-300",
+      },
+      questBoard: {
+        card: "border-[#8a7a68] bg-[#e8e4dc] shadow-[8px_8px_0_rgba(60,50,40,0.4)] dark:border-[#5c4d3a] dark:bg-[#1a1410] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-[#8a7a68] bg-[#f5f0e6] text-[#3c3228] dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:text-green-300",
+        label: "text-[#3c3228] dark:text-[#e8dfd0]",
+        badge: "bg-[#6b5d4f] text-[#f5f0e6] dark:bg-[#14100c] dark:text-green-300",
+      },
+      questReport: {
+        card: "border-amber-800 bg-amber-600 shadow-[8px_8px_0_rgba(80,50,10,0.4)] dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:shadow-[8px_8px_0_rgba(0,0,0,0.55)]",
+        icon: "border-amber-950 bg-amber-200 text-amber-950 dark:border-[#5c4d3a] dark:bg-[#1e1814] dark:text-amber-200",
+        label: "text-amber-950 dark:text-[#e8dfd0]",
+        badge: "bg-amber-900 text-amber-50 dark:bg-[#1a1410] dark:text-amber-300",
+      },
+    },
   },
   pixel: {
     border: "border-[#8a7a68] dark:border-[#5c4d3a]",
@@ -94,11 +114,12 @@ export const fnafTheme: SiteTheme = {
       "rounded-none border-4 border-[#8a7a68] bg-[#f5f0e6]/90 dark:border-[#5c4d3a] dark:bg-[#2a2420] overflow-hidden [background-clip:padding-box]",
     gridBg:
       "bg-[#e8e4dc] bg-[linear-gradient(180deg,rgba(200,220,255,0.12)_0%,transparent_35%),linear-gradient(90deg,rgba(120,100,80,0.06)_1px,transparent_1px),linear-gradient(rgba(120,100,80,0.06)_1px,transparent_1px)] dark:bg-[#1a1410] dark:bg-[linear-gradient(180deg,rgba(251,191,36,0.08)_0%,transparent_32%),linear-gradient(90deg,rgba(0,0,0,0.14)_1px,transparent_1px),linear-gradient(rgba(0,0,0,0.09)_2px,transparent_2px)] bg-[size:100%_100%,24px_24px,24px_24px] dark:bg-[size:100%_100%,40px_40px,40px_40px]",
-    heroSurface: "bg-neutral-200/80 dark:bg-neutral-900/80",
+    heroSurface: "bg-[#f5f0e6]/90 dark:bg-[#14100c]/85",
+    stamp: "shadow-[4px_4px_0_rgba(60,50,40,0.28)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]",
     surface: "bg-[#f5f0e6]/90 dark:bg-[#2f2922]",
     text: "text-[#3c3228] dark:text-[#e8dfd0]",
     textMuted: "text-[#6b5d4f] dark:text-[#a89580]",
-    textSubtle: "text-[#8a7868] dark:text-[#8a7868]",
+    textSubtle: "text-[#6b5d4f] dark:text-[#c4b4a4]",
     navBg: "bg-[#f0ebe3] dark:bg-[#1e1814]",
     sectionBorder: "border-[#8a7a68] dark:border-[#5c4d3a]",
     sectionPrimary: "bg-[#e8dcc8]/50 dark:bg-[#221c16]",
