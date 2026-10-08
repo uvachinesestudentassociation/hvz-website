@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { ThemeGate } from "@/components/theme-gate";
 import { ACTIVE_THEME_ID } from "@/content/theme";
 import { SITE_CONFIG } from "@/lib/site-config";
-import { isRequestUnlocked } from "@/lib/theme-gate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -47,23 +45,11 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const unlocked = await isRequestUnlocked();
-
-  if (!unlocked) {
-    return (
-      <html lang="en" data-site-theme="locked" suppressHydrationWarning>
-        <body className="font-sans">
-          <ThemeGate gameYear={SITE_CONFIG.gameYear} />
-        </body>
-      </html>
-    );
-  }
-
   return (
     <html lang="en" data-site-theme={ACTIVE_THEME_ID} suppressHydrationWarning>
       <body className="font-sans">{children}</body>

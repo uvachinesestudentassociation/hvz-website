@@ -26,7 +26,7 @@ test("game end is seven days after start", () => {
   expect(getGameEndDate().getTime() - start.getTime()).toBe(7 * 24 * 60 * 60 * 1000)
 })
 
-test("site stays locked until the start instant while the theme gate is enabled", () => {
-  expect(isSiteUnlocked(start.getTime() - 1)).toBe(false)
+test("site is unlocked before game start while the theme gate is off", () => {
+  expect(isSiteUnlocked(start.getTime() - 1)).toBe(true)
   expect(isSiteUnlocked(start.getTime())).toBe(true)
 })
