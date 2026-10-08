@@ -23,7 +23,7 @@ function getHomeQuickActions() {
 export default function HomePage() {
   const { killReport, questBoard, questReport } = getHomeQuickActions()
   const otherResources = getSortedResources()
-    .filter((r) => r.priority !== "high" && r.id !== "questBoard")
+    .filter((r) => r.href && r.priority !== "high" && r.id !== "questBoard")
     .slice(0, 2)
 
   return (
@@ -60,12 +60,16 @@ export default function HomePage() {
           </ScrollReveal>
 
           <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
+            {killReport.href ? (
             <ScrollReveal delay={0}>
               <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
             </ScrollReveal>
+            ) : null}
+            {questReport.href ? (
             <ScrollReveal delay={120}>
               <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
             </ScrollReveal>
+            ) : null}
             <ScrollReveal delay={240} className="sm:col-span-2">
               <QuestBoardEmbed resource={questBoard} />
             </ScrollReveal>

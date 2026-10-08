@@ -43,7 +43,7 @@ export default function ResourcesPage() {
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {resources.map((resource) => (
+          {resources.filter((resource) => resource.href).map((resource) => (
             <ResourceLinkCard key={resource.label} resource={resource} variant="full" />
           ))}
         </div>
