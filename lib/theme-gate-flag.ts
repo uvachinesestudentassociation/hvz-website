@@ -1,7 +1,7 @@
 /**
- * Theme reveal gate — blocks the site until game start unless an exec enters the preview code.
- * Set `enabled` to false after game week if desired.
+ * Theme reveal gate. Off: the event theme is public.
+ * Set `enabled` to true to hide the site again until game start.
  */
 export const THEME_GATE = {
-  enabled: true,
+  enabled: false,
 } as const
