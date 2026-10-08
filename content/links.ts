@@ -1,27 +1,21 @@
 /**
  * CSA@UVA HvZ — external links
  *
- * Update these URLs each game week. Save this file and redeploy (or refresh
- * in dev) — no other code changes needed.
+ * Paste the new URLs from comm. A blank string hides that link until then.
  */
 
 export const LINKS = {
   /** Home page hero — “Join the Game” button */
-  signupForm: "https://forms.gle/bnBijqm8rEba5UfR8",
+  signupForm: "",
 
   /** Report forms — home quick links and mobile nav */
-  killReport:
-    "https://docs.google.com/forms/d/e/1FAIpQLSdp-wrNfNYv6chC_oLoOJtQrZOT6bsB17DDYaFGRu_3ucHBSQ/viewform?usp=sharing&ouid=106379229173789328231",
-  questReport:
-    "https://docs.google.com/forms/d/e/1FAIpQLSeXiUsNOmbAOXE0tBpZ-XK0vddYTCwYUwspL5z-ALtXPeia5g/viewform?usp=dialog",
+  killReport: "",
+  questReport: "",
 
   /** Spreadsheets, docs, and quest board — resources page */
-  pointsList:
-    "https://docs.google.com/spreadsheets/d/1RYTWc7Elv5VkHXIoPV03W4PcqrtLPoHR0RLLSTc1BzE/edit?usp=sharing",
-  populationList:
-    "https://docs.google.com/spreadsheets/d/1mjVAyJOkQJHWgUUR5L0jiJPyZ0VWZ_gKy-bkdVUJXrY/edit?usp=sharing",
-  graveyard:
-    "https://docs.google.com/document/d/1CLhtPH0Eu-ZB0QR3JyvgTJB_6UAp-NUJpagDMEl_pl4/edit?usp=sharing",
+  pointsList: "",
+  populationList: "",
+  graveyard: "",
   /** Paste the public Slides link from comm. Blank shows a home-screen placeholder. */
   questBoard: "",
 } as const

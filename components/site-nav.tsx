@@ -84,7 +84,7 @@ export function DesktopSiteNav() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <RuleSearch variant="desktop" />
-          {forms.map((form) => (
+          {forms.filter((form) => form.href).map((form) => (
             <a
               key={form.href}
               href={form.href}
@@ -111,7 +111,7 @@ export function MobileSiteNav() {
       aria-label="Mobile navigation"
       className={["fixed inset-x-0 bottom-0 z-40 border-t-4", PIXEL_SECTION_BORDER, PIXEL_NAV_BG, "pb-[env(safe-area-inset-bottom)] md:hidden"].join(" ")}
     >
-      <div className="grid grid-cols-4">
+      <div className={killReport.href ? "grid grid-cols-4" : "grid grid-cols-3"}>
         {NAV_ITEMS.filter((item) => item.href !== "/resources").map((item) => {
           const active = isActive(pathname, item);
           const Icon = item.icon;
@@ -131,6 +131,7 @@ export function MobileSiteNav() {
             </Link>
           );
         })}
+        {killReport.href ? (
         <a
           href={killReport.href}
           target="_blank"
@@ -141,6 +142,7 @@ export function MobileSiteNav() {
           <FileText className="h-5 w-5 shrink-0" aria-hidden="true" />
           <span>{killReport.label}</span>
         </a>
+        ) : null}
       </div>
     </nav>
   );
