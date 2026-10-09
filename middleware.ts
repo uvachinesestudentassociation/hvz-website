@@ -17,6 +17,11 @@ async function isUnlocked(request: NextRequest): Promise<boolean> {
 }
 
 export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname
+  if (process.env.NODE_ENV !== "development" && (path === "/lab" || path.startsWith("/lab/"))) {
+    return new NextResponse(null, { status: 404 })
+  }
+
   if (await isUnlocked(request)) return NextResponse.next()
   if (request.nextUrl.pathname.startsWith("/api/")) return NextResponse.next()
   if (request.nextUrl.pathname === "/locked") return NextResponse.next()
