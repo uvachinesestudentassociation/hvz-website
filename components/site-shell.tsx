@@ -6,7 +6,6 @@ import { ArrowUp } from "lucide-react"
 import { DeskTiltEffects } from "@/components/desk-tilt-effects"
 import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
-import { HeadsUpBanner } from "@/components/heads-up-banner"
 import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
 import { MobileThemeToggle, ThemeToggle } from "@/components/theme-toggle"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
@@ -34,7 +33,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const showHeroSignMount = pathname === "/" || isAltExperimentPath(pathname)
+  const showHeroSignMount = pathname === "/" || pathname === "/lab" || isAltExperimentPath(pathname)
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 400)
@@ -47,7 +46,6 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
       <div className="relative">
         <div id="site-header-sticky" className="sticky top-0 z-40 md:bg-[#f0ebe3] md:dark:bg-[#1e1814]">
           <DesktopSiteNav />
-          <HeadsUpBanner />
           {showHeroSignMount && HERO.showSignMount && (
             <div id="hero-sign-mount" className="hero-sign-mount" aria-hidden="true">
               <span className="hero-sign__bar" />
