@@ -3,7 +3,7 @@ import { LINKS, questBoardEmbedUrl } from "@/content/links"
 import { PUBLIC_RESOURCES, getResource } from "./public-resources"
 
 test("every configured link is a non-empty https URL", () => {
-  for (const url of Object.values(LINKS)) {
+  for (const url of Object.values(LINKS) as string[]) {
     if (!url) continue
     expect(url.startsWith("https://")).toBe(true)
   }
