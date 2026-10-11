@@ -115,6 +115,7 @@ export default function HomePage() {
               { href: "/rules", label: "Game Rules", desc: "Basic rules, specific rules, and things to note" },
               { href: "/safe-zones", label: "Safe Zones", desc: "Residences, classes, gym, CSA events, and more" },
               { href: "/resources", label: "All Resources", desc: "Points, population, graveyard, quest board, forms" },
+              { href: "/lab", label: "Security Office", desc: "Exec preview of the lab" },
             ].map((link, index) => (
               <ScrollReveal key={link.href} delay={Math.min(index, 2) * 120}>
                 <Link

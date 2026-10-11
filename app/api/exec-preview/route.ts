@@ -38,7 +38,15 @@ function recordMismatch(key: string, now = Date.now()) {
 }
 
 export async function POST(request: Request) {
-  if (!THEME_GATE.enabled) {
+  let forLab = false
+  try {
+    const peek = await request.clone().json()
+    forLab = peek?.forLab === true
+  } catch {
+    forLab = false
+  }
+
+  if (!THEME_GATE.enabled && !forLab) {
     return NextResponse.json({ ok: true })
   }
 
