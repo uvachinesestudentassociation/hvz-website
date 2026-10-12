@@ -55,10 +55,10 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
     <Link
       href={item.href}
       className={[
-        "flex min-h-11 items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
+        "site-nav-link flex min-h-11 items-center gap-1.5 border-b-2 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
         active
-          ? `${THEME.accent.link} border-b-2 border-current`
-          : `${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`,
+          ? `site-nav-link--active ${THEME.accent.link} border-current`
+          : `border-transparent ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover}`,
       ].join(" ")}
     >
       <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -84,9 +84,10 @@ export function DesktopSiteNav() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <RuleSearch variant="desktop" />
-          {forms.filter((form) => form.href).map((form) => (
+          {forms.map((form) =>
+            form.href ? (
             <a
-              key={form.href}
+              key={form.id}
               href={form.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -95,7 +96,17 @@ export function DesktopSiteNav() {
               <FileText className="h-4 w-4" aria-hidden="true" />
               {form.label}
             </a>
-          ))}
+            ) : (
+            <span
+              key={form.id}
+              aria-disabled="true"
+              className={`flex cursor-not-allowed items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide grayscale opacity-50 ${THEME.alarm.nav}`}
+            >
+              <FileText className="h-4 w-4" aria-hidden="true" />
+              {form.label}
+            </span>
+            ),
+          )}
         </div>
       </div>
     </nav>
@@ -111,7 +122,7 @@ export function MobileSiteNav() {
       aria-label="Mobile navigation"
       className={["fixed inset-x-0 bottom-0 z-40 border-t-4", PIXEL_SECTION_BORDER, PIXEL_NAV_BG, "pb-[env(safe-area-inset-bottom)] md:hidden"].join(" ")}
     >
-      <div className={killReport.href ? "grid grid-cols-4" : "grid grid-cols-3"}>
+      <div className="grid grid-cols-4">
         {NAV_ITEMS.filter((item) => item.href !== "/resources").map((item) => {
           const active = isActive(pathname, item);
           const Icon = item.icon;
@@ -123,7 +134,7 @@ export function MobileSiteNav() {
                 "flex min-h-16 flex-col items-center justify-center gap-1 px-1 py-2 font-mono text-xs font-bold uppercase leading-tight",
                 active
                   ? `${THEME.accent.bgSubtle} ${THEME.accent.navActive}`
-                  : `${PIXEL_TEXT_MUTED} dark:text-[#a89580]`,
+                  : PIXEL_TEXT_MUTED,
               ].join(" ")}
             >
               <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
@@ -142,7 +153,15 @@ export function MobileSiteNav() {
           <FileText className="h-5 w-5 shrink-0" aria-hidden="true" />
           <span>{killReport.label}</span>
         </a>
-        ) : null}
+        ) : (
+        <span
+          aria-disabled="true"
+          className={`flex min-h-16 cursor-not-allowed flex-col items-center justify-center gap-1 px-1 py-2 text-center font-mono text-xs font-bold uppercase leading-tight grayscale opacity-50 ${THEME.alarm.nav}`}
+        >
+          <FileText className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span>{killReport.label}</span>
+        </span>
+        )}
       </div>
     </nav>
   );

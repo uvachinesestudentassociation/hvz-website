@@ -1,5 +1,41 @@
 /** FNAF night-shift theme — CSS variables and hero styling. */
+
+/* Hover eases --nav-hot, not color. A transition on color freezes var(--px-accent)
+   while --dusk moves, which sticks the active Home label on its daytime ink. */
+@property --nav-hot {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 [data-site-theme="fnaf"] {
+  --dusk: 0;
+  --px-border: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
+  --px-paper: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #2a2420 calc(var(--dusk) * 100%));
+  --px-paper-deep: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #2f2922 calc(var(--dusk) * 100%));
+  --px-hero: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #14100c calc(var(--dusk) * 100%));
+  --px-ink: color-mix(in srgb, #3c3228 calc((1 - var(--dusk)) * 100%), #e8dfd0 calc(var(--dusk) * 100%));
+  --px-ink-muted: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #a89580 calc(var(--dusk) * 100%));
+  --px-ink-subtle: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #c4b4a4 calc(var(--dusk) * 100%));
+  --px-accent: color-mix(in srgb, #5c4a38 calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
+  --px-accent-hover: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #86efac calc(var(--dusk) * 100%));
+  --px-nav-active: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #fde68a calc(var(--dusk) * 100%));
+  --px-monitor: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
+  --px-warning: color-mix(in srgb, #92400e calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
+  --px-rose: color-mix(in srgb, #be123c calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
+  --px-sky: color-mix(in srgb, #075985 calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
+  --px-alarm: color-mix(in srgb, #dc2626 calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
+  --px-dev: color-mix(in srgb, #5c4a38 calc((1 - var(--dusk)) * 100%), #fef3c7 calc(var(--dusk) * 100%));
+  --px-dev-muted: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #fde68a calc(var(--dusk) * 100%));
+  --px-dev-active: color-mix(in srgb, #f59e0b calc((1 - var(--dusk)) * 100%), #d97706 calc(var(--dusk) * 100%));
+  --px-dev-active-border: color-mix(in srgb, #b45309 calc((1 - var(--dusk)) * 100%), #fbbf24 calc(var(--dusk) * 100%));
+  --px-nav: color-mix(in srgb, #f0ebe3 calc((1 - var(--dusk)) * 100%), #1e1814 calc(var(--dusk) * 100%));
+  --px-section: color-mix(in srgb, #e8dcc8 calc((1 - var(--dusk)) * 100%), #221c16 calc(var(--dusk) * 100%));
+  --px-section-2: color-mix(in srgb, #e8e4dc calc((1 - var(--dusk)) * 100%), #1c1612 calc(var(--dusk) * 100%));
+  --px-grid: color-mix(in srgb, #e8e4dc calc((1 - var(--dusk)) * 100%), #1a1410 calc(var(--dusk) * 100%));
+  --px-grid-line: color-mix(in srgb, rgba(120, 100, 80, 0.06) calc((1 - var(--dusk)) * 100%), rgba(0, 0, 0, 0.14) calc(var(--dusk) * 100%));
+  --px-grid-glow: color-mix(in srgb, rgba(200, 220, 255, 0.12) calc((1 - var(--dusk)) * 100%), rgba(251, 191, 36, 0.08) calc(var(--dusk) * 100%));
+
   /* Daytime security office */
   --office-wall: #e8e4dc;
   --office-ceiling: #f5f2eb;
@@ -28,9 +64,9 @@
   --cctv-noise-opacity: 0.35;
   --cctv-glow: rgba(120, 100, 80, 0.03);
 
-  /* Page shell — light mode */
-  --background: oklch(0.91 0.012 75);
-  --foreground: oklch(0.28 0.025 55);
+  /* Page shell — mixes toward night with --dusk, same curve as the room */
+  --background: color-mix(in oklch, oklch(0.91 0.012 75) calc((1 - var(--dusk)) * 100%), oklch(0.14 0.02 55) calc(var(--dusk) * 100%));
+  --foreground: color-mix(in oklch, oklch(0.28 0.025 55) calc((1 - var(--dusk)) * 100%), oklch(0.91 0.02 75) calc(var(--dusk) * 100%));
   --card: oklch(0.94 0.015 80);
   --card-foreground: oklch(0.28 0.025 55);
   --popover: oklch(0.94 0.015 80);
@@ -40,12 +76,12 @@
   --secondary: oklch(0.88 0.018 75);
   --secondary-foreground: oklch(0.32 0.025 55);
   --muted: oklch(0.88 0.018 75);
-  --muted-foreground: oklch(0.48 0.03 55);
+  --muted-foreground: color-mix(in oklch, oklch(0.48 0.03 55) calc((1 - var(--dusk)) * 100%), oklch(0.68 0.04 65) calc(var(--dusk) * 100%));
   --accent: oklch(0.9 0.02 80);
   --accent-foreground: oklch(0.32 0.025 55);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.62 0.035 55);
+  --border: color-mix(in oklch, oklch(0.62 0.035 55) calc((1 - var(--dusk)) * 100%), oklch(0.38 0.04 55) calc(var(--dusk) * 100%));
   --input: oklch(0.85 0.02 75);
   --ring: oklch(0.58 0.04 55);
   --chart-1: oklch(0.48 0.04 55);
@@ -94,9 +130,7 @@
   --cctv-noise-opacity: var(--static-noise-opacity);
   --cctv-glow: var(--static-scanline);
 
-  /* Page shell — dark mode */
-  --background: oklch(0.14 0.02 55);
-  --foreground: oklch(0.91 0.02 75);
+  /* Page shell text stays on the dusk mix so night does not recolor it. */
   --card: oklch(0.19 0.025 50);
   --card-foreground: oklch(0.91 0.02 75);
   --popover: oklch(0.19 0.025 50);
@@ -106,7 +140,6 @@
   --secondary: oklch(0.22 0.025 50);
   --secondary-foreground: oklch(0.88 0.02 75);
   --muted: oklch(0.22 0.025 50);
-  --muted-foreground: oklch(0.68 0.04 65);
   --accent: oklch(0.24 0.03 55);
   --accent-foreground: oklch(0.91 0.02 75);
   --destructive: oklch(0.55 0.18 30);
@@ -127,6 +160,46 @@
   --sidebar-accent-foreground: oklch(0.91 0.02 75);
   --sidebar-border: oklch(0.38 0.04 55);
   --sidebar-ring: oklch(0.72 0.16 145);
+}
+
+[data-site-theme="fnaf"] .px-grid {
+  background-color: var(--px-grid);
+  background-image:
+    linear-gradient(180deg, var(--px-grid-glow) 0%, transparent 35%),
+    linear-gradient(90deg, var(--px-grid-line) 1px, transparent 1px),
+    linear-gradient(var(--px-grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px, 24px 24px;
+}
+
+/* Desktop nav. color is not transitioned — see --nav-hot above. */
+[data-site-theme="fnaf"] .site-nav-link {
+  --nav-hot: 0;
+  transition-property: --nav-hot;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+  color: color-mix(
+    in srgb,
+    var(--px-ink-muted) calc((1 - var(--nav-hot)) * 100%),
+    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
+  );
+}
+
+[data-site-theme="fnaf"] .site-nav-link:hover {
+  --nav-hot: 1;
+}
+
+[data-site-theme="fnaf"] .site-nav-link--active {
+  color: color-mix(
+    in srgb,
+    var(--px-accent) calc((1 - var(--nav-hot)) * 100%),
+    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-site-theme="fnaf"] .site-nav-link {
+    transition-duration: 0s;
+  }
 }
 
 /* FNAF hanging sign + roadside-logo hero title */
@@ -166,22 +239,10 @@
     0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Daylight: the tubes are there, the power is off. No bloom. */
-[data-site-theme="fnaf"]:not(.dark) .hero-logo::before {
-  opacity: 0;
-  filter: none;
-}
-
-[data-site-theme="fnaf"]:not(.dark) .hero-logo__text {
-  color: #c4b49a;
-  -webkit-text-stroke: 2.5px #4a382c;
-  filter: none;
-}
-
-/* Night: hot glass fill, glow stuck to the letter strokes. */
-[data-site-theme="fnaf"].dark .hero-logo::before {
-  opacity: 1;
-  transform: none;
+/* Letters and tube glow follow --dusk in day and night, so the dark-class switch does not pop. */
+[data-site-theme="fnaf"] .hero-logo::before {
+  opacity: var(--dusk);
+  transform: translateY(calc((1 - var(--dusk)) * 8px));
   color: #ff5414;
   -webkit-text-stroke: 0;
   text-shadow:
@@ -192,21 +253,12 @@
   filter: none;
 }
 
-[data-site-theme="fnaf"].dark .hero-logo__text {
-  color: transparent;
-  background-image: linear-gradient(
-    165deg,
-    #fffef8 0%,
-    #fff3c4 18%,
-    #ffc14a 46%,
-    #ff7a18 72%,
-    #ff3a00 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.25px #ffc56a;
-  filter: none;
+[data-site-theme="fnaf"] .hero-logo__text {
+  color: color-mix(in srgb, #c4b49a calc((1 - var(--dusk)) * 100%), #fff3c4 calc(var(--dusk) * 100%));
+  background-image: none;
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke: 2px color-mix(in srgb, #4a382c calc((1 - var(--dusk)) * 100%), #ffc56a calc(var(--dusk) * 100%));
+  filter: drop-shadow(0 0 calc(16px * var(--dusk)) rgba(255, 60, 0, 0.85));
 }
 
 [data-site-theme="fnaf"].dark .sr-only:focus {
@@ -243,4 +295,48 @@
 [data-site-theme="fnaf"].dark a:focus-visible,
 [data-site-theme="fnaf"].dark button:focus-visible {
   outline-color: #fbbf24;
+}
+
+/* Window scrollbar. Colors are dusk mixes, so the bar fades with the page. */
+[data-site-theme="fnaf"] {
+  scrollbar-color: var(--px-ink-muted) var(--px-paper);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-track,
+[data-site-theme="fnaf"]::-webkit-scrollbar-corner {
+  background: var(--px-paper);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-thumb {
+  background: var(--px-ink-muted);
+  border: 2px solid var(--px-paper);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-button:single-button {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--px-ink-muted);
+  background-clip: content-box;
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-button:single-button:vertical:decrement {
+  clip-path: polygon(50% 5px, 3px 12px, 13px 12px);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-button:single-button:vertical:increment {
+  clip-path: polygon(3px 4px, 13px 4px, 50% 11px);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  clip-path: polygon(5px 50%, 12px 3px, 12px 13px);
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar-button:single-button:horizontal:increment {
+  clip-path: polygon(4px 3px, 4px 13px, 11px 50%);
 }

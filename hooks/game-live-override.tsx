@@ -6,16 +6,24 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react"
-import { getGameStartDate } from "@/lib/game-start"
+import { DUSK_FADE_MS, DUSK_NIGHT_LEAD_MS, getGameStartDate } from "@/lib/game-start"
 
 /** null = follow real clock; true/false = force live / pre-game; "start" = simulate T→0 flip */
 export type LiveOverride = boolean | null | "start"
 
 /** Seconds shown on the countdown before the simulated flip to live. */
 const START_PREVIEW_LEAD_SEC = 5
+
+/** Compressed dusk fade so the 2-hour dim can be watched in dev. 0 = real time. */
+export function duskPreviewMs(speed: number): number {
+  if (speed <= 0) return 0
+  const t = Math.min(1, (speed - 1) / 99)
+  return Math.round(90_000 - t * 85_000)
+}
 
 type GameLiveOverrideContextValue = {
   /** null = follow real clock; true/false = force live / pre-game; "start" = T→0 preview */
@@ -28,6 +36,11 @@ type GameLiveOverrideContextValue = {
    * and freezes at T=0. null otherwise.
    */
   simulatedNow: number | null
+  /** While a dusk preview runs, a clock walking the 2-hour fade. */
+  duskScrub: number | null
+  /** 0 = real time. Higher plays the office dim faster. */
+  duskSpeed: number
+  setDuskSpeed: (speed: number) => void
   enabled: boolean
   /** True after session/query overrides have been read (always true when preview is disabled). */
   hydrated: boolean
@@ -75,6 +88,9 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
   const [liveOverride, setLiveOverrideState] = useState<LiveOverride>(null)
   const [simulatedNow, setSimulatedNow] = useState<number | null>(null)
   const [startReplayKey, setStartReplayKey] = useState(0)
+  const [duskSpeed, setDuskSpeedState] = useState(0)
+  const [duskScrub, setDuskScrub] = useState<number | null>(null)
+  const duskProgress = useRef(0)
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
@@ -117,6 +133,29 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     return () => window.clearInterval(id)
   }, [enabled, hydrated, liveOverride, startReplayKey])
 
+  useEffect(() => {
+    if (!enabled || duskSpeed <= 0) {
+      setDuskScrub(null)
+      duskProgress.current = 0
+      return
+    }
+    const startAt = getGameStartDate().getTime()
+    const from = startAt - DUSK_FADE_MS
+    const to = startAt - DUSK_NIGHT_LEAD_MS
+    const duration = duskPreviewMs(duskSpeed)
+    const startT = duskProgress.current >= 1 ? 0 : duskProgress.current
+    const began = performance.now() - startT * duration
+    let frame = 0
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - began) / duration)
+      duskProgress.current = t
+      setDuskScrub(from + (to - from) * t)
+      if (t < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [enabled, duskSpeed])
+
   const setLiveOverride = useCallback(
     (value: LiveOverride) => {
       if (!enabled) return
@@ -136,12 +175,23 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     setStartReplayKey((key) => key + 1)
   }, [enabled])
 
+  const setDuskSpeed = useCallback(
+    (speed: number) => {
+      if (!enabled) return
+      setDuskSpeedState(Math.max(0, Math.min(100, speed)))
+    },
+    [enabled],
+  )
+
   const value = useMemo(
     () => ({
       liveOverride: enabled && hydrated ? liveOverride : null,
       setLiveOverride,
       replayStartPreview,
       simulatedNow: enabled && hydrated && liveOverride === "start" ? simulatedNow : null,
+      duskScrub: enabled && duskSpeed > 0 ? duskScrub : null,
+      duskSpeed: enabled ? duskSpeed : 0,
+      setDuskSpeed,
       enabled,
       hydrated: !enabled || hydrated,
     }),
@@ -150,6 +200,9 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       hydrated,
       liveOverride,
       simulatedNow,
+      duskScrub,
+      duskSpeed,
+      setDuskSpeed,
       setLiveOverride,
       replayStartPreview,
     ],
