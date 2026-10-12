@@ -16,32 +16,28 @@ const ACTION_STYLES = {
 } as const
 
 export function ResourceLinkCard({ resource, variant = "full", className = "" }: ResourceLinkCardProps) {
-  if (!resource.href) return null
-
   const Icon = resource.icon
+  const unavailable = !resource.href
   const isAction = variant === "action"
   const actionStyle =
     resource.id === "killReport" || resource.id === "questBoard" || resource.id === "questReport"
       ? ACTION_STYLES[resource.id]
       : undefined
+  const classes = [
+    `group relative block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
+    isAction && actionStyle ? actionStyle.card : PIXEL_SURFACE,
+    isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : "p-4 md:p-5 text-left",
+    unavailable
+      ? "cursor-not-allowed grayscale opacity-50"
+      : isAction
+        ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] dark:hover:shadow-[6px_6px_0_rgba(0,0,0,0.6)] active:translate-x-[3px] active:translate-y-[3px]"
+        : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)] dark:hover:shadow-[5px_5px_0_rgba(0,0,0,0.6)]",
+    "overflow-hidden [background-clip:padding-box]",
+    className,
+  ].join(" ")
 
-  return (
-    <a
-      href={resource.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={resource.description ? `${resource.label}: ${resource.description}` : resource.label}
-      className={[
-        `group relative block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-        isAction && actionStyle ? actionStyle.card : PIXEL_SURFACE,
-        isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : "p-4 md:p-5 text-left",
-        isAction
-          ? "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)] dark:hover:shadow-[6px_6px_0_rgba(0,0,0,0.6)] active:translate-x-[3px] active:translate-y-[3px]"
-          : "shadow-[6px_6px_0_rgba(0,0,0,0.45)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[5px_5px_0_rgba(0,0,0,0.45)] dark:hover:shadow-[5px_5px_0_rgba(0,0,0,0.6)]",
-        "overflow-hidden [background-clip:padding-box]",
-        className,
-      ].join(" ")}
-    >
+  const body = (
+    <>
       {isAction && actionStyle && (
         <span
           className={[
@@ -91,13 +87,35 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
           </div>
         )}
       </div>
-      <ExternalLink
-        className={[
-          "absolute right-2 top-2 h-5 w-5",
-          isAction ? `${PIXEL_TEXT} opacity-90` : `${PIXEL_TEXT_MUTED} opacity-70`,
-        ].join(" ")}
-        aria-hidden="true"
-      />
+      {unavailable ? null : (
+        <ExternalLink
+          className={[
+            "absolute right-2 top-2 h-5 w-5",
+            isAction ? `${PIXEL_TEXT} opacity-90` : `${PIXEL_TEXT_MUTED} opacity-70`,
+          ].join(" ")}
+          aria-hidden="true"
+        />
+      )}
+    </>
+  )
+
+  if (unavailable) {
+    return (
+      <div aria-disabled="true" className={classes}>
+        {body}
+      </div>
+    )
+  }
+
+  return (
+    <a
+      href={resource.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={resource.description ? `${resource.label}: ${resource.description}` : resource.label}
+      className={classes}
+    >
+      {body}
     </a>
   )
 }

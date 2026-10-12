@@ -1,9 +1,14 @@
 import { expect, test } from "vitest"
 import {
+  DUSK_FADE_MS,
+  DUSK_NIGHT_LEAD_MS,
+  duskAmount,
   getGameEndDate,
   getGameStartDate,
   getGameStartLabel,
+  isDuskNight,
   isGameLive,
+  hallLightsFlicker,
 } from "./game-start"
 import { isSiteUnlocked } from "./theme-gate"
 
@@ -24,6 +29,31 @@ test("start label uses 12-hour midnight Eastern", () => {
 
 test("game end is seven days after start", () => {
   expect(getGameEndDate().getTime() - start.getTime()).toBe(7 * 24 * 60 * 60 * 1000)
+})
+
+test("dusk stays light until two hours out, then fades, then night", () => {
+  expect(duskAmount(start.getTime() - DUSK_FADE_MS - 1)).toBe(0)
+  expect(isDuskNight(start.getTime() - DUSK_FADE_MS - 1)).toBe(false)
+
+  expect(duskAmount(start.getTime() - DUSK_FADE_MS)).toBe(0)
+  const mid = start.getTime() - (DUSK_FADE_MS + DUSK_NIGHT_LEAD_MS) / 2
+  expect(duskAmount(mid)).toBeCloseTo(0.5)
+  expect(isDuskNight(mid)).toBe(false)
+
+  expect(duskAmount(start.getTime() - DUSK_NIGHT_LEAD_MS)).toBe(1)
+  expect(isDuskNight(start.getTime() - DUSK_NIGHT_LEAD_MS)).toBe(true)
+  expect(duskAmount(start.getTime())).toBe(1)
+  expect(isDuskNight(start.getTime() + 1000)).toBe(true)
+})
+
+test("hallway lights flicker only the day before and the day of start", () => {
+  const day = 24 * 60 * 60 * 1000
+  expect(hallLightsFlicker(start.getTime() - 2 * day)).toBe(false)
+  expect(hallLightsFlicker(start.getTime() - day)).toBe(true)
+  expect(hallLightsFlicker(start.getTime() - 60 * 60 * 1000)).toBe(true)
+  expect(hallLightsFlicker(start.getTime())).toBe(true)
+  expect(hallLightsFlicker(start.getTime() + 12 * 60 * 60 * 1000)).toBe(true)
+  expect(hallLightsFlicker(start.getTime() + day)).toBe(false)
 })
 
 test("site is unlocked before game start while the theme gate is off", () => {

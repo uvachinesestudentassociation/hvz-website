@@ -12,7 +12,7 @@ const POSTER_CLASS = [
   "relative overflow-hidden rounded-none border-4",
   PIXEL_SECTION_BORDER,
   "bg-[#f4e8c8] text-[#2a2018] shadow-[6px_6px_0_rgba(0,0,0,0.45)]",
-  "dark:border-[#5c4d3a] dark:bg-[#2a2420] dark:text-[#e8dfd0] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)]",
+  "dark:border-[#5c4d3a] dark:bg-[#2a2420] text-[var(--px-ink)] dark:shadow-[6px_6px_0_rgba(0,0,0,0.55)]",
 ].join(" ")
 
 const PORTRAIT_FRAME_CLASS = [
@@ -46,7 +46,7 @@ function PlaceholderMark() {
   return (
     <div className={PORTRAIT_FRAME_CLASS}>
       <span
-        className="font-mono text-5xl font-black text-[#6b5d4f] dark:text-[#a89580]"
+        className="font-mono text-5xl font-black text-[var(--px-ink-muted)]"
         aria-hidden="true"
       >
         ?
@@ -80,7 +80,7 @@ export function BountyCard({ className = "" }: BountyCardProps) {
         <PosterHeadline text={bounty.headline} />
         <div className="relative flex flex-col items-center gap-4 p-5">
           <PlaceholderMark />
-          <p className="font-mono text-xs font-black uppercase tracking-[0.22em] text-[#5c4a38] dark:text-amber-200">
+          <p className="font-mono text-xs font-black uppercase tracking-[0.22em] text-[var(--px-accent)]">
             {bounty.sealed}
           </p>
         </div>
@@ -132,7 +132,7 @@ export function BountyCard({ className = "" }: BountyCardProps) {
           <p className="font-mono text-lg font-black uppercase tracking-[0.14em] md:text-xl">
             {display.name}
           </p>
-          <p className="mt-1 font-mono text-sm font-bold uppercase tracking-wide text-[#8b1a1a] dark:text-red-300/90">
+          <p className="mt-1 font-mono text-sm font-bold uppercase tracking-wide text-[var(--px-rose)]">
             {display.reward}
           </p>
           <p className={`mt-2 font-mono text-xs ${PIXEL_TEXT_MUTED} md:text-sm`}>
@@ -141,8 +141,8 @@ export function BountyCard({ className = "" }: BountyCardProps) {
           <span
             className={[
               "mt-3 inline-block border-2 border-[#8a7868] bg-[#f5f0e6] px-3 py-1",
-              "font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[#5c4a38]",
-              "dark:border-[#5c4d3a] dark:bg-[#1a1410] dark:text-amber-200",
+              "font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[var(--px-accent)]",
+              "dark:border-[#5c4d3a] dark:bg-[#1a1410]",
             ].join(" ")}
           >
             {bounty.cta}
@@ -152,7 +152,7 @@ export function BountyCard({ className = "" }: BountyCardProps) {
 
       {hasLink && (
         <ExternalLink
-          className="absolute right-2 top-2 size-5 text-[#6b5d4f] opacity-70 dark:text-[#a89580]"
+          className="absolute right-2 top-2 size-5 text-[var(--px-ink-muted)] opacity-70"
           aria-hidden="true"
         />
       )}

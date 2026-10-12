@@ -12,6 +12,7 @@
 html {
   /* Keep layout stable when overlays lock scroll / scrollbar appears or vanishes. */
   scrollbar-gutter: stable;
+  overflow-x: clip;
 }
 
 @theme inline {
@@ -149,6 +150,31 @@ html {
   border: 1px solid #000;
   border-radius: 1px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Object popups on the desk. Thick page frames stay on the real pages. */
+.desk-popup .border-4 {
+  border-width: 1px;
+}
+
+.desk-popup .border-8 {
+  border-width: 2px;
+}
+
+.desk-popup .border-b-8 {
+  border-bottom-width: 2px;
+}
+
+.desk-popup .border-t-8 {
+  border-top-width: 2px;
+}
+
+.desk-popup .border-b-4 {
+  border-bottom-width: 1px;
+}
+
+.desk-popup .border-l-4 {
+  border-left-width: 1px;
 }
 
 .hero-sign__wires {
@@ -565,7 +591,7 @@ html {
 
 .gsc-hand {
   /* Overlap ~45% of the hand onto the folder's left edge so it reads as a grip. */
-  --gsc-hand-w: clamp(7rem, 18vw, 14rem);
+  --gsc-hand-w: clamp(6rem, 15vw, 11.5rem);
   position: absolute;
   left: calc(var(--gsc-hand-w) * -0.45);
   bottom: clamp(6%, 10vh, 16%);
@@ -588,10 +614,10 @@ html {
   /* Portrait letter-ish sheet — taller than wide, not a square. */
   position: relative;
   aspect-ratio: 8.5 / 11;
-  width: min(68vw, 34rem);
-  max-width: calc(90vh * 8.5 / 11);
+  width: min(58vw, 28rem);
+  max-width: calc(76vh * 8.5 / 11);
   height: auto;
-  max-height: 90vh;
+  max-height: 76vh;
   transform-style: preserve-3d;
 }
 
@@ -796,13 +822,13 @@ html {
   z-index: 5;
   display: grid;
   place-items: center;
-  width: clamp(14rem, 32vw, 26rem);
-  height: clamp(4.75rem, 10.5vw, 8.25rem);
+  width: clamp(12rem, 27vw, 22rem);
+  height: clamp(4rem, 9vw, 7rem);
   border: 7px solid #b91c1c;
   color: #b91c1c;
   background: rgba(254, 226, 226, 0.2);
   font-family: var(--font-mono), Consolas, monospace;
-  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  font-size: clamp(1.5rem, 3.4vw, 2.75rem);
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;

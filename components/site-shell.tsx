@@ -6,9 +6,8 @@ import { ArrowUp } from "lucide-react"
 import { DeskTiltEffects } from "@/components/desk-tilt-effects"
 import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
-import { HeadsUpBanner } from "@/components/heads-up-banner"
-import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
-import { MobileThemeToggle, ThemeToggle } from "@/components/theme-toggle"
+import { DuskTheme } from "@/components/dusk-theme"
+import { MobileSiteNav } from "@/components/site-nav"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
@@ -24,9 +23,11 @@ function isAltExperimentPath(pathname: string | null | undefined): boolean {
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <GameLiveOverrideProvider>
-      <GameStartCeremonyProvider>
-        <SiteShellInner>{children}</SiteShellInner>
-      </GameStartCeremonyProvider>
+      <DuskTheme>
+        <GameStartCeremonyProvider>
+          <SiteShellInner>{children}</SiteShellInner>
+        </GameStartCeremonyProvider>
+      </DuskTheme>
     </GameLiveOverrideProvider>
   )
 }
@@ -34,7 +35,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const showHeroSignMount = pathname === "/" || isAltExperimentPath(pathname)
+  const showHeroSignMount = pathname === "/" || pathname === "/lab" || isAltExperimentPath(pathname)
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 400)
@@ -45,24 +46,22 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
   return (
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0`}>
       <div className="relative">
-        <div id="site-header-sticky" className="sticky top-0 z-40 md:bg-[#f0ebe3] md:dark:bg-[#1e1814]">
-          <DesktopSiteNav />
-          <HeadsUpBanner />
+        <div id="site-header-sticky" className="sticky top-0 z-40 md:hidden">
           {showHeroSignMount && HERO.showSignMount && (
-            <div id="hero-sign-mount" className="hero-sign-mount" aria-hidden="true">
+            <div
+              id="hero-sign-mount"
+              className={pathname === "/" ? "hero-sign-mount md:hidden" : "hero-sign-mount"}
+              aria-hidden="true"
+            >
               <span className="hero-sign__bar" />
             </div>
           )}
         </div>
-        <ThemeToggle />
       </div>
       <MobileSiteNav />
       <main id="main-content">{children}</main>
       <footer className={`border-t-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
         <div className="container mx-auto px-4 py-8 md:py-10">
-          <div className="mb-4 flex justify-center md:hidden">
-            <MobileThemeToggle />
-          </div>
           <div className={`text-center font-mono text-xs md:text-sm ${PIXEL_TEXT_MUTED}`}>
             <p className={`mx-auto inline-block ${PIXEL_FRAME} ${DESK_RING.bl} px-3 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
               {`>> HUMANS VS. ZOMBIES ${SITE_CONFIG.gameYear} <<`}
@@ -83,7 +82,7 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
             "shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)] active:translate-x-[1px] active:translate-y-[1px]",
           ].join(" ")}
         >
-          <ArrowUp className="h-5 w-5 text-[#5c4a38] dark:text-amber-200" aria-hidden="true" />
+          <ArrowUp className="h-5 w-5 text-[var(--px-accent)]" aria-hidden="true" />
         </button>
       )}
       <DeskTiltEffects />

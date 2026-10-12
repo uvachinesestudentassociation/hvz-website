@@ -9,7 +9,7 @@ export function HeroBackground() {
   const { light, dark } = HERO.background
 
   return (
-    <>
+    <div className="hero-bg absolute inset-0" aria-hidden="true">
       {/* Light mode */}
       <div
         className="absolute inset-0 dark:hidden"
@@ -84,6 +84,6 @@ export function HeroBackground() {
           background: `radial-gradient(ellipse 85% 75% at 50% 45%, transparent 55%, ${dark.vignette} 100%)`,
         }}
       />
-    </>
+    </div>
   )
 }

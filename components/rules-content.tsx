@@ -22,10 +22,10 @@ const toneBorder: Record<string, string> = {
 }
 
 const toneText: Record<string, string> = {
-  rose: "text-rose-700 dark:text-amber-300/90",
+  rose: "text-[var(--px-rose)]",
   emerald: `${THEME.accent.link}`,
-  amber: "text-amber-800 dark:text-amber-300/90",
-  sky: "text-sky-800 dark:text-green-400/80",
+  amber: "text-[var(--px-warning)]",
+  sky: "text-[var(--px-sky)]",
 }
 
 export function RulesContent() {
@@ -44,8 +44,8 @@ export function RulesContent() {
           <PageToc items={RULES_TOC} />
 
           <div id="things-to-note" className="scroll-mt-24">
-            <BlockPanel title={<span className="text-rose-700 dark:text-amber-300/90">⚠ THINGS TO NOTE</span>} tone="danger">
-              <p className="font-bold text-rose-700 dark:text-amber-300/90">{THINGS_TO_NOTE.warning}</p>
+            <BlockPanel title={<span className="text-[var(--px-rose)]">⚠ THINGS TO NOTE</span>} tone="danger">
+              <p className="font-bold text-[var(--px-rose)]">{THINGS_TO_NOTE.warning}</p>
               <br />
               {THINGS_TO_NOTE.paragraphs.map((p) => (
                 <p key={p} className="break-words">
@@ -63,7 +63,7 @@ export function RulesContent() {
                   <br />
                 </p>
               ))}
-              <p className="font-bold text-lg text-rose-700 dark:text-amber-300/90 text-center">{THINGS_TO_NOTE.honorCode}</p>
+              <p className="font-bold text-lg text-[var(--px-rose)] text-center">{THINGS_TO_NOTE.honorCode}</p>
             </BlockPanel>
           </div>
 
@@ -90,7 +90,7 @@ export function RulesContent() {
                       {p.includes("RESPECT PRIVACY") ? (
                         <>
                           Humans cannot be killed in the safe zones below. Read carefully to understand how they work.
-                          <span className="block font-bold text-rose-700 dark:text-amber-300/90">
+                          <span className="block font-bold text-[var(--px-rose)]">
                             RESPECT PRIVACY AND DO NOT DISTURB EXTERNAL MEETINGS/ORGS. If we see/hear breaches, you may
                             be removed from HvZ and your family may face consequences.
                           </span>

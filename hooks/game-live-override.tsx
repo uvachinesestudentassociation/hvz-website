@@ -6,16 +6,35 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react"
-import { getGameStartDate } from "@/lib/game-start"
+import {
+  DUSK_FADE_MS,
+  DUSK_NIGHT_LEAD_MS,
+  duskAmount,
+  getGameStartDate,
+  getTimeUntilGameStart,
+  hallLightsFlicker,
+  isDuskNight,
+} from "@/lib/game-start"
 
 /** null = follow real clock; true/false = force live / pre-game; "start" = simulate T→0 flip */
 export type LiveOverride = boolean | null | "start"
 
+/** auto = clock. The other three are the hallway tube periods. */
+export type HallPreview = "auto" | "off" | "on" | "flicker"
+
 /** Seconds shown on the countdown before the simulated flip to live. */
 const START_PREVIEW_LEAD_SEC = 5
+
+/** Compressed dusk fade so the 2-hour dim can be watched in dev. 0 = real time. */
+export function duskPreviewMs(speed: number): number {
+  if (speed <= 0) return 0
+  const t = Math.min(1, (speed - 1) / 99)
+  return Math.round(90_000 - t * 85_000)
+}
 
 type GameLiveOverrideContextValue = {
   /** null = follow real clock; true/false = force live / pre-game; "start" = T→0 preview */
@@ -28,12 +47,25 @@ type GameLiveOverrideContextValue = {
    * and freezes at T=0. null otherwise.
    */
   simulatedNow: number | null
+  /** 0 = real time. Higher plays the office dim faster. */
+  duskSpeed: number
+  setDuskSpeed: (speed: number) => void
+  /** Dev preview of the hallway tubes. auto follows the clock. */
+  hallPreview: HallPreview
+  setHallPreview: (value: HallPreview) => void
+  /** Theme branches. Fractional dusk is written to `--dusk` and does not live here. */
+  night: boolean
+  flicker: boolean
   enabled: boolean
   /** True after session/query overrides have been read (always true when preview is disabled). */
   hydrated: boolean
+  /** Password gate for the dev panel outside local development. */
+  unlockDev: (password: string) => boolean
 }
 
 const STORAGE_KEY = "hvz-dev-game-live-override"
+const UNLOCK_KEY = "hvz-dev-unlock"
+const DEV_UNLOCK_PASSWORD = "threedee"
 
 const GameLiveOverrideContext = createContext<GameLiveOverrideContextValue | null>(null)
 
@@ -71,11 +103,60 @@ function persistLive(value: LiveOverride) {
 }
 
 export function GameLiveOverrideProvider({ children }: { children: ReactNode }) {
-  const enabled = isDevPreviewEnabled()
+  const [unlocked, setUnlocked] = useState(false)
+  const enabled = isDevPreviewEnabled() || unlocked
   const [liveOverride, setLiveOverrideState] = useState<LiveOverride>(null)
   const [simulatedNow, setSimulatedNow] = useState<number | null>(null)
   const [startReplayKey, setStartReplayKey] = useState(0)
+  const [duskSpeed, setDuskSpeedState] = useState(0)
+  const [hallPreview, setHallPreviewState] = useState<HallPreview>("auto")
+  const [duskPhase, setDuskPhase] = useState(() => ({
+    night: isDuskNight(),
+    flicker: hallLightsFlicker(),
+  }))
+  const duskProgress = useRef(0)
+  const duskScrubRef = useRef<number | null>(null)
+  const simulatedNowRef = useRef<number | null>(null)
+  const duskSpeedRef = useRef(0)
+  const cssDusk = useRef("")
+  const duskPhaseRef = useRef(duskPhase)
   const [hydrated, setHydrated] = useState(false)
+
+  simulatedNowRef.current = enabled && hydrated && liveOverride === "start" ? simulatedNow : null
+  duskSpeedRef.current = enabled ? duskSpeed : 0
+  duskPhaseRef.current = duskPhase
+
+  const paintDusk = useCallback((clock: number) => {
+    const night = isDuskNight(clock)
+    const flicker = hallLightsFlicker(clock)
+    const dusk = night ? 1 : duskAmount(clock)
+    const css = dusk.toFixed(4)
+    if (css !== cssDusk.current) {
+      cssDusk.current = css
+      document.documentElement.style.setProperty("--dusk", css)
+    }
+    if (duskPhaseRef.current.night === night && duskPhaseRef.current.flicker === flicker) return
+    setDuskPhase({ night, flicker })
+  }, [])
+
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(UNLOCK_KEY) === "1") setUnlocked(true)
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  const unlockDev = useCallback((password: string) => {
+    if (password.trim().toLowerCase() !== DEV_UNLOCK_PASSWORD) return false
+    try {
+      sessionStorage.setItem(UNLOCK_KEY, "1")
+    } catch {
+      /* ignore */
+    }
+    setUnlocked(true)
+    return true
+  }, [])
 
   useEffect(() => {
     if (!enabled) {
@@ -117,6 +198,59 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     return () => window.clearInterval(id)
   }, [enabled, hydrated, liveOverride, startReplayKey])
 
+  useEffect(() => {
+    if (!enabled || duskSpeed <= 0) {
+      duskScrubRef.current = null
+      if (duskSpeed <= 0) duskProgress.current = 0
+      paintDusk(simulatedNowRef.current ?? Date.now())
+      return
+    }
+    const startAt = getGameStartDate().getTime()
+    const from = startAt - DUSK_FADE_MS
+    const to = startAt - DUSK_NIGHT_LEAD_MS
+    const duration = duskPreviewMs(duskSpeed)
+    const startT = duskProgress.current >= 1 ? 0 : duskProgress.current
+    const began = performance.now() - startT * duration
+    let frame = 0
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - began) / duration)
+      duskProgress.current = t
+      duskScrubRef.current = from + (to - from) * t
+      paintDusk(duskScrubRef.current)
+      if (t < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [enabled, duskSpeed, paintDusk])
+
+  useEffect(() => {
+    let timer = 0
+    let stopped = false
+    const tick = () => {
+      if (stopped) return
+      if (duskSpeedRef.current <= 0) paintDusk(simulatedNowRef.current ?? Date.now())
+      const clock = duskScrubRef.current ?? simulatedNowRef.current ?? Date.now()
+      const remaining = getTimeUntilGameStart(clock)
+      let wait = 30_000
+      if (duskSpeedRef.current > 0) wait = 500
+      else if (remaining > DUSK_NIGHT_LEAD_MS && remaining < DUSK_FADE_MS) wait = 1000
+      else if (remaining >= DUSK_FADE_MS) {
+        wait = Math.min(30_000, Math.max(1000, remaining - DUSK_FADE_MS))
+      }
+      timer = window.setTimeout(tick, wait)
+    }
+    tick()
+    return () => {
+      stopped = true
+      window.clearTimeout(timer)
+    }
+  }, [paintDusk])
+
+  useEffect(() => {
+    if (duskSpeedRef.current > 0) return
+    paintDusk(simulatedNowRef.current ?? Date.now())
+  }, [simulatedNow, liveOverride, hydrated, paintDusk])
+
   const setLiveOverride = useCallback(
     (value: LiveOverride) => {
       if (!enabled) return
@@ -136,22 +270,51 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     setStartReplayKey((key) => key + 1)
   }, [enabled])
 
+  const setDuskSpeed = useCallback(
+    (speed: number) => {
+      if (!enabled) return
+      setDuskSpeedState(Math.max(0, Math.min(100, speed)))
+    },
+    [enabled],
+  )
+
+  const setHallPreview = useCallback(
+    (value: HallPreview) => {
+      if (!enabled) return
+      setHallPreviewState(value)
+    },
+    [enabled],
+  )
+
   const value = useMemo(
     () => ({
       liveOverride: enabled && hydrated ? liveOverride : null,
       setLiveOverride,
       replayStartPreview,
       simulatedNow: enabled && hydrated && liveOverride === "start" ? simulatedNow : null,
+      duskSpeed: enabled ? duskSpeed : 0,
+      setDuskSpeed,
+      hallPreview: enabled ? hallPreview : "auto",
+      setHallPreview,
+      night: duskPhase.night,
+      flicker: duskPhase.flicker,
       enabled,
       hydrated: !enabled || hydrated,
+      unlockDev,
     }),
     [
       enabled,
       hydrated,
       liveOverride,
       simulatedNow,
+      duskPhase,
+      duskSpeed,
+      hallPreview,
+      setDuskSpeed,
+      setHallPreview,
       setLiveOverride,
       replayStartPreview,
+      unlockDev,
     ],
   )
 
