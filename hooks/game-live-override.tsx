@@ -10,7 +10,15 @@ import {
   useState,
   type ReactNode,
 } from "react"
-import { DUSK_FADE_MS, DUSK_NIGHT_LEAD_MS, getGameStartDate } from "@/lib/game-start"
+import {
+  DUSK_FADE_MS,
+  DUSK_NIGHT_LEAD_MS,
+  duskAmount,
+  getGameStartDate,
+  getTimeUntilGameStart,
+  hallLightsFlicker,
+  isDuskNight,
+} from "@/lib/game-start"
 
 /** null = follow real clock; true/false = force live / pre-game; "start" = simulate T→0 flip */
 export type LiveOverride = boolean | null | "start"
@@ -36,11 +44,12 @@ type GameLiveOverrideContextValue = {
    * and freezes at T=0. null otherwise.
    */
   simulatedNow: number | null
-  /** While a dusk preview runs, a clock walking the 2-hour fade. */
-  duskScrub: number | null
   /** 0 = real time. Higher plays the office dim faster. */
   duskSpeed: number
   setDuskSpeed: (speed: number) => void
+  /** Theme branches. Fractional dusk is written to `--dusk` and does not live here. */
+  night: boolean
+  flicker: boolean
   enabled: boolean
   /** True after session/query overrides have been read (always true when preview is disabled). */
   hydrated: boolean
@@ -89,9 +98,34 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
   const [simulatedNow, setSimulatedNow] = useState<number | null>(null)
   const [startReplayKey, setStartReplayKey] = useState(0)
   const [duskSpeed, setDuskSpeedState] = useState(0)
-  const [duskScrub, setDuskScrub] = useState<number | null>(null)
+  const [duskPhase, setDuskPhase] = useState(() => ({
+    night: isDuskNight(),
+    flicker: hallLightsFlicker(),
+  }))
   const duskProgress = useRef(0)
+  const duskScrubRef = useRef<number | null>(null)
+  const simulatedNowRef = useRef<number | null>(null)
+  const duskSpeedRef = useRef(0)
+  const cssDusk = useRef("")
+  const duskPhaseRef = useRef(duskPhase)
   const [hydrated, setHydrated] = useState(false)
+
+  simulatedNowRef.current = enabled && hydrated && liveOverride === "start" ? simulatedNow : null
+  duskSpeedRef.current = enabled ? duskSpeed : 0
+  duskPhaseRef.current = duskPhase
+
+  const paintDusk = useCallback((clock: number) => {
+    const night = isDuskNight(clock)
+    const flicker = hallLightsFlicker(clock)
+    const dusk = night ? 1 : duskAmount(clock)
+    const css = dusk.toFixed(4)
+    if (css !== cssDusk.current) {
+      cssDusk.current = css
+      document.documentElement.style.setProperty("--dusk", css)
+    }
+    if (duskPhaseRef.current.night === night && duskPhaseRef.current.flicker === flicker) return
+    setDuskPhase({ night, flicker })
+  }, [])
 
   useEffect(() => {
     if (!enabled) {
@@ -135,8 +169,9 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
 
   useEffect(() => {
     if (!enabled || duskSpeed <= 0) {
-      setDuskScrub(null)
-      duskProgress.current = 0
+      duskScrubRef.current = null
+      if (duskSpeed <= 0) duskProgress.current = 0
+      paintDusk(simulatedNowRef.current ?? Date.now())
       return
     }
     const startAt = getGameStartDate().getTime()
@@ -149,12 +184,41 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     const tick = (now: number) => {
       const t = Math.min(1, (now - began) / duration)
       duskProgress.current = t
-      setDuskScrub(from + (to - from) * t)
+      duskScrubRef.current = from + (to - from) * t
+      paintDusk(duskScrubRef.current)
       if (t < 1) frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [enabled, duskSpeed])
+  }, [enabled, duskSpeed, paintDusk])
+
+  useEffect(() => {
+    let timer = 0
+    let stopped = false
+    const tick = () => {
+      if (stopped) return
+      if (duskSpeedRef.current <= 0) paintDusk(simulatedNowRef.current ?? Date.now())
+      const clock = duskScrubRef.current ?? simulatedNowRef.current ?? Date.now()
+      const remaining = getTimeUntilGameStart(clock)
+      let wait = 30_000
+      if (duskSpeedRef.current > 0) wait = 500
+      else if (remaining > DUSK_NIGHT_LEAD_MS && remaining < DUSK_FADE_MS) wait = 1000
+      else if (remaining >= DUSK_FADE_MS) {
+        wait = Math.min(30_000, Math.max(1000, remaining - DUSK_FADE_MS))
+      }
+      timer = window.setTimeout(tick, wait)
+    }
+    tick()
+    return () => {
+      stopped = true
+      window.clearTimeout(timer)
+    }
+  }, [paintDusk])
+
+  useEffect(() => {
+    if (duskSpeedRef.current > 0) return
+    paintDusk(simulatedNowRef.current ?? Date.now())
+  }, [simulatedNow, liveOverride, hydrated, paintDusk])
 
   const setLiveOverride = useCallback(
     (value: LiveOverride) => {
@@ -189,9 +253,10 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       setLiveOverride,
       replayStartPreview,
       simulatedNow: enabled && hydrated && liveOverride === "start" ? simulatedNow : null,
-      duskScrub: enabled && duskSpeed > 0 ? duskScrub : null,
       duskSpeed: enabled ? duskSpeed : 0,
       setDuskSpeed,
+      night: duskPhase.night,
+      flicker: duskPhase.flicker,
       enabled,
       hydrated: !enabled || hydrated,
     }),
@@ -200,7 +265,7 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       hydrated,
       liveOverride,
       simulatedNow,
-      duskScrub,
+      duskPhase,
       duskSpeed,
       setDuskSpeed,
       setLiveOverride,

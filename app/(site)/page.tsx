@@ -10,6 +10,7 @@ import { ScrollReveal } from "@/components/scroll-reveal"
 import { THEME, THEME_COPY } from "@/content/theme"
 import { PIXEL_HERO_SURFACE, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_SECTION_SECONDARY, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE, PIXEL_STAMP, DESK_RING, DESK_TILT } from "@/components/hvz/pixel-styles"
 import { getResource, getSortedResources } from "@/lib/public-resources"
+import { LabDeskLoader } from "@/components/lab-desk-loader"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 function getHomeQuickActions() {
@@ -23,10 +24,10 @@ function getHomeQuickActions() {
 export default function HomePage() {
   const { killReport, questBoard, questReport } = getHomeQuickActions()
   const otherResources = getSortedResources()
-    .filter((r) => r.href && r.priority !== "high" && r.id !== "questBoard")
-    .slice(0, 2)
+    .filter((r) => r.priority !== "high" && r.id !== "questBoard")
 
   return (
+    <LabDeskLoader>
     <>
       {/* Hero */}
       <section className={`hero-crt relative overflow-hidden border-b-8 ${PIXEL_SECTION_BORDER}`}>
@@ -60,16 +61,12 @@ export default function HomePage() {
           </ScrollReveal>
 
           <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
-            {killReport.href ? (
             <ScrollReveal delay={0}>
               <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
             </ScrollReveal>
-            ) : null}
-            {questReport.href ? (
             <ScrollReveal delay={120}>
               <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
             </ScrollReveal>
-            ) : null}
             <ScrollReveal delay={240} className="sm:col-span-2">
               <QuestBoardEmbed resource={questBoard} />
             </ScrollReveal>
@@ -115,7 +112,6 @@ export default function HomePage() {
               { href: "/rules", label: "Game Rules", desc: "Basic rules, specific rules, and things to note" },
               { href: "/safe-zones", label: "Safe Zones", desc: "Residences, classes, gym, CSA events, and more" },
               { href: "/resources", label: "All Resources", desc: "Points, population, graveyard, quest board, forms" },
-              { href: "/lab", label: "Security Office", desc: "Exec preview of the lab" },
             ].map((link, index) => (
               <ScrollReveal key={link.href} delay={Math.min(index, 2) * 120}>
                 <Link
@@ -137,5 +133,6 @@ export default function HomePage() {
         </div>
       </section>
     </>
+    </LabDeskLoader>
   )
 }

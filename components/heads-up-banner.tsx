@@ -12,11 +12,11 @@ function HeadsUpList() {
 
   return (
     <>
-      <ul className={`list-none space-y-1 ${PIXEL_TEXT} dark:text-[#e8dfd0]`}>
+      <ul className={`list-none space-y-1 ${PIXEL_TEXT}`}>
         {HEADS_UP_ITEMS.map((item) => (
           <li key={item} className="flex gap-2">
             <span
-              className={`shrink-0 font-bold ${THEME.alarm.text} dark:text-amber-400/90`}
+              className={`shrink-0 font-bold ${THEME.alarm.text}`}
               aria-hidden="true"
             >
               ›
@@ -26,7 +26,7 @@ function HeadsUpList() {
         ))}
       </ul>
       <p
-        className={`mt-2 text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} dark:text-[#a89580]`}
+        className={`mt-2 text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED}`}
       >
         {headsUp.footer}
       </p>
@@ -157,7 +157,7 @@ export function HeadsUpBanner() {
                 type="button"
                 onClick={dismiss}
                 aria-label="Dismiss heads up banner"
-                className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center self-start ${PIXEL_TEXT_MUTED} hover:text-[#3c3228] dark:text-[#a89580] dark:hover:text-[#e8dfd0]`}
+                className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center self-start ${PIXEL_TEXT_MUTED} hover:text-[var(--px-ink)]`}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -190,7 +190,7 @@ export function HeadsUpBanner() {
             type="button"
             onClick={dismiss}
             aria-label="Dismiss heads up banner"
-            className={`shrink-0 self-start p-2 ${PIXEL_TEXT_MUTED} hover:text-[#3c3228] dark:text-[#a89580] dark:hover:text-[#e8dfd0]`}
+            className={`shrink-0 self-start p-2 ${PIXEL_TEXT_MUTED} hover:text-[var(--px-ink)]`}
           >
             <X className="h-5 w-5" />
           </button>

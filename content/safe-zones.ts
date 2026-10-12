@@ -13,8 +13,7 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
     id: "residences",
     title: "RESIDENCES",
     paragraphs: [
-      "Humans cannot be killed inside their own room/apartment unless they invite the zombie in themselves. KILLS FROM FORCEFUL ENTRIES WILL NOT COUNT (e.g., forcing into someone's room or coercing a crewmate to open their door via threats/excessive annoyance).",
-      "Roommates may not invite zombies in to kill their roommates.",
+      "Humans cannot be killed inside their own room/apartment unless they invite the zombie in themselves. KILLS FROM FORCEFUL ENTRIES WILL NOT COUNT (e.g., forcing into someone's room or coercing humans to open their door via threats/excessive annoyance).",
       "Entering a household: You must have permission from a resident who is present. If the granting resident is not present, they must notify all household members, and all members must acknowledge and accept that someone will visit at least 10 minutes before arrival.",
     ],
     listItems: [
@@ -59,9 +58,10 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
     id: "family-events",
     title: "FAMILY EVENT RULES",
     paragraphs: [
-      "Definition: 1 guardian (family head/aunt/uncle) + at least 1 general family member; minimum of 5 family members.",
+      "A family event must include at least 5 family members total, with at least 1 guardian (famhead/aunt/uncle) present.",
     ],
     listItems: [
+      "General family members NOT in the game of HVZ can count towards the 5 family member minimum",
       "\"Walking events\" are SAFE with at least 5 people; if it drops to 4, it's no longer a family event, so it's not safe.",
       "Comm chairs do not count toward the family-event headcount.",
       "Stay together & planned: meet intentionally, continuously interact, don't disperse.",
@@ -74,7 +74,8 @@ export const SAFE_ZONE_SECTIONS: SafeZoneSection[] = [
     paragraphs: [
       "Do not tag humans who are driving, biking, on a bus, skateboarding, etc.",
       "External CIO events follow class rules: the event location is safe for the official duration and 10 minute windows before and after. Traveling to/from the event is not safe.",
-      `To request adjustments to safe-zone bounds, email all Comm Chairs (${SITE_CONFIG.commChairs.join(", ")}).`,
+      `To request adjustments to safe-zone bounds or specific immunities, message all Comm Chairs (${SITE_CONFIG.commChairs.join(", ")}).`,
+      "Comm chairs can create safe zones anywhere, at any time, and will announce them in the messenger chat.",
       "RESPECT PRIVACY AND DO NOT DISTURB EXTERNAL MEETINGS/ORGS. Breaches may result in removal from HvZ and family consequences.",
     ],
     footnote:

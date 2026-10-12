@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { LINKS, questBoardEmbedUrl } from "@/content/links"
+import { LINKS, questBoardEmbedUrl, resourceEmbedUrl } from "@/content/links"
 import { PUBLIC_RESOURCES, getResource } from "./public-resources"
 
 test("every configured link is a non-empty https URL", () => {
@@ -23,6 +23,16 @@ test("quest board embed url uses the presentation id", () => {
   expect(
     questBoardEmbedUrl("https://docs.google.com/presentation/d/abc_DEF-123/edit?usp=sharing"),
   ).toBe("https://docs.google.com/presentation/d/abc_DEF-123/embed?start=false&loop=false&rm=minimal")
+})
+
+test("form and sheet links use an embed url", () => {
+  expect(
+    resourceEmbedUrl("https://docs.google.com/forms/d/e/abc/viewform?usp=sharing"),
+  ).toBe("https://docs.google.com/forms/d/e/abc/viewform?usp=sharing&embedded=true")
+  expect(
+    resourceEmbedUrl("https://docs.google.com/spreadsheets/d/sheet_1/edit?usp=sharing"),
+  ).toBe("https://docs.google.com/spreadsheets/d/sheet_1/htmlembed")
+  expect(resourceEmbedUrl("https://example.com/form")).toBe("https://example.com/form")
 })
 
 test("kill and quest forms are wired through LINKS", () => {

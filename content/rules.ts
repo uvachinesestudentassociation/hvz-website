@@ -39,7 +39,7 @@ export const BASIC_RULES_SUBSECTIONS: RuleSubsection[] = [
     tone: "emerald",
     items: [
       "Try your best to stay alive.",
-      "You may temporarily STUN a zombie by throwing a sock that makes direct contact with the zombie.",
+      "You may temporarily STUN a zombie by throwing a sock that makes direct contact with the zombie. Stun socks must be soft/unweighted. Do not intentionally throw them at someone's face/head. Hitting a zombie in the face/head will NOT result in a stun.",
       "A valid stun lasts 15 minutes during which that zombie may not attack the same human.",
       "No stacking stuns: you cannot apply another stun while a zombie is already stunned. If the zombie attempts again (e.g., after the stun or tries anyway), you may re-stun for the same duration.",
       "You may stun a known zombie even if they are not actively attacking you.",
@@ -94,7 +94,7 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     id: "no-restraining",
     heading: "NO RESTRAINING PEOPLE.",
     tone: "rose",
-    body: "Zombies collapsing on humans is OKAY -- it's the same thing as if you are in a corner and then 2 zombies come toward you and you are trapped. What we do not allow is for people to physically restrain people from moving, or have one person block a door. Families can trap people with multiple zombies, but they cannot use humans because there is no reason for those humans to be there blocking the way. Zombies are allowed to trap someone because they are actively trying to kill the human.",
+    body: "Families can trap humans by surrounding them with multiple zombies or cutting off escape routes. However, zombies may not physically restrain, grab, hold, shove, or pin humans to prevent them from moving, and one person may not block a doorway or exit by themselves. Humans may not be used to help trap another human, since they are not actively trying to make a kill. Only zombies may work together to corner or trap a human while attempting to kill them.",
   },
   {
     id: "no-pretend-zombie",

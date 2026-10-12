@@ -383,28 +383,22 @@ export function GameStartCeremony() {
     setReduced(prefersReducedMotion());
   }, [playing]);
 
-  // Lock body scroll + compensate scrollbar width so the page doesn't shift under the overlay.
+  // Lock scroll while the overlay plays. scrollbar-gutter: stable already
+  // reserves the bar, so extra padding would narrow the desk and shift it left.
   useLayoutEffect(() => {
     if (!playing) return;
 
     const html = document.documentElement;
     const body = document.body;
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-
     const prevHtmlOverflow = html.style.overflow;
     const prevBodyOverflow = body.style.overflow;
-    const prevBodyPadding = body.style.paddingRight;
 
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
-    if (scrollbarGap > 0) {
-      body.style.paddingRight = `${scrollbarGap}px`;
-    }
 
     return () => {
       html.style.overflow = prevHtmlOverflow;
       body.style.overflow = prevBodyOverflow;
-      body.style.paddingRight = prevBodyPadding;
     };
   }, [playing]);
 

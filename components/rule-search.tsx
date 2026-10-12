@@ -93,7 +93,7 @@ export function RuleSearch({ variant }: RuleSearchProps) {
       <DrawerTrigger asChild>
         <button
           type="button"
-          className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover} dark:text-[#a89580]`}
+          className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover}`}
         >
           <Search className="h-4 w-4" aria-hidden="true" />
           Search
