@@ -73,7 +73,7 @@ export function isDuskNight(now = Date.now()): boolean {
   return getTimeUntilGameStart(now) <= DUSK_NIGHT_LEAD_MS
 }
 
-function easternDay(now: number): string {
+export function easternDay(now: number): string {
   const shifted = new Date(now + GAME_START.utcOffsetHours * 60 * 60 * 1000)
   return shifted.toISOString().slice(0, 10)
 }

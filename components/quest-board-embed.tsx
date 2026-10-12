@@ -4,13 +4,21 @@ import { THEME } from "@/content/theme"
 import type { PublicResource } from "@/lib/public-resources"
 
 const EMBED_FRAME = `h-[70dvh] w-full border-4 md:aspect-video md:h-auto ${PIXEL_SECTION_BORDER}`
+const EMBED_FRAME_THIN = "h-[70dvh] w-full border md:aspect-video md:h-auto border-[var(--px-border)]"
 
-export function QuestBoardEmbed({ resource }: { resource: PublicResource }) {
+export function QuestBoardEmbed({
+  resource,
+  frame = "thick",
+}: {
+  resource: PublicResource
+  frame?: "thick" | "thin"
+}) {
   const embedUrl = questBoardEmbedUrl(resource.href)
+  const frameClass = frame === "thin" ? EMBED_FRAME_THIN : EMBED_FRAME
   if (!embedUrl) {
     return (
       <div
-        className={`flex flex-col items-center justify-center gap-2 px-4 text-center ${EMBED_FRAME} ${PIXEL_SURFACE}`}
+        className={`flex flex-col items-center justify-center gap-2 px-4 text-center ${frameClass} ${PIXEL_SURFACE}`}
       >
         <p className={`font-mono text-lg font-bold uppercase tracking-wide ${PIXEL_TEXT}`}>{resource.label}</p>
         {resource.description && (
@@ -27,7 +35,7 @@ export function QuestBoardEmbed({ resource }: { resource: PublicResource }) {
         title="Quest board"
         loading="lazy"
         allowFullScreen
-        className={`block ${EMBED_FRAME}`}
+        className={`block ${frameClass}`}
       />
       <a
         href={resource.href}

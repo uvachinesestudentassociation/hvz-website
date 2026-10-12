@@ -52,6 +52,8 @@ export function GameLiveDevPanel() {
     simulatedNow,
     duskSpeed,
     setDuskSpeed,
+    hallPreview,
+    setHallPreview,
   } = ctx
 
   const duskSeconds = duskSpeed <= 0 ? 0 : Math.round(duskPreviewMs(duskSpeed) / 1000)
@@ -98,6 +100,23 @@ export function GameLiveDevPanel() {
           }}
         >
           T→0
+        </ModeButton>
+      </div>
+      <label className="mt-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--px-dev)]">
+        Hall lights
+      </label>
+      <div className="mt-1 flex flex-wrap gap-1">
+        <ModeButton active={hallPreview === "auto"} onClick={() => setHallPreview("auto")}>
+          Auto
+        </ModeButton>
+        <ModeButton active={hallPreview === "off"} onClick={() => setHallPreview("off")}>
+          Off
+        </ModeButton>
+        <ModeButton active={hallPreview === "on"} onClick={() => setHallPreview("on")}>
+          On
+        </ModeButton>
+        <ModeButton active={hallPreview === "flicker"} onClick={() => setHallPreview("flicker")}>
+          Flicker
         </ModeButton>
       </div>
       <label className="mt-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--px-dev)]">

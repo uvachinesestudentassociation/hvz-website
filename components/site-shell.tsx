@@ -7,7 +7,7 @@ import { DeskTiltEffects } from "@/components/desk-tilt-effects"
 import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
 import { DuskTheme } from "@/components/dusk-theme"
-import { DesktopSiteNav, MobileSiteNav } from "@/components/site-nav"
+import { MobileSiteNav } from "@/components/site-nav"
 import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
@@ -46,10 +46,13 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
   return (
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0`}>
       <div className="relative">
-        <div id="site-header-sticky" className="sticky top-0 z-40 md:bg-[var(--px-nav)]">
-          <DesktopSiteNav />
+        <div id="site-header-sticky" className="sticky top-0 z-40 md:hidden">
           {showHeroSignMount && HERO.showSignMount && (
-            <div id="hero-sign-mount" className="hero-sign-mount" aria-hidden="true">
+            <div
+              id="hero-sign-mount"
+              className={pathname === "/" ? "hero-sign-mount md:hidden" : "hero-sign-mount"}
+              aria-hidden="true"
+            >
               <span className="hero-sign__bar" />
             </div>
           )}

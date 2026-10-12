@@ -23,6 +23,9 @@ import {
 /** null = follow real clock; true/false = force live / pre-game; "start" = simulate T→0 flip */
 export type LiveOverride = boolean | null | "start"
 
+/** auto = clock. The other three are the hallway tube periods. */
+export type HallPreview = "auto" | "off" | "on" | "flicker"
+
 /** Seconds shown on the countdown before the simulated flip to live. */
 const START_PREVIEW_LEAD_SEC = 5
 
@@ -47,15 +50,22 @@ type GameLiveOverrideContextValue = {
   /** 0 = real time. Higher plays the office dim faster. */
   duskSpeed: number
   setDuskSpeed: (speed: number) => void
+  /** Dev preview of the hallway tubes. auto follows the clock. */
+  hallPreview: HallPreview
+  setHallPreview: (value: HallPreview) => void
   /** Theme branches. Fractional dusk is written to `--dusk` and does not live here. */
   night: boolean
   flicker: boolean
   enabled: boolean
   /** True after session/query overrides have been read (always true when preview is disabled). */
   hydrated: boolean
+  /** Password gate for the dev panel outside local development. */
+  unlockDev: (password: string) => boolean
 }
 
 const STORAGE_KEY = "hvz-dev-game-live-override"
+const UNLOCK_KEY = "hvz-dev-unlock"
+const DEV_UNLOCK_PASSWORD = "threedee"
 
 const GameLiveOverrideContext = createContext<GameLiveOverrideContextValue | null>(null)
 
@@ -93,11 +103,13 @@ function persistLive(value: LiveOverride) {
 }
 
 export function GameLiveOverrideProvider({ children }: { children: ReactNode }) {
-  const enabled = isDevPreviewEnabled()
+  const [unlocked, setUnlocked] = useState(false)
+  const enabled = isDevPreviewEnabled() || unlocked
   const [liveOverride, setLiveOverrideState] = useState<LiveOverride>(null)
   const [simulatedNow, setSimulatedNow] = useState<number | null>(null)
   const [startReplayKey, setStartReplayKey] = useState(0)
   const [duskSpeed, setDuskSpeedState] = useState(0)
+  const [hallPreview, setHallPreviewState] = useState<HallPreview>("auto")
   const [duskPhase, setDuskPhase] = useState(() => ({
     night: isDuskNight(),
     flicker: hallLightsFlicker(),
@@ -125,6 +137,25 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     }
     if (duskPhaseRef.current.night === night && duskPhaseRef.current.flicker === flicker) return
     setDuskPhase({ night, flicker })
+  }, [])
+
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(UNLOCK_KEY) === "1") setUnlocked(true)
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  const unlockDev = useCallback((password: string) => {
+    if (password.trim().toLowerCase() !== DEV_UNLOCK_PASSWORD) return false
+    try {
+      sessionStorage.setItem(UNLOCK_KEY, "1")
+    } catch {
+      /* ignore */
+    }
+    setUnlocked(true)
+    return true
   }, [])
 
   useEffect(() => {
@@ -247,6 +278,14 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     [enabled],
   )
 
+  const setHallPreview = useCallback(
+    (value: HallPreview) => {
+      if (!enabled) return
+      setHallPreviewState(value)
+    },
+    [enabled],
+  )
+
   const value = useMemo(
     () => ({
       liveOverride: enabled && hydrated ? liveOverride : null,
@@ -255,10 +294,13 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       simulatedNow: enabled && hydrated && liveOverride === "start" ? simulatedNow : null,
       duskSpeed: enabled ? duskSpeed : 0,
       setDuskSpeed,
+      hallPreview: enabled ? hallPreview : "auto",
+      setHallPreview,
       night: duskPhase.night,
       flicker: duskPhase.flicker,
       enabled,
       hydrated: !enabled || hydrated,
+      unlockDev,
     }),
     [
       enabled,
@@ -267,9 +309,12 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       simulatedNow,
       duskPhase,
       duskSpeed,
+      hallPreview,
       setDuskSpeed,
+      setHallPreview,
       setLiveOverride,
       replayStartPreview,
+      unlockDev,
     ],
   )
 

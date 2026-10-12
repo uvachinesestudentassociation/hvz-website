@@ -12,6 +12,7 @@
 html {
   /* Keep layout stable when overlays lock scroll / scrollbar appears or vanishes. */
   scrollbar-gutter: stable;
+  overflow-x: clip;
 }
 
 @theme inline {
@@ -149,6 +150,31 @@ html {
   border: 1px solid #000;
   border-radius: 1px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Object popups on the desk. Thick page frames stay on the real pages. */
+.desk-popup .border-4 {
+  border-width: 1px;
+}
+
+.desk-popup .border-8 {
+  border-width: 2px;
+}
+
+.desk-popup .border-b-8 {
+  border-bottom-width: 2px;
+}
+
+.desk-popup .border-t-8 {
+  border-top-width: 2px;
+}
+
+.desk-popup .border-b-4 {
+  border-bottom-width: 1px;
+}
+
+.desk-popup .border-l-4 {
+  border-left-width: 1px;
 }
 
 .hero-sign__wires {

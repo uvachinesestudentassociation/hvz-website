@@ -212,13 +212,8 @@
 }
 
 [data-site-theme="fnaf"] .hero-sign__wire-line {
-  stroke: #6a6258;
+  stroke: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
-}
-
-[data-site-theme="fnaf"].dark .hero-sign__wire-line {
-  stroke: #b0b0b0;
-  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 1)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.15));
 }
 
 [data-site-theme="fnaf"] .hero-sign__panel {
@@ -304,7 +299,11 @@
 
 [data-site-theme="fnaf"]::-webkit-scrollbar {
   width: 16px;
-  height: 16px;
+  height: 0;
+}
+
+[data-site-theme="fnaf"]::-webkit-scrollbar:horizontal {
+  display: none;
 }
 
 [data-site-theme="fnaf"]::-webkit-scrollbar-track,
