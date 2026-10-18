@@ -15,7 +15,7 @@ export function SafeZonesContent() {
           </h1>
 
           <div className="md:hidden">
-            <RuleSearch variant="inline" />
+            <RuleSearch />
           </div>
 
           <PageToc items={SAFE_ZONES_TOC} />

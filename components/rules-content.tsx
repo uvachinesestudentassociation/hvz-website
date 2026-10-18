@@ -38,7 +38,7 @@ export function RulesContent() {
           </h1>
 
           <div className="md:hidden">
-            <RuleSearch variant="inline" />
+            <RuleSearch />
           </div>
 
           <PageToc items={RULES_TOC} />

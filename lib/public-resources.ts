@@ -81,7 +81,3 @@ export function getSortedResources(prioritizeHigh = false): PublicResource[] {
     return aHigh - bHigh;
   });
 }
-
-export function getFormResources() {
-  return PUBLIC_RESOURCES.filter((r) => r.priority === "high");
-}

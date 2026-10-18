@@ -8,11 +8,10 @@ import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
 import { GameStartCeremony } from "@/components/game-start-ceremony"
 import { DuskTheme } from "@/components/dusk-theme"
 import { MobileSiteNav } from "@/components/site-nav"
-import { PIXEL_FRAME, PIXEL_GRID_BG, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, DESK_RING } from "@/components/hvz/pixel-styles"
+import { PIXEL_GRID_BG } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
 import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
 import { HERO } from "@/content/theme"
-import { SITE_CONFIG } from "@/lib/site-config"
 
 /** Local /alt experiments only — safe no-op when those folders are gitignored. */
 function isAltExperimentPath(pathname: string | null | undefined): boolean {
@@ -47,7 +46,7 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0`}>
       <div className="relative">
         <div id="site-header-sticky" className="sticky top-0 z-40 md:hidden">
-          {showHeroSignMount && HERO.showSignMount && (
+          {showHeroSignMount && HERO.showSignMount && pathname !== "/" && (
             <div
               id="hero-sign-mount"
               className={pathname === "/" ? "hero-sign-mount md:hidden" : "hero-sign-mount"}
@@ -60,15 +59,6 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
       </div>
       <MobileSiteNav />
       <main id="main-content">{children}</main>
-      <footer className={`border-t-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>
-        <div className="container mx-auto px-4 py-8 md:py-10">
-          <div className={`text-center font-mono text-xs md:text-sm ${PIXEL_TEXT_MUTED}`}>
-            <p className={`mx-auto inline-block ${PIXEL_FRAME} ${DESK_RING.bl} px-3 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.45)] dark:shadow-[4px_4px_0_rgba(0,0,0,0.55)]`}>
-              {`>> HUMANS VS. ZOMBIES ${SITE_CONFIG.gameYear} <<`}
-            </p>
-          </div>
-        </div>
-      </footer>
       {showBackToTop && (
         <button
           type="button"

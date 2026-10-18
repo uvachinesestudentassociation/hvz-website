@@ -1,13 +1,5 @@
 /** FNAF night-shift theme — CSS variables and hero styling. */
 
-/* Hover eases --nav-hot, not color. A transition on color freezes var(--px-accent)
-   while --dusk moves, which sticks the active Home label on its daytime ink. */
-@property --nav-hot {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
-}
-
 [data-site-theme="fnaf"] {
   --dusk: 0;
   --px-border: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
@@ -20,6 +12,8 @@
   --px-accent: color-mix(in srgb, #5c4a38 calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
   --px-accent-hover: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #86efac calc(var(--dusk) * 100%));
   --px-nav-active: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #fde68a calc(var(--dusk) * 100%));
+  --px-nav-highlight: color-mix(in srgb, rgba(232, 220, 200, 0.6) calc((1 - var(--dusk)) * 100%), rgba(5, 46, 22, 0.3) calc(var(--dusk) * 100%));
+  --px-nav-edge: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
   --px-monitor: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
   --px-warning: color-mix(in srgb, #92400e calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
   --px-rose: color-mix(in srgb, #be123c calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
@@ -144,7 +138,6 @@
   --accent-foreground: oklch(0.91 0.02 75);
   --destructive: oklch(0.55 0.18 30);
   --destructive-foreground: oklch(0.95 0.02 75);
-  --border: oklch(0.38 0.04 55);
   --input: oklch(0.22 0.025 50);
   --ring: oklch(0.72 0.16 145);
   --chart-1: oklch(0.72 0.16 145);
@@ -171,37 +164,6 @@
   background-size: 100% 100%, 24px 24px, 24px 24px;
 }
 
-/* Desktop nav. color is not transitioned — see --nav-hot above. */
-[data-site-theme="fnaf"] .site-nav-link {
-  --nav-hot: 0;
-  transition-property: --nav-hot;
-  transition-duration: 150ms;
-  transition-timing-function: ease;
-  color: color-mix(
-    in srgb,
-    var(--px-ink-muted) calc((1 - var(--nav-hot)) * 100%),
-    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
-  );
-}
-
-[data-site-theme="fnaf"] .site-nav-link:hover {
-  --nav-hot: 1;
-}
-
-[data-site-theme="fnaf"] .site-nav-link--active {
-  color: color-mix(
-    in srgb,
-    var(--px-accent) calc((1 - var(--nav-hot)) * 100%),
-    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
-  );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-site-theme="fnaf"] .site-nav-link {
-    transition-duration: 0s;
-  }
-}
-
 /* FNAF hanging sign + roadside-logo hero title */
 [data-site-theme="fnaf"] .hero-sign__bar {
   background: linear-gradient(180deg, #6a6560 0%, #3a3530 100%);
@@ -214,6 +176,10 @@
 [data-site-theme="fnaf"] .hero-sign__wire-line {
   stroke: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
+}
+
+[data-site-theme="fnaf"] .hero-sign__rope {
+  background: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
 }
 
 [data-site-theme="fnaf"] .hero-sign__panel {
@@ -262,18 +228,12 @@
   color: #e8dfd0;
 }
 
-/* Desk bezel around the existing static. Colors stay the office/desk set. */
+/* Desk bezel around the existing static. Follows --dusk like the room. */
 [data-site-theme="fnaf"] .hero-crt {
   box-shadow:
-    inset 0 0 0 10px var(--office-floor),
-    inset 0 0 0 14px var(--office-border);
-}
-
-[data-site-theme="fnaf"].dark .hero-crt {
-  box-shadow:
-    inset 0 0 0 10px var(--desk-wood-dark),
-    inset 0 0 0 12px var(--desk-border),
-    inset 0 0 90px var(--static-vignette);
+    inset 0 0 0 10px color-mix(in srgb, var(--office-floor) calc((1 - var(--dusk)) * 100%), var(--desk-wood-dark) calc(var(--dusk) * 100%)),
+    inset 0 0 0 13px color-mix(in srgb, var(--office-border) calc((1 - var(--dusk)) * 100%), var(--desk-border) calc(var(--dusk) * 100%)),
+    inset 0 0 calc(90px * var(--dusk)) var(--static-vignette);
 }
 
 [data-site-theme="fnaf"] a[href],
