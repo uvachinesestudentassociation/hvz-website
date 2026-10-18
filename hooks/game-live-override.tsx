@@ -59,13 +59,9 @@ type GameLiveOverrideContextValue = {
   enabled: boolean
   /** True after session/query overrides have been read (always true when preview is disabled). */
   hydrated: boolean
-  /** Password gate for the dev panel outside local development. */
-  unlockDev: (password: string) => boolean
 }
 
 const STORAGE_KEY = "hvz-dev-game-live-override"
-const UNLOCK_KEY = "hvz-dev-unlock"
-const DEV_UNLOCK_PASSWORD = "threedee"
 
 const GameLiveOverrideContext = createContext<GameLiveOverrideContextValue | null>(null)
 
@@ -103,8 +99,7 @@ function persistLive(value: LiveOverride) {
 }
 
 export function GameLiveOverrideProvider({ children }: { children: ReactNode }) {
-  const [unlocked, setUnlocked] = useState(false)
-  const enabled = isDevPreviewEnabled() || unlocked
+  const enabled = isDevPreviewEnabled()
   const [liveOverride, setLiveOverrideState] = useState<LiveOverride>(null)
   const [simulatedNow, setSimulatedNow] = useState<number | null>(null)
   const [startReplayKey, setStartReplayKey] = useState(0)
@@ -137,25 +132,6 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     }
     if (duskPhaseRef.current.night === night && duskPhaseRef.current.flicker === flicker) return
     setDuskPhase({ night, flicker })
-  }, [])
-
-  useEffect(() => {
-    try {
-      if (sessionStorage.getItem(UNLOCK_KEY) === "1") setUnlocked(true)
-    } catch {
-      /* ignore */
-    }
-  }, [])
-
-  const unlockDev = useCallback((password: string) => {
-    if (password.trim().toLowerCase() !== DEV_UNLOCK_PASSWORD) return false
-    try {
-      sessionStorage.setItem(UNLOCK_KEY, "1")
-    } catch {
-      /* ignore */
-    }
-    setUnlocked(true)
-    return true
   }, [])
 
   useEffect(() => {
@@ -300,7 +276,6 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       flicker: duskPhase.flicker,
       enabled,
       hydrated: !enabled || hydrated,
-      unlockDev,
     }),
     [
       enabled,
@@ -314,7 +289,6 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       setHallPreview,
       setLiveOverride,
       replayStartPreview,
-      unlockDev,
     ],
   )
 

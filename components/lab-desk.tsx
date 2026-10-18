@@ -115,6 +115,31 @@ function OfficeModel({ url, glow, marker }: { url: string; glow: boolean; marker
   )
 }
 
+type DeskPointerEvent = { stopPropagation: () => void }
+
+function deskPointerHandlers(hover: boolean, onOver: () => void, onOut: () => void, onPick: () => void) {
+  return {
+    onPointerOver: (event: DeskPointerEvent) => {
+      event.stopPropagation()
+      if (!hover) {
+        document.body.style.cursor = "auto"
+        return
+      }
+      onOver()
+    },
+    onPointerOut: (event: DeskPointerEvent) => {
+      event.stopPropagation()
+      if (!hover) return
+      onOut()
+    },
+    onClick: (event: DeskPointerEvent) => {
+      event.stopPropagation()
+      if (!hover) return
+      onPick()
+    },
+  }
+}
+
 function DeskObject({
   url,
   position,
@@ -139,28 +164,7 @@ function DeskObject({
   onPick: () => void
 }) {
   return (
-    <group
-      position={position}
-      rotation={rotation}
-      scale={scale}
-      onPointerOver={(event) => {
-        event.stopPropagation()
-        if (!hover) {
-          document.body.style.cursor = "auto"
-          return
-        }
-        onOver()
-      }}
-      onPointerOut={(event) => {
-        event.stopPropagation()
-        if (!hover) return
-        onOut()
-      }}
-      onClick={(event) => {
-        event.stopPropagation()
-        onPick()
-      }}
-    >
+    <group position={position} rotation={rotation} scale={scale} {...deskPointerHandlers(hover, onOver, onOut, onPick)}>
       <OfficeModel url={url} glow={glow} marker={marker} />
     </group>
   )
@@ -175,52 +179,6 @@ const FEEDS: { id: DeskId; col: number; row: number }[] = [
   { id: "graveyard", col: 1, row: 0 },
   { id: "board", col: 2, row: 0 },
 ]
-
-function SecuritySet({
-  id,
-  glow,
-  marker,
-}: {
-  id: DeskId | null
-  glow: boolean
-  marker: React.RefObject<HTMLDivElement | null>
-}) {
-  const { scene } = useGLTF(TV_URL)
-  const fitted = useMemo(() => {
-    const clone = scene.clone(true)
-    markShadows(clone)
-    clone.traverse((child) => {
-      if (!(child instanceof Mesh)) return
-      const source = child.material
-      const list = Array.isArray(source) ? source : [source]
-      const cloned = list.map((material) => material.clone())
-      child.material = Array.isArray(source) ? cloned : cloned[0]
-    })
-    const box = new Box3().setFromObject(clone)
-    const sizeY = box.max.y - box.min.y
-    clone.position.x -= (box.min.x + box.max.x) / 2
-    clone.position.z -= (box.min.z + box.max.z) / 2
-    clone.position.y -= box.min.y
-    return { object: clone, height: sizeY }
-  }, [scene])
-  useEffect(() => {
-    fitted.object.traverse((child) => {
-      if (!(child instanceof Mesh)) return
-      const list = Array.isArray(child.material) ? child.material : [child.material]
-      for (const material of list) {
-        if (!(material instanceof MeshStandardMaterial)) continue
-        material.emissive.set(glow ? "#e0b15a" : "#000000")
-        material.emissiveIntensity = glow ? 0.3 : 0
-      }
-    })
-  }, [fitted.object, glow])
-  return (
-    <>
-      <primitive object={fitted.object} />
-      {glow && id ? <HoverPoint y={fitted.height} marker={marker} /> : null}
-    </>
-  )
-}
 
 function SecurityWall({
   lit,
@@ -247,47 +205,21 @@ function SecurityWall({
   const pitchY = size.height * scale
   return (
     <group position={[-(0.85 + pitchX) - 0.35, 0.73, -0.65]} rotation={[0, 0.5, 0]}>
-      {FEEDS.map((feed) => {
-        const id = feed.id
-        return (
-          <group
-            key={`${feed.col}-${feed.row}`}
-            position={[(feed.col - 1) * pitchX, feed.row * pitchY, 0]}
-            scale={scale}
-            onPointerOver={
-              id
-                ? (event) => {
-                    event.stopPropagation()
-                    if (!hover) {
-                      document.body.style.cursor = "auto"
-                      return
-                    }
-                    onOver(id)
-                  }
-                : undefined
-            }
-            onPointerOut={
-              id
-                ? (event) => {
-                    event.stopPropagation()
-                    if (!hover) return
-                    onOut(id)
-                  }
-                : undefined
-            }
-            onClick={
-              id
-                ? (event) => {
-                    event.stopPropagation()
-                    onPick(id)
-                  }
-                : undefined
-            }
-          >
-            <SecuritySet id={id} glow={id !== null && lit === id} marker={marker} />
-          </group>
-        )
-      })}
+      {FEEDS.map((feed) => (
+        <group
+          key={`${feed.col}-${feed.row}`}
+          position={[(feed.col - 1) * pitchX, feed.row * pitchY, 0]}
+          scale={scale}
+          {...deskPointerHandlers(
+            hover,
+            () => onOver(feed.id),
+            () => onOut(feed.id),
+            () => onPick(feed.id),
+          )}
+        >
+          <OfficeModel url={TV_URL} glow={lit === feed.id} marker={marker} />
+        </group>
+      ))}
     </group>
   )
 }
@@ -698,29 +630,10 @@ function deskNoteMap() {
 }
 
 function DeskNote() {
-  const unlockDev = useGameLiveOverride()?.unlockDev
   const map = useMemo(() => deskNoteMap(), [])
   useEffect(() => () => map.dispose(), [map])
   return (
-    <mesh
-      position={[-0.95, 0.734, 0.42]}
-      rotation={[0, -0.08, 0]}
-      receiveShadow
-      onPointerOver={(event) => {
-        event.stopPropagation()
-        document.body.style.cursor = "pointer"
-      }}
-      onPointerOut={(event) => {
-        event.stopPropagation()
-        document.body.style.cursor = "auto"
-      }}
-      onClick={(event) => {
-        event.stopPropagation()
-        const entered = window.prompt("Password")
-        if (entered == null) return
-        if (!unlockDev?.(entered)) window.alert("Wrong password")
-      }}
-    >
+    <mesh position={[-0.95, 0.734, 0.42]} rotation={[0, -0.08, 0]} receiveShadow>
       <boxGeometry args={[0.62, 0.006, 0.42]} />
       <meshStandardMaterial attach="material-0" color="#e4d3a2" roughness={0.95} />
       <meshStandardMaterial attach="material-1" color="#e4d3a2" roughness={0.95} />
@@ -1414,6 +1327,62 @@ function canOpenDesk(id: DeskId) {
   return Boolean(getResource(linkId).href)
 }
 
+function CountdownTab({ onClose }: { onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    closeRef.current?.focus()
+  }, [])
+
+  const ink = duskCss("#2a2118", "#f3ead7")
+  const paper = duskCss("#f3ead7", "#1a1612")
+  const edge = duskCss("#2a2118", "#d6a860")
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Countdown"
+      className="absolute bottom-4 left-1/2 z-20 w-[min(42rem,calc(100%-1.5rem))] md:bottom-8"
+      style={{ transform: "translateX(-50%) rotate(-0.6deg)" }}
+    >
+      <div
+        className="relative ml-8 inline-block border border-b-0 px-4 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em]"
+        style={{ color: ink, backgroundColor: duskCss("#e4c98a", "#3a2a18"), borderColor: edge }}
+      >
+        <span
+          aria-hidden="true"
+          className="absolute -left-3 top-1 h-3 w-8 -rotate-6 opacity-70"
+          style={{ backgroundColor: duskCss("rgba(210, 190, 140, 0.75)", "rgba(80, 60, 40, 0.55)") }}
+        />
+        Countdown
+      </div>
+      <div
+        className="desk-prop-manila relative border px-3 py-3 shadow-[8px_10px_0_rgba(0,0,0,0.35)] md:px-5 md:py-4"
+        style={{ backgroundColor: paper, borderColor: edge, color: ink }}
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-2 right-10 h-4 w-14 rotate-3 opacity-80"
+          style={{ backgroundColor: duskCss("rgba(210, 190, 140, 0.8)", "rgba(90, 70, 45, 0.6)") }}
+        />
+        <div className="mb-1 flex justify-end">
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            className="min-h-11 cursor-pointer px-3 font-mono text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d6a860]"
+            style={{ color: ink }}
+          >
+            Close
+          </button>
+        </div>
+        <GameCountdown />
+      </div>
+    </div>
+  )
+}
+
 function DeskPanel({ id, onClose }: { id: DeskId; onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   const copy = deskCopy(id)
@@ -1469,26 +1438,11 @@ function LinkedBody({ label, href }: { label: string; href: string }) {
 function PanelBody({ id }: { id: DeskId }) {
   if (id === "rules") return <RulesContent />
   if (id === "zones") return <SafeZonesContent />
-  if (id === "board") {
-    const resource = getResource("pointsList")
-    return <LinkedBody label={resource.label} href={resource.href} />
-  }
   if (id === "bounty") return <div className="p-4"><BountyCard /></div>
-  if (id === "clock") return <div className="p-4"><GameCountdown /></div>
-  if (id === "kill") {
-    const resource = getResource("killReport")
-    return <LinkedBody label={resource.label} href={resource.href} />
-  }
-  if (id === "quest") {
-    const resource = getResource("questReport")
-    return <LinkedBody label={resource.label} href={resource.href} />
-  }
   if (id === "points") return <QuestBoardEmbed resource={getResource("questBoard")} frame="thin" />
-  if (id === "population") {
-    const resource = getResource("populationList")
-    return <LinkedBody label={resource.label} href={resource.href} />
-  }
-  const resource = getResource("graveyard")
+  const linkId = LINKED_DESK[id]
+  if (!linkId) return null
+  const resource = getResource(linkId)
   return <LinkedBody label={resource.label} href={resource.href} />
 }
 
@@ -1681,6 +1635,7 @@ export function LabDesk() {
   const [open, setOpen] = useState<DeskId | null>(null)
   const marker = useRef<HTMLDivElement>(null)
   const live = useGameLive()
+  const litCopy = lit ? deskCopy(lit) : null
 
   useEffect(() => {
     if (live) setOpen((current) => (current === "clock" ? null : current))
@@ -1707,7 +1662,8 @@ export function LabDesk() {
               onOver={setLit}
               onOut={(id) => setLit((current) => (current === id ? null : current))}
               onPick={(id) => {
-                if (live || id === "clock") setLit(id)
+                if (!live && id !== "clock") return
+                setLit(id)
                 if (canOpenDesk(id)) setOpen(id)
               }}
             />
@@ -1715,19 +1671,23 @@ export function LabDesk() {
         </Canvas>
       </div>
       <SignOverlay night={night} reduced={reducedMotion} />
-      {lit ? (
+      {litCopy ? (
         <div
           ref={marker}
           className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+0.75rem)] px-4 py-2 font-mono text-4xl leading-none"
           style={{ color: duskCss("#2a2118", "#f3ead7"), backgroundColor: duskCss("#f7f1e6", "#000000") }}
         >
-          <div>{deskCopy(lit).label}</div>
-          {deskCopy(lit).description ? (
-            <div className="mt-1 text-base leading-tight">{deskCopy(lit).description}</div>
+          <div>{litCopy.label}</div>
+          {litCopy.description ? (
+            <div className="mt-1 text-base leading-tight">{litCopy.description}</div>
           ) : null}
         </div>
       ) : null}
-      {open ? <DeskPanel id={open} onClose={() => setOpen(null)} /> : null}
+      {open === "clock" ? (
+        <CountdownTab onClose={() => setOpen(null)} />
+      ) : open ? (
+        <DeskPanel id={open} onClose={() => setOpen(null)} />
+      ) : null}
     </div>
   )
 }

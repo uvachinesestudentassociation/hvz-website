@@ -1,13 +1,5 @@
 /** FNAF night-shift theme — CSS variables and hero styling. */
 
-/* Hover eases --nav-hot, not color. A transition on color freezes var(--px-accent)
-   while --dusk moves, which sticks the active Home label on its daytime ink. */
-@property --nav-hot {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
-}
-
 [data-site-theme="fnaf"] {
   --dusk: 0;
   --px-border: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
@@ -169,37 +161,6 @@
     linear-gradient(90deg, var(--px-grid-line) 1px, transparent 1px),
     linear-gradient(var(--px-grid-line) 1px, transparent 1px);
   background-size: 100% 100%, 24px 24px, 24px 24px;
-}
-
-/* Desktop nav. color is not transitioned — see --nav-hot above. */
-[data-site-theme="fnaf"] .site-nav-link {
-  --nav-hot: 0;
-  transition-property: --nav-hot;
-  transition-duration: 150ms;
-  transition-timing-function: ease;
-  color: color-mix(
-    in srgb,
-    var(--px-ink-muted) calc((1 - var(--nav-hot)) * 100%),
-    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
-  );
-}
-
-[data-site-theme="fnaf"] .site-nav-link:hover {
-  --nav-hot: 1;
-}
-
-[data-site-theme="fnaf"] .site-nav-link--active {
-  color: color-mix(
-    in srgb,
-    var(--px-accent) calc((1 - var(--nav-hot)) * 100%),
-    var(--px-accent-hover) calc(var(--nav-hot) * 100%)
-  );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-site-theme="fnaf"] .site-nav-link {
-    transition-duration: 0s;
-  }
 }
 
 /* FNAF hanging sign + roadside-logo hero title */

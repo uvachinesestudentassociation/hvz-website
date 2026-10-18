@@ -6,12 +6,10 @@ import type { LucideIcon } from "lucide-react";
 import {
   BookOpen,
   FileText,
-  FolderOpen,
   Home,
   Shield,
 } from "lucide-react";
-import { getFormResources, getResource } from "@/lib/public-resources";
-import { RuleSearch } from "@/components/rule-search";
+import { getResource } from "@/lib/public-resources";
 import { THEME } from "@/content/theme";
 import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles";
 
@@ -24,12 +22,6 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: Home, matchPaths: ["/"] },
-  {
-    label: "Resources",
-    href: "/resources",
-    icon: FolderOpen,
-    matchPaths: ["/resources"],
-  },
   { label: "Rules", href: "/rules", icon: BookOpen, matchPaths: ["/rules"] },
   {
     label: "Safe Zones",
@@ -47,72 +39,6 @@ function isActive(pathname: string, item: NavItem) {
   );
 }
 
-function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
-  const active = isActive(pathname, item);
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className={[
-        "site-nav-link flex min-h-11 items-center gap-1.5 border-b-2 font-mono text-xs font-bold uppercase tracking-wide transition-colors",
-        active
-          ? `site-nav-link--active ${THEME.accent.link} border-current`
-          : `border-transparent ${PIXEL_TEXT_MUTED} ${THEME.accent.textHover}`,
-      ].join(" ")}
-    >
-      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-      <span>{item.label}</span>
-    </Link>
-  );
-}
-
-export function DesktopSiteNav() {
-  const pathname = usePathname();
-  const forms = getFormResources();
-
-  return (
-    <nav
-      aria-label="Site navigation"
-      className={["hidden border-b-4", PIXEL_SECTION_BORDER, PIXEL_NAV_BG, "md:block"].join(" ")}
-    >
-      <div className="container mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-        <div className="flex flex-wrap items-center gap-4 lg:gap-6">
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} item={item} pathname={pathname} />
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <RuleSearch variant="desktop" />
-          {forms.map((form) =>
-            form.href ? (
-            <a
-              key={form.id}
-              href={form.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide ${THEME.alarm.nav}`}
-            >
-              <FileText className="h-4 w-4" aria-hidden="true" />
-              {form.label}
-            </a>
-            ) : (
-            <span
-              key={form.id}
-              aria-disabled="true"
-              className={`flex cursor-not-allowed items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide grayscale opacity-50 ${THEME.alarm.nav}`}
-            >
-              <FileText className="h-4 w-4" aria-hidden="true" />
-              {form.label}
-            </span>
-            ),
-          )}
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 export function MobileSiteNav() {
   const pathname = usePathname();
   const killReport = getResource("killReport");
@@ -123,7 +49,7 @@ export function MobileSiteNav() {
       className={["fixed inset-x-0 bottom-0 z-40 border-t-4", PIXEL_SECTION_BORDER, PIXEL_NAV_BG, "pb-[env(safe-area-inset-bottom)] md:hidden"].join(" ")}
     >
       <div className="grid grid-cols-4">
-        {NAV_ITEMS.filter((item) => item.href !== "/resources").map((item) => {
+        {NAV_ITEMS.map((item) => {
           const active = isActive(pathname, item);
           const Icon = item.icon;
           return (
