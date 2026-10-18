@@ -108,7 +108,8 @@ export function HeroTvStatic() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 hidden dark:block"
+      className="absolute inset-0"
+      style={{ opacity: "var(--dusk, 0)" }}
       aria-hidden="true"
     >
       <canvas

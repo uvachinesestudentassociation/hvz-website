@@ -29,7 +29,7 @@ export type HallPreview = "auto" | "off" | "on" | "flicker"
 /** Seconds shown on the countdown before the simulated flip to live. */
 const START_PREVIEW_LEAD_SEC = 5
 
-/** Compressed dusk fade so the 2-hour dim can be watched in dev. 0 = real time. */
+/** Compressed dusk fade so the week-long dim can be watched in dev. 0 = real time. */
 export function duskPreviewMs(speed: number): number {
   if (speed <= 0) return 0
   const t = Math.min(1, (speed - 1) / 99)

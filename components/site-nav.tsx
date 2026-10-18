@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { getResource } from "@/lib/public-resources";
 import { THEME } from "@/content/theme";
-import { PIXEL_NAV_BG, PIXEL_SECTION_BORDER, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles";
+import { PIXEL_NAV_BG, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles";
 
 type NavItem = {
   label: string;
@@ -46,7 +46,7 @@ export function MobileSiteNav() {
   return (
     <nav
       aria-label="Mobile navigation"
-      className={["fixed inset-x-0 bottom-0 z-40 border-t-4", PIXEL_SECTION_BORDER, PIXEL_NAV_BG, "pb-[env(safe-area-inset-bottom)] md:hidden"].join(" ")}
+      className={["fixed inset-x-0 bottom-0 z-40 border-t-4 border-[var(--px-nav-edge)]", PIXEL_NAV_BG, "pb-[env(safe-area-inset-bottom)] md:hidden"].join(" ")}
     >
       <div className="grid grid-cols-4">
         {NAV_ITEMS.map((item) => {

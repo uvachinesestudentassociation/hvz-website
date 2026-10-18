@@ -1,10 +1,9 @@
 import { questBoardEmbedUrl } from "@/content/links"
 import { PIXEL_SECTION_BORDER, PIXEL_SURFACE, PIXEL_TEXT, PIXEL_TEXT_MUTED } from "@/components/hvz/pixel-styles"
-import { THEME } from "@/content/theme"
 import type { PublicResource } from "@/lib/public-resources"
 
-const EMBED_FRAME = `h-[70dvh] w-full border-4 md:aspect-video md:h-auto ${PIXEL_SECTION_BORDER}`
-const EMBED_FRAME_THIN = "h-[70dvh] w-full border md:aspect-video md:h-auto border-[var(--px-border)]"
+const EMBED_FRAME = `relative aspect-video w-full overflow-hidden border-4 ${PIXEL_SECTION_BORDER}`
+const EMBED_FRAME_THIN = "relative aspect-video w-full overflow-hidden border border-[var(--px-border)]"
 
 export function QuestBoardEmbed({
   resource,
@@ -29,22 +28,14 @@ export function QuestBoardEmbed({
   }
 
   return (
-    <div>
+    <div className={frameClass}>
       <iframe
         src={embedUrl}
         title="Quest board"
         loading="lazy"
         allowFullScreen
-        className={`block ${frameClass}`}
+        className="absolute inset-0 h-full w-full border-0"
       />
-      <a
-        href={resource.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`mt-3 inline-flex min-h-11 items-center font-mono text-sm font-bold underline ${THEME.accent.link}`}
-      >
-        {resource.label}
-      </a>
     </div>
   )
 }

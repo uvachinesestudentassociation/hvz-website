@@ -10,8 +10,6 @@
 }
 
 html {
-  /* Keep layout stable when overlays lock scroll / scrollbar appears or vanishes. */
-  scrollbar-gutter: stable;
   overflow-x: clip;
 }
 
@@ -65,35 +63,26 @@ html {
   body {
     @apply bg-background text-foreground;
     background-image:
-      linear-gradient(180deg, var(--office-fluorescent) 0%, transparent 35%),
-      radial-gradient(
-        ellipse 50% 35% at 15% 8%,
-        var(--office-window) 0%,
-        transparent 60%
-      ),
       linear-gradient(
         180deg,
-        var(--office-ceiling) 0%,
-        var(--office-wall) 40%,
-        var(--office-floor) 100%
-      );
-    background-attachment: fixed;
-  }
-
-  .dark body {
-    background-color: var(--desk-wood-dark);
-    background-image:
-      linear-gradient(180deg, var(--desk-lamp) 0%, transparent 38%),
+        color-mix(in srgb, var(--office-fluorescent) calc((1 - var(--dusk, 0)) * 100%), var(--desk-lamp) calc(var(--dusk, 0) * 100%)) 0%,
+        transparent 36%
+      ),
+      radial-gradient(
+        ellipse 50% 35% at 15% 8%,
+        color-mix(in srgb, var(--office-window) calc((1 - var(--dusk, 0)) * 100%), transparent calc(var(--dusk, 0) * 100%)) 0%,
+        transparent 60%
+      ),
       radial-gradient(
         ellipse 55% 40% at 85% 12%,
-        var(--desk-monitor-glow) 0%,
+        color-mix(in srgb, transparent calc((1 - var(--dusk, 0)) * 100%), var(--desk-monitor-glow) calc(var(--dusk, 0) * 100%)) 0%,
         transparent 65%
       ),
       linear-gradient(
         180deg,
-        var(--desk-wood-light) 0%,
-        var(--desk-wood) 48%,
-        var(--desk-wood-dark) 100%
+        color-mix(in srgb, var(--office-ceiling) calc((1 - var(--dusk, 0)) * 100%), var(--desk-wood-light) calc(var(--dusk, 0) * 100%)) 0%,
+        color-mix(in srgb, var(--office-wall) calc((1 - var(--dusk, 0)) * 100%), var(--desk-wood) calc(var(--dusk, 0) * 100%)) 44%,
+        color-mix(in srgb, var(--office-floor) calc((1 - var(--dusk, 0)) * 100%), var(--desk-wood-dark) calc(var(--dusk, 0) * 100%)) 100%
       );
     background-attachment: fixed;
   }
@@ -150,6 +139,39 @@ html {
   border: 1px solid #000;
   border-radius: 1px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Bar and ropes are one piece with the sign, overlapping its top border. */
+.hero-sign__hanger {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 100%;
+  height: 2.25rem;
+  pointer-events: none;
+}
+
+.hero-sign__hanger .hero-sign__bar {
+  position: absolute;
+  top: 0;
+  left: -0.35rem;
+  right: -0.35rem;
+  width: auto;
+}
+
+.hero-sign__rope {
+  position: absolute;
+  top: 3px;
+  bottom: -8px;
+  width: 4px;
+}
+
+.hero-sign__rope--left {
+  left: 0;
+}
+
+.hero-sign__rope--right {
+  right: 0;
 }
 
 /* Object popups on the desk. Thick page frames stay on the real pages. */
@@ -456,8 +478,8 @@ html {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(160, 125, 75, 0.55) 0%,
-    rgba(200, 170, 120, 0.35) 55%,
+    color-mix(in srgb, rgba(160, 125, 75, 0.55) calc((1 - var(--dusk, 0)) * 100%), rgba(120, 95, 60, 0.5) calc(var(--dusk, 0) * 100%)) 0%,
+    color-mix(in srgb, rgba(200, 170, 120, 0.35) calc((1 - var(--dusk, 0)) * 100%), rgba(90, 70, 45, 0.3) calc(var(--dusk, 0) * 100%)) 55%,
     transparent 100%
   );
   box-shadow: 0 2px 6px rgba(80, 60, 35, 0.12);
@@ -476,60 +498,25 @@ html {
   background:
     linear-gradient(
       135deg,
-      rgba(190, 155, 100, 0.75) 0%,
-      rgba(170, 135, 85, 0.55) 42%,
+      color-mix(in srgb, rgba(190, 155, 100, 0.75) calc((1 - var(--dusk, 0)) * 100%), rgba(110, 85, 55, 0.7) calc(var(--dusk, 0) * 100%)) 0%,
+      color-mix(in srgb, rgba(170, 135, 85, 0.55) calc((1 - var(--dusk, 0)) * 100%), rgba(80, 60, 40, 0.45) calc(var(--dusk, 0) * 100%)) 42%,
       transparent 44%
     ),
     radial-gradient(
       circle at 0.55rem 0.7rem,
-      #6a5a48 0,
-      #6a5a48 2px,
+      color-mix(in srgb, #6a5a48 calc((1 - var(--dusk, 0)) * 100%), #c4a060 calc(var(--dusk, 0) * 100%)) 0,
+      color-mix(in srgb, #6a5a48 calc((1 - var(--dusk, 0)) * 100%), #c4a060 calc(var(--dusk, 0) * 100%)) 2px,
       transparent 2.5px
     ),
     radial-gradient(
       circle at 1.35rem 0.55rem,
-      #6a5a48 0,
-      #6a5a48 2px,
+      color-mix(in srgb, #6a5a48 calc((1 - var(--dusk, 0)) * 100%), #c4a060 calc(var(--dusk, 0) * 100%)) 0,
+      color-mix(in srgb, #6a5a48 calc((1 - var(--dusk, 0)) * 100%), #c4a060 calc(var(--dusk, 0) * 100%)) 2px,
       transparent 2.5px
     );
   box-shadow:
     2px 2px 4px rgba(60, 45, 30, 0.2),
     inset -1px -1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.dark .desk-prop-manila::before {
-  background: linear-gradient(
-    180deg,
-    rgba(120, 95, 60, 0.5) 0%,
-    rgba(90, 70, 45, 0.3) 55%,
-    transparent 100%
-  );
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-}
-
-.dark .desk-prop-manila::after {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(110, 85, 55, 0.7) 0%,
-      rgba(80, 60, 40, 0.45) 42%,
-      transparent 44%
-    ),
-    radial-gradient(
-      circle at 0.55rem 0.7rem,
-      #c4a060 0,
-      #c4a060 2px,
-      transparent 2.5px
-    ),
-    radial-gradient(
-      circle at 1.35rem 0.55rem,
-      #c4a060 0,
-      #c4a060 2px,
-      transparent 2.5px
-    );
-  box-shadow:
-    2px 2px 6px rgba(0, 0, 0, 0.35),
-    inset -1px -1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Keep desk decorations behind interactive content */

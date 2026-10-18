@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useGameLive } from "@/hooks/use-game-live"
 import { useGameLiveOverride, duskPreviewMs } from "@/hooks/game-live-override"
 import { getGameStartDate } from "@/lib/game-start"
@@ -39,11 +40,25 @@ function formatStartCountdown(simulatedNow: number | null, live: boolean): strin
   return sec === 0 ? "00:00 → live" : `${sec}s → live`
 }
 
+const shellClass = [
+  "fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-4 z-50 md:bottom-6 md:left-6 md:right-auto",
+  `rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-[var(--px-paper)]`,
+  "shadow-[4px_4px_0_rgba(0,0,0,0.45)]",
+].join(" ")
+
 export function GameLiveDevPanel() {
   const ctx = useGameLiveOverride()
   const live = useGameLive()
+  const [hidden, setHidden] = useState(false)
 
   if (!ctx?.enabled) return null
+  if (hidden) {
+    return (
+      <button type="button" onClick={() => setHidden(false)} className={`${shellClass} px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[var(--px-dev)]`}>
+        Dev
+      </button>
+    )
+  }
 
   const {
     liveOverride,
@@ -66,16 +81,19 @@ export function GameLiveDevPanel() {
     : `Showing: ${live ? "Live" : "Pre-game"}`
 
   return (
-    <div
-      className={[
-        "fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-4 z-50 md:bottom-6 md:left-6 md:right-auto",
-        `max-w-[16rem] rounded-none border-4 ${PIXEL_SECTION_BORDER} bg-[var(--px-paper)] p-3`,
-        "shadow-[4px_4px_0_rgba(0,0,0,0.45)]",
-      ].join(" ")}
-    >
-      <p className="mb-2 font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[var(--px-dev-muted)]">
-        Dev · Game state
-      </p>
+    <div className={`${shellClass} max-w-[16rem] p-3`}>
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <p className="font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[var(--px-dev-muted)]">
+          Dev · Game state
+        </p>
+        <button
+          type="button"
+          onClick={() => setHidden(true)}
+          className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--px-dev)]"
+        >
+          Hide
+        </button>
+      </div>
       <p className="mb-2 font-mono text-[11px] font-bold text-[var(--px-dev)]">
         {showingLabel}
       </p>

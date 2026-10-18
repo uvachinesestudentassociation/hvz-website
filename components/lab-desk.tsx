@@ -463,22 +463,22 @@ function dayUnit(day: string, salt: number) {
 }
 
 function logoSpot(day: string) {
-  const half = 0.11
-  const pad = 0.1
-  const cx = 0
-  const cz = -0.05
-  const radius = 1.15
-  for (let attempt = 0; attempt < 40; attempt += 1) {
-    const angle = dayUnit(day, attempt * 2 + 1) * Math.PI * 2
-    const dist = Math.sqrt(dayUnit(day, attempt * 2 + 2)) * radius
-    const x = cx + Math.cos(angle) * dist
-    const z = cz + Math.sin(angle) * dist
+  const yaw = (dayUnit(day, 7) - 0.5) * 0.12
+  const half = 0.19 * (Math.abs(Math.cos(yaw)) + Math.abs(Math.sin(yaw))) + 0.05
+  // In front of the keyboard and right of the note. Both edges stay inside the frame.
+  const x0 = 0
+  const x1 = 0.4
+  const z0 = 0.52
+  const z1 = 0.62
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const x = x0 + dayUnit(day, attempt * 2 + 1) * (x1 - x0)
+    const z = z0 + dayUnit(day, attempt * 2 + 2) * (z1 - z0)
     const clear = DESK_BLOCKS.every(
-      (block) => Math.abs(x - block.x) >= block.hw + half + pad || Math.abs(z - block.z) >= block.hd + half + pad,
+      (block) => Math.abs(x - block.x) >= block.hw + half || Math.abs(z - block.z) >= block.hd + half,
     )
-    if (clear) return { x, z, yaw: (dayUnit(day, attempt + 90) - 0.5) * 0.7 }
+    if (clear) return { x, z, yaw }
   }
-  return { x: 0.48, z: 0.52, yaw: 0.22 }
+  return { x: 0.2, z: 0.56, yaw: 0 }
 }
 
 function CsaLogo() {
@@ -501,7 +501,7 @@ function CsaLogo() {
   useEffect(() => () => map.dispose(), [map])
   return (
     <mesh position={[spot.x, 0.734, spot.z]} rotation={[0, spot.yaw, 0]} receiveShadow>
-      <boxGeometry args={[0.22, 0.004, 0.22]} />
+      <boxGeometry args={[0.38, 0.004, 0.38]} />
       <meshStandardMaterial attach="material-0" color="#7a1f1a" roughness={0.9} />
       <meshStandardMaterial attach="material-1" color="#7a1f1a" roughness={0.9} />
       <meshStandardMaterial attach="material-2" map={map} roughness={0.72} polygonOffset polygonOffsetFactor={-2} polygonOffsetUnits={-2} />
@@ -1643,7 +1643,7 @@ export function LabDesk() {
   }, [live])
 
   return (
-    <div className="relative h-[calc(100dvh-4.25rem)]">
+    <div className="relative h-dvh">
       <div className="absolute inset-0 touch-none">
         <Canvas
           shadows={{ type: PCFSoftShadowMap }}

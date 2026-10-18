@@ -24,8 +24,8 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
       ? ACTION_STYLES[resource.id]
       : undefined
   const classes = [
-    `group relative block min-h-[48px] rounded-none border-4 ${PIXEL_SECTION_BORDER}`,
-    isAction && actionStyle ? actionStyle.card : PIXEL_SURFACE,
+    "group relative block min-h-[48px] rounded-none border-4",
+    isAction && actionStyle ? actionStyle.card : `${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE}`,
     isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : "p-4 md:p-5 text-left",
     unavailable
       ? "cursor-not-allowed grayscale opacity-50"
@@ -91,7 +91,7 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
         <ExternalLink
           className={[
             "absolute right-2 top-2 h-5 w-5",
-            isAction ? `${PIXEL_TEXT} opacity-90` : `${PIXEL_TEXT_MUTED} opacity-70`,
+            isAction ? `${actionStyle?.label} opacity-90` : `${PIXEL_TEXT_MUTED} opacity-70`,
           ].join(" ")}
           aria-hidden="true"
         />

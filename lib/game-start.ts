@@ -55,18 +55,19 @@ export function isGameLive(now = Date.now()): boolean {
 }
 
 /** Light theme until this long before start, then the dimmer eases in. */
-export const DUSK_FADE_MS = 2 * 60 * 60 * 1000
+export const DUSK_FADE_MS = 7 * 24 * 60 * 60 * 1000
 
 /** Inside this window the real dark theme is on and the dimmer is off. */
-export const DUSK_NIGHT_LEAD_MS = 10 * 60 * 1000
+export const DUSK_NIGHT_LEAD_MS = 60 * 60 * 1000
 
-/** 0 before the fade, 1 once night has taken over. Linear in between. */
+/** 0 before the fade, 1 once night has taken over. Smoothstep in between. */
 export function duskAmount(now = Date.now()): number {
   const remaining = getTimeUntilGameStart(now)
   if (remaining <= DUSK_NIGHT_LEAD_MS) return 1
   if (remaining >= DUSK_FADE_MS) return 0
   const span = DUSK_FADE_MS - DUSK_NIGHT_LEAD_MS
-  return (DUSK_FADE_MS - remaining) / span
+  const t = (DUSK_FADE_MS - remaining) / span
+  return t * t * (3 - 2 * t)
 }
 
 export function isDuskNight(now = Date.now()): boolean {
