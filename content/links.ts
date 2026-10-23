@@ -18,6 +18,9 @@ export const LINKS = {
   graveyard: "https://docs.google.com/document/d/1EpDjQ4wqjj-Tnp8-RS5v_Oy_kbb82AgHJh7Q5A3m5wE/edit?tab=t.0#heading=h.ei36dk6uim4i",
   /** Paste the public Slides link from comm. Blank shows a home-screen placeholder. */
   questBoard: "https://docs.google.com/presentation/d/1bRRm5yc19JAhB1RxIWGoetmOwnsPDgYW8O5p2N85sDQ/edit?slide=id.p#slide=id.p",
+
+  /** Public respondent link. Do not append a name or email. */
+  feedback: "https://docs.google.com/forms/d/e/1FAIpQLSfU8obDBxRvoIwG818pCDOJmzS5rlLqk9tWVXxfL04EVIvL7A/viewform",
 } as const
 
 export type LinkId = keyof typeof LINKS

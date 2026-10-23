@@ -27,6 +27,7 @@ type DeskId =
   | "graveyard"
   | "bounty"
   | "clock"
+  | "feedback"
 
 const ITEMS: {
   id: DeskId
@@ -36,9 +37,10 @@ const ITEMS: {
   scale: number
 }[] = [
   { id: "points", url: "/lab/models/computerScreen.glb", position: [0, 0.73, -1.08], rotation: [0, 0, 0], scale: 2.6 },
-  { id: "kill", url: "/lab/models/cooking-knife.glb", position: [1.68, 0.73, -0.12], rotation: [0, -1.15, 0], scale: 2.2 },
-  { id: "quest", url: "/lab/models/cardboardBoxOpen.glb", position: [0.95, 0.73, -0.42], rotation: [0, -0.9, 0], scale: 1.45 },
+  { id: "kill", url: "/lab/models/cooking-knife.glb", position: [1.06, 0.73, 0.12], rotation: [0, -1.15, 0], scale: 2.2 },
+  { id: "quest", url: "/lab/models/cardboardBoxOpen.glb", position: [0.95, 0.73, -0.71], rotation: [0, -0.9, 0], scale: 1.45 },
   { id: "zones", url: "/lab/models/computerKeyboard.glb", position: [0, 0.73, -0.05], rotation: [0, 0, 0], scale: 4.2 },
+  { id: "feedback", url: "/lab/models/books.glb", position: [1.38, 0.73, -0.28], rotation: [0, 0.4, 0], scale: 3.4 },
 ]
 
 for (const item of ITEMS) useGLTF.preload(item.url)
@@ -449,11 +451,12 @@ const DESK_BLOCKS: { x: number; z: number; hw: number; hd: number }[] = [
   { x: 0, z: -1.08, hw: 0.7, hd: 0.45 },
   { x: 0, z: -0.62, hw: 0.4, hd: 0.25 },
   { x: 0, z: -0.05, hw: 1.15, hd: 0.32 },
-  { x: 0.95, z: -0.42, hw: 0.45, hd: 0.4 },
-  { x: 1.68, z: -0.12, hw: 0.55, hd: 0.28 },
+  { x: 0.95, z: -0.71, hw: 0.45, hd: 0.4 },
+  { x: 1.06, z: 0.12, hw: 0.55, hd: 0.28 },
   { x: -1.7, z: -0.7, hw: 1.2, hd: 0.55 },
   { x: -1.62, z: 0.28, hw: 0.4, hd: 0.4 },
   { x: -0.95, z: 0.42, hw: 0.42, hd: 0.32 },
+  { x: 1.38, z: -0.28, hw: 0.78, hd: 0.6 },
 ]
 
 function dayUnit(day: string, salt: number) {
@@ -1303,6 +1306,7 @@ const LINKED_DESK: Partial<Record<DeskId, Parameters<typeof getResource>[0]>> = 
   population: "populationList",
   graveyard: "graveyard",
   board: "pointsList",
+  feedback: "feedback",
 }
 
 const PAGE_DESK: Partial<Record<DeskId, { label: string; description?: string }>> = {
