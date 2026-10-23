@@ -39,3 +39,11 @@ test("kill and quest forms are wired through LINKS", () => {
   expect(getResource("killReport").href).toBe(LINKS.killReport)
   expect(getResource("questReport").href).toBe(LINKS.questReport)
 })
+
+test("feedback uses the public form and adds no identity", () => {
+  expect(getResource("feedback").href).toBe(LINKS.feedback)
+  expect(LINKS.feedback).toBe(
+    "https://docs.google.com/forms/d/e/1FAIpQLSfU8obDBxRvoIwG818pCDOJmzS5rlLqk9tWVXxfL04EVIvL7A/viewform",
+  )
+  expect(LINKS.feedback).not.toMatch(/[?&](email|name)=/)
+})

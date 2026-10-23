@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { FileText, Scroll, Skull, Target, Users } from "lucide-react";
+import { FileText, MessageSquare, Scroll, Skull, Target, Users } from "lucide-react";
 import { LINKS, type LinkId } from "@/content/links";
 
 export type PublicResource = {
@@ -57,6 +57,12 @@ const RESOURCE_DEFINITIONS: ResourceDefinition[] = [
     label: "Quest Board",
     description: "Daily quests",
     icon: Scroll,
+  },
+  {
+    id: "feedback",
+    label: "Feedback",
+    description: "Anonymous note to comm",
+    icon: MessageSquare,
   },
 ];
 
