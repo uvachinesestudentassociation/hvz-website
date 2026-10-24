@@ -12,11 +12,10 @@ import { disclosureShouldOpen } from "@/lib/search-hash"
 
 const REDUCED_MQ = "(prefers-reduced-motion: reduce)"
 
-export type PixelDisclosureProps = {
+type PixelDisclosureProps = {
   id?: string
   title: React.ReactNode
   children: React.ReactNode
-  headerTone?: "emerald" | "sky" | "amber" | "rose"
   defaultOpen?: boolean
   className?: string
 }
@@ -25,7 +24,6 @@ export function PixelDisclosure({
   id,
   title,
   children,
-  headerTone = "emerald",
   defaultOpen = false,
   className = "",
 }: PixelDisclosureProps) {
@@ -76,13 +74,6 @@ export function PixelDisclosure({
     prevOpen.current = open
   }, [open])
 
-  const toneBg: Record<string, string> = {
-    emerald: "bg-[#e8dcc8]/60 dark:bg-[#2a2420]/80",
-    sky: "bg-[#f5f0e6]/80 dark:bg-[#2a2420]/80",
-    amber: "bg-amber-100/60 dark:bg-[#2a2218]/80",
-    rose: "bg-red-100/60 dark:bg-[#2a2018]/80",
-  }
-
   return (
     <div id={id} className={[PIXEL_FRAME, "scroll-mt-24", className].join(" ")}>
       <button
@@ -93,7 +84,7 @@ export function PixelDisclosure({
         className={[
           "flex w-full min-h-[48px] items-center justify-between px-4 py-4 md:px-6",
           `rounded-none border-b-4 ${PIXEL_SECTION_BORDER} hover:no-underline`,
-          toneBg[headerTone],
+          "bg-[#e8dcc8]/60 dark:bg-[#2a2420]/80",
           "focus:outline-none focus-visible:ring-4",
           THEME.accent.ring,
         ].join(" ")}

@@ -5,7 +5,6 @@ export const defaultTheme: SiteTheme = {
   id: "default",
   name: "Default HvZ",
   themeColor: "#581c87",
-  themeColorLight: "#f3e8ff",
   hero: {
     background: {
       light: {
@@ -29,28 +28,6 @@ export const defaultTheme: SiteTheme = {
     showSignMount: false,
     showTvStatic: false,
     showZombieSilhouette: false,
-  },
-  office: {
-    laminate: "#f3e8ff",
-    laminateLight: "#faf5ff",
-    paper: "#faf5ff",
-    manila: "#ede9fe",
-    border: "#a78bfa",
-    text: "#3b0764",
-    textMuted: "#6b21a8",
-    fluorescent: "rgba(167, 139, 250, 0.1)",
-    windowGlow: "rgba(233, 213, 255, 0.12)",
-  },
-  desk: {
-    wood: "#1e1b2e",
-    woodLight: "#2d2640",
-    paper: "#2d2640",
-    manila: "#3b2f5c",
-    border: "#5b21b6",
-    text: "#ede9fe",
-    textMuted: "#a78bfa",
-    lamp: "rgba(167, 139, 250, 0.1)",
-    monitorGlow: "rgba(139, 92, 246, 0.08)",
   },
   tailwind: {
     accent: {

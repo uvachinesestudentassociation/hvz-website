@@ -5,7 +5,6 @@ export const fnafTheme: SiteTheme = {
   id: "fnaf",
   name: "FNAF Night Shift",
   themeColor: "#000000",
-  themeColorLight: "#e8e4dc",
   hero: {
     background: {
       light: {
@@ -29,28 +28,6 @@ export const fnafTheme: SiteTheme = {
     showSignMount: true,
     showTvStatic: true,
     showZombieSilhouette: true,
-  },
-  office: {
-    laminate: "#e8e4dc",
-    laminateLight: "#f0ebe3",
-    paper: "#f5f0e6",
-    manila: "#e8dcc8",
-    border: "#8a7a68",
-    text: "#3c3228",
-    textMuted: "#6b5d4f",
-    fluorescent: "rgba(200, 220, 255, 0.12)",
-    windowGlow: "rgba(255, 248, 220, 0.08)",
-  },
-  desk: {
-    wood: "#1a1410",
-    woodLight: "#221c16",
-    paper: "#2f2922",
-    manila: "#4a4036",
-    border: "#5c4d3a",
-    text: "#e8dfd0",
-    textMuted: "#a89580",
-    lamp: "rgba(251, 191, 36, 0.09)",
-    monitorGlow: "rgba(74, 222, 128, 0.05)",
   },
   tailwind: {
     accent: {
