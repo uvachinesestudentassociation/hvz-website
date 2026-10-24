@@ -14,8 +14,8 @@ import { isSiteUnlocked } from "./theme-gate"
 
 const start = getGameStartDate()
 
-test("game start is midnight Eastern on the configured date", () => {
-  expect(start.toISOString()).toBe("2026-10-26T04:00:00.000Z")
+test("game start is 11:15 PM Eastern on the configured date", () => {
+  expect(start.toISOString()).toBe("2026-10-24T03:15:00.000Z")
 })
 
 test("game is not live one millisecond before start and is live at start", () => {
@@ -23,8 +23,8 @@ test("game is not live one millisecond before start and is live at start", () =>
   expect(isGameLive(start.getTime())).toBe(true)
 })
 
-test("start label uses 12-hour midnight Eastern", () => {
-  expect(getGameStartLabel()).toBe("October 26, 12:00 AM Eastern")
+test("start label uses 12-hour Eastern time", () => {
+  expect(getGameStartLabel()).toBe("October 23, 11:15 PM Eastern")
 })
 
 test("game end is seven days after start", () => {

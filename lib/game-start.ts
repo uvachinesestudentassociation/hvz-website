@@ -6,9 +6,9 @@ import { SITE_CONFIG } from "@/lib/site-config"
  */
 export const GAME_START = {
   month: 10,
-  day: 26,
-  hour: 0,
-  minute: 0,
+  day: 23,
+  hour: 23,
+  minute: 15,
   /** Eastern offset from UTC: -4 = EDT, -5 = EST */
   utcOffsetHours: -4,
 } as const
