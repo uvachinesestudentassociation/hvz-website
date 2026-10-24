@@ -54,7 +54,8 @@ test("hallway lights flicker only the day before and the day of start", () => {
   expect(hallLightsFlicker(start.getTime() - day)).toBe(true)
   expect(hallLightsFlicker(start.getTime() - 60 * 60 * 1000)).toBe(true)
   expect(hallLightsFlicker(start.getTime())).toBe(true)
-  expect(hallLightsFlicker(start.getTime() + 12 * 60 * 60 * 1000)).toBe(true)
+  // Start is 11:15 PM, so twelve hours later is the next Eastern day.
+  expect(hallLightsFlicker(start.getTime() + 30 * 60 * 1000)).toBe(true)
   expect(hallLightsFlicker(start.getTime() + day)).toBe(false)
 })
 
