@@ -59,15 +59,15 @@ export function PreviousHomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-4">
             <ScrollReveal>
-              <ResourceLinkCard resource={killReport} variant="action" className={DESK_TILT.left} />
+              <ResourceLinkCard resource={killReport} variant="action" />
             </ScrollReveal>
             <ScrollReveal>
-              <ResourceLinkCard resource={questReport} variant="action" className={DESK_TILT.right} />
+              <ResourceLinkCard resource={questReport} variant="action" />
             </ScrollReveal>
-            <ScrollReveal className="sm:col-span-2">
-              <QuestBoardEmbed resource={questBoard} />
+            <ScrollReveal>
+              <QuestBoardEmbed href={questBoard.href} />
             </ScrollReveal>
           </div>
 

@@ -8,9 +8,9 @@ export const LINKS = {
   /** Home page hero — “Join the Game” button */
   signupForm: "https://docs.google.com/forms/d/1FvfRs1mH2syAWyQ83ziV6S8G5bUwda36a7cpM1Jz2uA/edit",
 
-  /** Report forms — home quick links and mobile nav */
-  killReport: "https://docs.google.com/forms/d/1qnny7aQCcWpTkLoGpp1-ybY3csxIcPV-WR4p8tZptxA/edit",
-  questReport: "https://docs.google.com/forms/d/1yljepLho9YlzWBLqOLC1ouCwQHarih4jgUnCiB9GW64/edit",
+  /** Published respondent links. Do not append a name or email. */
+  killReport: "https://docs.google.com/forms/d/e/1FAIpQLSfqpi58EQOTCn2Sxa_lZ4n_8Gtz2nLbubSKH3TOemRJg9CVSA/viewform",
+  questReport: "https://docs.google.com/forms/d/e/1FAIpQLSdJY_5InoD_j79mjRJv1eQ3zEgs6r94rduobPr4SBz2_YV0qQ/viewform",
 
   /** Spreadsheets, docs, and quest board — resources page */
   pointsList: "https://docs.google.com/spreadsheets/d/1ifMcPXFWOvvZdibqVijEExVSRE686RXXSMPIZbZ7UvU/edit?gid=0#gid=0",
@@ -25,23 +25,27 @@ export const LINKS = {
 
 export type LinkId = keyof typeof LINKS
 
-/** Live slideshow embed. Null when the href is not a Google Slides file. */
+/** Live deck. Null when the href is not a Google Slides file. */
 export function questBoardEmbedUrl(href: string): string | null {
-  const match = href.match(/\/presentation\/d\/([a-zA-Z0-9_-]+)/)
+  const match = href?.match(/\/presentation\/d\/([a-zA-Z0-9_-]+)/)
   if (!match) return null
   return `https://docs.google.com/presentation/d/${match[1]}/embed?start=false&loop=false&rm=minimal`
 }
 
-/** Iframe src for a form or sheet. Other URLs are unchanged. */
-export function resourceEmbedUrl(href: string): string {
+/**
+ * Iframe src for a published form or a sheet.
+ * Editor form links cannot be embedded. Returns null for those.
+ */
+export function resourceEmbedUrl(href: string): string | null {
   let url: URL
   try {
     url = new URL(href)
   } catch {
-    return href
+    return null
   }
   if (url.hostname !== "docs.google.com") return href
-  if (url.pathname.includes("/forms/") && url.pathname.includes("/viewform")) {
+  if (url.pathname.includes("/forms/")) {
+    if (!url.pathname.includes("/viewform")) return null
     url.searchParams.set("embedded", "true")
     return url.toString()
   }
