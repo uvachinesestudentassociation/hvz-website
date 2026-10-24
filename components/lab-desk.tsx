@@ -6,6 +6,7 @@ import { useGLTF } from "@react-three/drei"
 import { ACESFilmicToneMapping, Box3, CanvasTexture, Color, Group, HemisphereLight, Mesh, MeshStandardMaterial, Object3D, PCFSoftShadowMap, PointLight, RepeatWrapping, SpotLight, SRGBColorSpace, TextureLoader, Vector3 } from "three"
 import { BountyCard } from "@/components/bounty-card"
 import { GameCountdown } from "@/components/game-countdown"
+import { FormEmbed } from "@/components/form-embed"
 import { QuestBoardEmbed } from "@/components/quest-board-embed"
 import { RulesContent } from "@/components/rules-content"
 import { SafeZonesContent } from "@/components/safe-zones-content"
@@ -1424,17 +1425,23 @@ function DeskPanel({ id, onClose }: { id: DeskId; onClose: () => void }) {
 }
 
 function LinkedBody({ label, href }: { label: string; href: string }) {
+  const src = resourceEmbedUrl(href)
+  const form = Boolean(src?.includes("/forms/") && src.includes("viewform"))
   return (
     <div>
-      <iframe title={label} src={resourceEmbedUrl(href)} className="h-[60dvh] w-full border bg-white" />
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex min-h-11 items-center px-4 font-mono text-sm font-bold underline"
-      >
-        {label}
-      </a>
+      {form ? <FormEmbed label={label} href={href} /> : src ? (
+        <iframe title={label} src={src} className="h-[60dvh] w-full border bg-white" />
+      ) : null}
+      {form ? null : (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-11 items-center px-4 font-mono text-sm font-bold underline"
+        >
+          {label}
+        </a>
+      )}
     </div>
   )
 }
@@ -1443,7 +1450,7 @@ function PanelBody({ id }: { id: DeskId }) {
   if (id === "rules") return <RulesContent />
   if (id === "zones") return <SafeZonesContent />
   if (id === "bounty") return <div className="p-4"><BountyCard /></div>
-  if (id === "points") return <QuestBoardEmbed resource={getResource("questBoard")} frame="thin" />
+  if (id === "points") return <QuestBoardEmbed href={getResource("questBoard").href} frame="thin" />
   const linkId = LINKED_DESK[id]
   if (!linkId) return null
   const resource = getResource(linkId)
@@ -1668,6 +1675,11 @@ export function LabDesk() {
               onPick={(id) => {
                 if (!live && id !== "clock") return
                 setLit(id)
+                if (id === "kill" || id === "quest") {
+                  const href = getResource(id === "kill" ? "killReport" : "questReport").href
+                  if (href) window.open(href, "_blank", "noopener,noreferrer")
+                  return
+                }
                 if (canOpenDesk(id)) setOpen(id)
               }}
             />
