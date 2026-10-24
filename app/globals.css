@@ -199,21 +199,6 @@ html {
   border-left-width: 1px;
 }
 
-.hero-sign__wires {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 25;
-  overflow: visible;
-}
-
-.hero-sign__wire-line {
-  stroke-width: 5;
-  stroke-linecap: round;
-}
-
 .hero-sign {
   position: relative;
   z-index: 26;
@@ -227,22 +212,6 @@ html {
   transform-origin: top center;
   display: inline-block;
   will-change: transform;
-}
-
-.hero-sign__attach {
-  position: absolute;
-  top: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-}
-
-.hero-sign__attach--left {
-  left: 10%;
-}
-
-.hero-sign__attach--right {
-  left: 90%;
 }
 
 .hero-sign__panel {
@@ -289,8 +258,7 @@ html {
   paint-order: stroke fill;
 }
 
-/* Alert banner headlines — bounty poster + heads-up */
-.heads-up__headline,
+/* Bounty poster headline */
 .bounty-poster__headline {
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -304,18 +272,6 @@ html {
 @media (min-width: 768px) {
   .bounty-poster__headline {
     font-size: 1.5rem;
-  }
-}
-
-.heads-up__headline {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-}
-
-@media (min-width: 768px) {
-  .heads-up__headline {
-    font-size: 0.9375rem;
   }
 }
 
@@ -362,90 +318,9 @@ html {
   bottom: 0.85rem;
 }
 
-.desk-prop-ring--bl {
-  background-image: radial-gradient(
-    circle at 8% 88%,
-    transparent 1.35rem,
-    rgba(92, 64, 35, 0.22) 1.4rem,
-    rgba(92, 64, 35, 0.38) 1.85rem,
-    rgba(120, 85, 45, 0.16) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.desk-prop-ring--bl::after {
-  left: 1.1rem;
-  bottom: 0.85rem;
-}
-
-.desk-prop-ring--tr {
-  background-image: radial-gradient(
-    circle at 90% 14%,
-    transparent 1.35rem,
-    rgba(92, 64, 35, 0.22) 1.4rem,
-    rgba(92, 64, 35, 0.38) 1.85rem,
-    rgba(120, 85, 45, 0.16) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.desk-prop-ring--tr::after {
-  right: 1rem;
-  top: 0.75rem;
-}
-
-.desk-prop-ring--tl {
-  background-image: radial-gradient(
-    circle at 10% 16%,
-    transparent 1.35rem,
-    rgba(92, 64, 35, 0.22) 1.4rem,
-    rgba(92, 64, 35, 0.38) 1.85rem,
-    rgba(120, 85, 45, 0.16) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.desk-prop-ring--tl::after {
-  left: 0.85rem;
-  top: 0.7rem;
-}
-
 .dark .desk-prop-ring--br {
   background-image: radial-gradient(
     circle at 92% 88%,
-    transparent 1.35rem,
-    rgba(180, 130, 70, 0.18) 1.4rem,
-    rgba(180, 130, 70, 0.32) 1.85rem,
-    rgba(160, 110, 60, 0.14) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.dark .desk-prop-ring--bl {
-  background-image: radial-gradient(
-    circle at 8% 88%,
-    transparent 1.35rem,
-    rgba(180, 130, 70, 0.18) 1.4rem,
-    rgba(180, 130, 70, 0.32) 1.85rem,
-    rgba(160, 110, 60, 0.14) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.dark .desk-prop-ring--tr {
-  background-image: radial-gradient(
-    circle at 90% 14%,
-    transparent 1.35rem,
-    rgba(180, 130, 70, 0.18) 1.4rem,
-    rgba(180, 130, 70, 0.32) 1.85rem,
-    rgba(160, 110, 60, 0.14) 2.15rem,
-    transparent 2.2rem
-  );
-}
-
-.dark .desk-prop-ring--tl {
-  background-image: radial-gradient(
-    circle at 10% 16%,
     transparent 1.35rem,
     rgba(180, 130, 70, 0.18) 1.4rem,
     rgba(180, 130, 70, 0.32) 1.85rem,

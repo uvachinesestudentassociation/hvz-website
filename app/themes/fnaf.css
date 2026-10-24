@@ -173,11 +173,6 @@
   background: linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%);
 }
 
-[data-site-theme="fnaf"] .hero-sign__wire-line {
-  stroke: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
-}
-
 [data-site-theme="fnaf"] .hero-sign__rope {
   background: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
 }

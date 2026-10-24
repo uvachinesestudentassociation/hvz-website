@@ -60,39 +60,16 @@ export interface SiteTheme {
   /** Human-readable label (for docs / tooling). */
   name: string;
   themeColor: string;
-  themeColorLight: string;
   hero: {
     background: {
       light: HeroBackgroundLayer;
       dark: HeroBackgroundDark;
     };
-    /** FNAF-style hanging sign + wired logo, or a plain heading. */
+    /** FNAF-style hanging sign, or a plain heading. */
     logoStyle: "fnaf-sign" | "plain";
     showSignMount: boolean;
     showTvStatic: boolean;
     showZombieSilhouette: boolean;
-  };
-  office: {
-    laminate: string;
-    laminateLight: string;
-    paper: string;
-    manila: string;
-    border: string;
-    text: string;
-    textMuted: string;
-    fluorescent: string;
-    windowGlow: string;
-  };
-  desk: {
-    wood: string;
-    woodLight: string;
-    paper: string;
-    manila: string;
-    border: string;
-    text: string;
-    textMuted: string;
-    lamp: string;
-    monitorGlow: string;
   };
   tailwind: {
     accent: {

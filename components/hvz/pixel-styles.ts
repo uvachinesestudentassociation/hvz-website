@@ -1,15 +1,7 @@
 import { PIXEL as themePixel } from "@/content/theme";
 
-/** Coffee ring — opt-in per panel; pair with a DESK_RING position class */
-const DESK_RING_BASE = "desk-prop-ring";
-
-/** Coffee ring positions — use at most one per surface, not on every panel */
-export const DESK_RING = {
-  br: `${DESK_RING_BASE} desk-prop-ring--br`,
-  bl: `${DESK_RING_BASE} desk-prop-ring--bl`,
-  tr: `${DESK_RING_BASE} desk-prop-ring--tr`,
-  tl: `${DESK_RING_BASE} desk-prop-ring--tl`,
-} as const;
+/** Coffee ring — opt-in on one panel, not on every card */
+export const DESK_RING = "desk-prop-ring desk-prop-ring--br";
 
 /** Slight paper tilt — use on some panels only, not every card */
 export const DESK_TILT = {

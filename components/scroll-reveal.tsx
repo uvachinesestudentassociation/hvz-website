@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils"
 type ScrollRevealProps = {
   children: ReactNode
   className?: string
-  delay?: number
 }
 
 /** Mobile homepage blocks. Rendered visible immediately; no fade-in. */

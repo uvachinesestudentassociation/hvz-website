@@ -77,18 +77,6 @@ function parseLiveParam(value: string | null): LiveOverride | undefined {
   return undefined
 }
 
-function readStoredLive(): LiveOverride {
-  try {
-    const raw = sessionStorage.getItem(STORAGE_KEY)
-    if (raw === "true") return true
-    if (raw === "false") return false
-    if (raw === "start") return "start"
-  } catch {
-    /* ignore */
-  }
-  return null
-}
-
 function persistLive(value: LiveOverride) {
   try {
     if (value === null) sessionStorage.removeItem(STORAGE_KEY)
@@ -112,6 +100,7 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
   const duskProgress = useRef(0)
   const duskScrubRef = useRef<number | null>(null)
   const simulatedNowRef = useRef<number | null>(null)
+  const endClockRef = useRef<number | null>(null)
   const duskSpeedRef = useRef(0)
   const cssDusk = useRef("")
   const duskPhaseRef = useRef(duskPhase)
@@ -143,7 +132,14 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     const params = new URLSearchParams(window.location.search)
     const fromQuery = parseLiveParam(params.get("live"))
 
-    setLiveOverrideState(fromQuery !== undefined ? fromQuery : readStoredLive())
+    if (fromQuery !== undefined) {
+      setLiveOverrideState(fromQuery)
+    } else {
+      // Local preview: past the fade and the ceremony, with the desk live.
+      endClockRef.current = getGameStartDate().getTime() + 2 * 24 * 60 * 60 * 1000
+      setLiveOverrideState(true)
+      persistLive(true)
+    }
     setHydrated(true)
   }, [enabled])
 
@@ -204,8 +200,10 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     let stopped = false
     const tick = () => {
       if (stopped) return
-      if (duskSpeedRef.current <= 0) paintDusk(simulatedNowRef.current ?? Date.now())
-      const clock = duskScrubRef.current ?? simulatedNowRef.current ?? Date.now()
+      if (duskSpeedRef.current <= 0) {
+        paintDusk(simulatedNowRef.current ?? endClockRef.current ?? Date.now())
+      }
+      const clock = duskScrubRef.current ?? simulatedNowRef.current ?? endClockRef.current ?? Date.now()
       const remaining = getTimeUntilGameStart(clock)
       let wait = 30_000
       if (duskSpeedRef.current > 0) wait = 500
@@ -224,7 +222,7 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
 
   useEffect(() => {
     if (duskSpeedRef.current > 0) return
-    paintDusk(simulatedNowRef.current ?? Date.now())
+    paintDusk(simulatedNowRef.current ?? endClockRef.current ?? Date.now())
   }, [simulatedNow, liveOverride, hydrated, paintDusk])
 
   const setLiveOverride = useCallback(
@@ -232,6 +230,7 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
       if (!enabled) return
       setLiveOverrideState(value)
       persistLive(value)
+      if (value !== true) endClockRef.current = null
       if (value === "start") {
         setStartReplayKey((key) => key + 1)
       }
@@ -243,6 +242,7 @@ export function GameLiveOverrideProvider({ children }: { children: ReactNode }) 
     if (!enabled) return
     setLiveOverrideState("start")
     persistLive("start")
+    endClockRef.current = null
     setStartReplayKey((key) => key + 1)
   }, [enabled])
 

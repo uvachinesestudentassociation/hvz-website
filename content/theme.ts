@@ -7,7 +7,6 @@
 import { ACTIVE_THEME } from "./themes";
 
 export const THEME_COLOR = ACTIVE_THEME.themeColor;
-export const THEME_COLOR_LIGHT = ACTIVE_THEME.themeColorLight;
 
 export const THEME = ACTIVE_THEME.tailwind;
 export const THEME_COPY = ACTIVE_THEME.copy;

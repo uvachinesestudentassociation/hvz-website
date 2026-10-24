@@ -34,7 +34,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 function SiteShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const showHeroSignMount = pathname === "/" || pathname === "/lab" || isAltExperimentPath(pathname)
+  const showHeroSignMount = pathname === "/lab" || isAltExperimentPath(pathname)
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 400)
@@ -46,10 +46,10 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
     <div className={`min-h-screen ${PIXEL_GRID_BG} pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0`}>
       <div className="relative">
         <div id="site-header-sticky" className="sticky top-0 z-40 md:hidden">
-          {showHeroSignMount && HERO.showSignMount && pathname !== "/" && (
+          {showHeroSignMount && HERO.showSignMount && (
             <div
               id="hero-sign-mount"
-              className={pathname === "/" ? "hero-sign-mount md:hidden" : "hero-sign-mount"}
+              className="hero-sign-mount"
               aria-hidden="true"
             >
               <span className="hero-sign__bar" />
