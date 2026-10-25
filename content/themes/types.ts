@@ -1,17 +1,6 @@
 /** Identifiers for swappable event themes — add new themes here and in the registry. */
 export type ThemeId = "fnaf" | "default";
 
-export interface HeroBackgroundLayer {
-  gradient: string;
-  grid: string;
-  scanline: string;
-  vignette: string;
-  floorLight: string;
-  floorDark: string;
-  floorBase: string;
-  noiseOpacity: number;
-}
-
 export interface HeroBackgroundDark {
   baseColor: string;
   scanlineFine: string;
@@ -62,7 +51,6 @@ export interface SiteTheme {
   themeColor: string;
   hero: {
     background: {
-      light: HeroBackgroundLayer;
       dark: HeroBackgroundDark;
     };
     /** FNAF-style hanging sign, or a plain heading. */

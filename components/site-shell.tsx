@@ -5,12 +5,10 @@ import { usePathname } from "next/navigation"
 import { ArrowUp } from "lucide-react"
 import { DeskTiltEffects } from "@/components/desk-tilt-effects"
 import { GameLiveDevPanel } from "@/components/game-live-dev-panel"
-import { GameStartCeremony } from "@/components/game-start-ceremony"
-import { DuskTheme } from "@/components/dusk-theme"
 import { MobileSiteNav } from "@/components/site-nav"
+import { ThemeProvider } from "@/components/theme-provider"
 import { PIXEL_GRID_BG } from "@/components/hvz/pixel-styles"
 import { GameLiveOverrideProvider } from "@/hooks/game-live-override"
-import { GameStartCeremonyProvider } from "@/hooks/game-start-ceremony"
 import { HERO } from "@/content/theme"
 
 /** Local /alt experiments only — safe no-op when those folders are gitignored. */
@@ -22,11 +20,9 @@ function isAltExperimentPath(pathname: string | null | undefined): boolean {
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <GameLiveOverrideProvider>
-      <DuskTheme>
-        <GameStartCeremonyProvider>
-          <SiteShellInner>{children}</SiteShellInner>
-        </GameStartCeremonyProvider>
-      </DuskTheme>
+      <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
+        <SiteShellInner>{children}</SiteShellInner>
+      </ThemeProvider>
     </GameLiveOverrideProvider>
   )
 }
@@ -76,7 +72,6 @@ function SiteShellInner({ children }: { children: React.ReactNode }) {
         </button>
       )}
       <DeskTiltEffects />
-      <GameStartCeremony />
       <GameLiveDevPanel />
     </div>
   )

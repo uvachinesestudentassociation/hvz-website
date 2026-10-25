@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useGameLive } from "@/hooks/use-game-live"
-import { useGameLiveOverride, duskPreviewMs } from "@/hooks/game-live-override"
+import { useGameLiveOverride } from "@/hooks/game-live-override"
 import { getGameStartDate } from "@/lib/game-start"
 import { PIXEL_SECTION_BORDER } from "@/components/hvz/pixel-styles"
 
@@ -65,13 +65,9 @@ export function GameLiveDevPanel() {
     setLiveOverride,
     replayStartPreview,
     simulatedNow,
-    duskSpeed,
-    setDuskSpeed,
     hallPreview,
     setHallPreview,
   } = ctx
-
-  const duskSeconds = duskSpeed <= 0 ? 0 : Math.round(duskPreviewMs(duskSpeed) / 1000)
 
   const inStartPreview = liveOverride === "start"
   const showingLabel = inStartPreview
@@ -137,23 +133,10 @@ export function GameLiveDevPanel() {
           Flicker
         </ModeButton>
       </div>
-      <label className="mt-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--px-dev)]">
-        Dusk speed
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={duskSpeed}
-          onChange={(event) => setDuskSpeed(Number(event.target.value))}
-          className="mt-1 block w-full accent-[var(--px-dev-active)]"
-        />
-      </label>
       <p className="mt-2 font-mono text-[9px] leading-snug text-[var(--px-dev-muted)]">
-        {duskSpeed > 0
-          ? `Office dims across ${duskSeconds}s, then stays night. Slide to the left for real time.`
-          : inStartPreview
-            ? "T→0 counts 5s, flips live, then plays the resume ceremony. Click again to replay."
-            : "Slide dusk speed to the right to dim the office faster. Or use ?live=0|1|start"}
+        {inStartPreview
+          ? "T→0 counts 5s, then flips live. Click again to replay."
+          : "Use ?live=0|1|start"}
       </p>
     </div>
   )

@@ -7,16 +7,6 @@ export const fnafTheme: SiteTheme = {
   themeColor: "#000000",
   hero: {
     background: {
-      light: {
-        gradient: "linear-gradient(180deg,#f5f2eb_0%,#e8e4dc_45%,#d4cfc4_100%)",
-        grid: "rgba(120,100,80,0.05)",
-        scanline: "rgba(120,100,80,0.03)",
-        vignette: "rgba(60,50,40,0.15)",
-        floorLight: "#c9c4b8",
-        floorDark: "#b8b3a8",
-        floorBase: "#d4cfc4",
-        noiseOpacity: 0.2,
-      },
       dark: {
         baseColor: "#0c0c0c",
         scanlineFine: "rgba(255,255,255,0.06)",

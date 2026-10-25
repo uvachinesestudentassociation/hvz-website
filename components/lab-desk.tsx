@@ -3,16 +3,13 @@
 import { useEffect, useMemo, useRef, useState, Suspense } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useGLTF } from "@react-three/drei"
-import { ACESFilmicToneMapping, Box3, CanvasTexture, Color, Group, HemisphereLight, Mesh, MeshStandardMaterial, Object3D, PCFSoftShadowMap, PointLight, RepeatWrapping, SpotLight, SRGBColorSpace, TextureLoader, Vector3 } from "three"
+import { ACESFilmicToneMapping, Box3, CanvasTexture, Color, Group, Mesh, MeshStandardMaterial, Object3D, PCFSoftShadowMap, RepeatWrapping, SpotLight, SRGBColorSpace, TextureLoader, Vector3 } from "three"
 import { BountyCard } from "@/components/bounty-card"
 import { GameCountdown } from "@/components/game-countdown"
-import { FormEmbed } from "@/components/form-embed"
-import { QuestBoardEmbed } from "@/components/quest-board-embed"
 import { RulesContent } from "@/components/rules-content"
 import { SafeZonesContent } from "@/components/safe-zones-content"
 import { resourceEmbedUrl } from "@/content/links"
 import { useGameLiveOverride } from "@/hooks/game-live-override"
-import { useDusk } from "@/hooks/use-dusk"
 import { useGameLive } from "@/hooks/use-game-live"
 import { easternDay, getTimeUntilGameStart } from "@/lib/game-start"
 import { getResource } from "@/lib/public-resources"
@@ -271,7 +268,7 @@ function DeskModel() {
 
 const SIGN_TEXT = "HUMANS VS. ZOMBIES"
 
-// Night neon on the hanging sign. Each letter is a source; strength is the only thing dusk changes.
+// Night neon on the hanging sign. Each letter is a source.
 const NIGHT_DESK = {
   y: 1.55,
   z: -0.25,
@@ -282,72 +279,12 @@ const NIGHT_DESK = {
   distance: 2.35,
 }
 
-function mixNum(from: number, to: number, t: number) {
-  return from + (to - from) * t
-}
-
-function duskCss(from: string, to: string) {
-  return `color-mix(in srgb, ${from} calc((1 - var(--dusk)) * 100%), ${to} calc(var(--dusk) * 100%))`
-}
-
-function mixHex(from: string, to: string, t: number) {
-  const parse = (hex: string) => {
-    const n = Number.parseInt(hex.slice(1), 16)
-    return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
-  }
-  const a = parse(from)
-  const b = parse(to)
-  const c = a.map((channel, index) => Math.round(channel + (b[index] - channel) * t))
-  return `#${c.map((channel) => channel.toString(16).padStart(2, "0")).join("")}`
-}
-
-function readDusk() {
-  const raw = document.documentElement.style.getPropertyValue("--dusk")
-  const t = Number(raw)
-  return Number.isFinite(t) ? Math.min(1, Math.max(0, t)) : 0
-}
-
-function DuskPaint({ from, to, roughness = 0.95 }: { from: string; to: string; roughness?: number }) {
-  const mat = useRef<MeshStandardMaterial>(null)
-  useFrame(() => {
-    mat.current?.color.set(mixHex(from, to, readDusk()))
-  })
-  return <meshStandardMaterial ref={mat} color={from} roughness={roughness} />
-}
-
-function DuskGlass() {
-  const mat = useRef<MeshStandardMaterial>(null)
-  useFrame(() => {
-    const t = readDusk()
-    if (!mat.current) return
-    mat.current.color.set(mixHex("#d7eef8", "#7eb6d6", t))
-    mat.current.opacity = mixNum(0.4, 0.34, t)
-  })
-  return (
-    <meshStandardMaterial
-      ref={mat}
-      color="#d7eef8"
-      transparent
-      opacity={0.4}
-      roughness={0.04}
-      metalness={0.12}
-      depthWrite={false}
-    />
-  )
-}
-
 function LetterGlow({ x }: { x: number }) {
-  const light = useRef<PointLight>(null)
-  useFrame(() => {
-    if (!light.current) return
-    light.current.intensity = NIGHT_DESK.intensity * (0.03 + 0.97 * readDusk())
-  })
   return (
     <pointLight
-      ref={light}
       position={[x, NIGHT_DESK.y, NIGHT_DESK.z]}
       color={NIGHT_DESK.color}
-      intensity={NIGHT_DESK.intensity * 0.03}
+      intensity={NIGHT_DESK.intensity}
       distance={NIGHT_DESK.distance}
       decay={2}
     />
@@ -367,7 +304,7 @@ function HangingSign() {
   )
 }
 
-function SignOverlay({ night, reduced }: { night: boolean; reduced: boolean }) {
+function SignOverlay({ reduced }: { reduced: boolean }) {
   const swing = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (reduced) return
@@ -382,14 +319,14 @@ function SignOverlay({ night, reduced }: { night: boolean; reduced: boolean }) {
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
   }, [reduced])
-  const rope = duskCss("#6a6258", "#b0b0b0")
+  const rope = "#b0b0b0"
 
   return (
     <div className="pointer-events-none absolute inset-x-0 top-[6%] z-10 flex justify-center">
       <div ref={swing} style={{ transformOrigin: "top center" }}>
         <div className="hero-sign__panel" style={{ position: "relative" }}>
           <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: "100%", height: "4.5rem" }}>
-            <span style={{ position: "absolute", top: 0, left: "-0.15rem", right: "-0.15rem", height: 5, background: night ? "linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%)" : "linear-gradient(180deg, #6a6560 0%, #3a3530 100%)", border: "1px solid #000" }} />
+            <span style={{ position: "absolute", top: 0, left: "-0.15rem", right: "-0.15rem", height: 5, background: "linear-gradient(180deg, #4a4a4a 0%, #1a1a1a 100%)", border: "1px solid #000" }} />
             <span style={{ position: "absolute", top: 0, bottom: -2, left: 0, width: 4, background: rope }} />
             <span style={{ position: "absolute", top: 0, bottom: -2, right: 0, width: 4, background: rope }} />
           </div>
@@ -516,13 +453,13 @@ function CsaLogo() {
   )
 }
 
-function WallPosters({ night }: { night: boolean }) {
+function WallPosters() {
   const maps = useMemo(
     () => [
-      posterMap("STAY IN", night ? "#1a120c" : "#3c3228", night ? "#c9ae6a" : "#e4d3a2"),
-      posterMap("REPORT", "#1a120c", night ? "#c9ae6a" : "#e4d3a2"),
+      posterMap("STAY IN", "#1a120c", "#c9ae6a"),
+      posterMap("REPORT", "#1a120c", "#c9ae6a"),
     ],
-    [night],
+    [],
   )
   useEffect(() => () => maps.forEach((map) => map.dispose()), [maps])
   return (
@@ -650,21 +587,17 @@ function DeskNote() {
 }
 
 function Room({ reduced }: { reduced: boolean }) {
-  const hemi = useRef<HemisphereLight>(null)
   const { scene } = useThree()
-  const bg = useMemo(() => new Color("#a89884"), [])
-  useFrame(() => {
-    const t = readDusk()
-    bg.set(mixHex("#a89884", "#070605", t))
+  useEffect(() => {
+    const bg = new Color("#070605")
     scene.background = bg
-    if (!hemi.current) return
-    hemi.current.color.set(mixHex("#f4f7fb", "#ffb070", t))
-    hemi.current.groundColor.set(mixHex("#d7c4a4", "#1a120c", t))
-    hemi.current.intensity = mixNum(0.5, 0.38, t)
-  })
+    return () => {
+      scene.background = null
+    }
+  }, [scene])
   return (
     <>
-      <hemisphereLight ref={hemi} args={["#f4f7fb", "#d7c4a4", 0.5]} />
+      <hemisphereLight args={["#ffb070", "#1a120c", 0.38]} />
       <DeskModel />
       <DeskFan reduced={reduced} />
     </>
@@ -672,8 +605,6 @@ function Room({ reduced }: { reduced: boolean }) {
 }
 
 function HallFluorescent({
-  night,
-  dusk,
   x,
   y,
   z,
@@ -682,8 +613,6 @@ function HallFluorescent({
   flicker = false,
   flash,
 }: {
-  night: boolean
-  dusk: number
   x: number
   y: number
   z: number
@@ -693,7 +622,7 @@ function HallFluorescent({
   flash?: React.RefObject<{ bunny: boolean; bear: boolean }>
 }) {
   const hall = useGameLiveOverride()?.hallPreview ?? "auto"
-  const lit = !dead && (hall === "on" || hall === "flicker" || (hall === "auto" && night && dusk > 0))
+  const lit = !dead && hall !== "off"
   const flickering = hall === "flicker" || (hall === "auto" && flicker)
   const light = useRef<SpotLight>(null)
   const bulb = useRef<MeshStandardMaterial>(null)
@@ -703,7 +632,7 @@ function HallFluorescent({
   const wasDim = useRef(false)
   useEffect(() => {
     if (light.current && target.current) light.current.target = target.current
-  }, [night, lit])
+  }, [lit])
   useFrame(({ clock }) => {
     if (dead || !lit || !light.current) return
     if (!flickering) {
@@ -836,12 +765,10 @@ function CostumeSilhouette({
 }
 
 function HallFigures({
-  night,
   y0,
   z,
   flash,
 }: {
-  night: boolean
   y0: number
   z: number
   flash: React.RefObject<{ bunny: boolean; bear: boolean }>
@@ -850,7 +777,7 @@ function HallFigures({
   const bunny = useRef<Group>(null)
   const bear = useRef<Group>(null)
   useFrame(() => {
-    const show = hall === "flicker" || (hall === "auto" && night)
+    const show = hall === "flicker" || hall === "auto"
     if (bunny.current) bunny.current.visible = show && flash.current.bunny
     if (bear.current) bear.current.visible = show && flash.current.bear
   })
@@ -867,8 +794,6 @@ function HallFigures({
 }
 
 function Hallway({
-  night,
-  dusk,
   flicker,
   y0,
   y1,
@@ -879,8 +804,6 @@ function Hallway({
   floorW,
   floorD,
 }: {
-  night: boolean
-  dusk: number
   flicker: boolean
   y0: number
   y1: number
@@ -915,29 +838,26 @@ function Hallway({
       <mesh receiveShadow position={[midX, y0 - 0.04, midZ]}>
         <boxGeometry args={[span, 0.08, depth]} />
         <meshStandardMaterial map={tiles} roughness={0.92} />
-        <CheckerRefresh texture={tiles} />
       </mesh>
       <mesh position={[midX, y1 + 0.04, midZ]}>
         <boxGeometry args={[span, 0.08, depth]} />
-        <DuskPaint from="#5d6e7c" to="#1c2830" />
+        <meshStandardMaterial color="#1c2830" roughness={0.95} />
       </mesh>
       <mesh position={[left, midY, midZ]}>
         <boxGeometry args={[0.08, y1 - y0, depth]} />
-        <DuskPaint from="#4e5e6b" to="#141c22" />
+        <meshStandardMaterial color="#141c22" roughness={0.95} />
       </mesh>
       <mesh position={[right, midY, midZ]}>
         <boxGeometry args={[0.08, y1 - y0, depth]} />
-        <DuskPaint from="#4e5e6b" to="#141c22" />
+        <meshStandardMaterial color="#141c22" roughness={0.95} />
       </mesh>
       <mesh position={[midX, midY, z1]}>
         <boxGeometry args={[span, y1 - y0, 0.08]} />
-        <DuskPaint from="#5d6e7c" to="#1c2830" />
+        <meshStandardMaterial color="#1c2830" roughness={0.95} />
       </mesh>
       {[-5.4, -3.35, -0.9].map((x) => (
         <HallFluorescent
           key={x}
-          night={night}
-          dusk={dusk}
           dead={x !== -3.35}
           flicker={flicker}
           flash={x === -3.35 ? flash : undefined}
@@ -947,14 +867,12 @@ function Hallway({
           floorY={y0}
         />
       ))}
-      <HallFigures night={night} y0={y0} z={z0 - 1.8} flash={flash} />
+      <HallFigures y0={y0} z={z0 - 1.8} flash={flash} />
     </group>
   )
 }
 
 function BackWall({
-  night,
-  dusk,
   flicker,
   floorY,
   ceilY,
@@ -967,8 +885,6 @@ function BackWall({
   floorW,
   floorD,
 }: {
-  night: boolean
-  dusk: number
   flicker: boolean
   floorY: number
   ceilY: number
@@ -992,7 +908,7 @@ function BackWall({
   const slab = (x0: number, x1: number, y0: number, y1: number, key: string) => (
     <mesh key={key} castShadow position={[(x0 + x1) / 2, (y0 + y1) / 2, z]}>
       <boxGeometry args={[x1 - x0, y1 - y0, thick]} />
-      <DuskPaint from="#d8cfc2" to="#2a241e" />
+      <meshStandardMaterial color="#2a241e" roughness={0.95} />
     </mesh>
   )
   return (
@@ -1005,21 +921,19 @@ function BackWall({
       {slab(winX1, roomX + thick, floorY, ceilY, "right")}
       <mesh position={[doorX0, (floorY + doorTop) / 2, backZ + 0.02]}>
         <boxGeometry args={[0.06, doorTop - floorY, 0.06]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <mesh position={[doorX1, (floorY + doorTop) / 2, backZ + 0.02]}>
         <boxGeometry args={[0.06, doorTop - floorY, 0.06]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <group position={[doorX0 + 0.04, (floorY + doorTop) / 2, backZ]} rotation={[0, -0.75, 0]}>
         <mesh castShadow position={[(doorX1 - doorX0) / 2, 0, 0]}>
           <boxGeometry args={[doorX1 - doorX0 - 0.1, doorTop - floorY - 0.08, 0.05]} />
-          <DuskPaint from="#a56b3c" to="#8a5a32" roughness={0.72} />
+          <meshStandardMaterial color="#8a5a32" roughness={0.72} />
         </mesh>
       </group>
       <Hallway
-        night={night}
-        dusk={dusk}
         flicker={flicker}
         y0={floorY}
         y1={ceilY}
@@ -1032,27 +946,34 @@ function BackWall({
       />
       <mesh position={[(doorX0 + doorX1) / 2, doorTop, backZ + 0.03]}>
         <boxGeometry args={[doorX1 - doorX0, 0.06, 0.06]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <mesh position={[(winX0 + winX1) / 2, (winY0 + winY1) / 2, backZ + 0.02]}>
         <boxGeometry args={[winX1 - winX0 - 0.08, winY1 - winY0 - 0.06, 0.03]} />
-        <DuskGlass />
+        <meshStandardMaterial
+          color="#7eb6d6"
+          transparent
+          opacity={0.34}
+          roughness={0.04}
+          metalness={0.12}
+          depthWrite={false}
+        />
       </mesh>
       <mesh position={[(winX0 + winX1) / 2, winY1, backZ + 0.03]}>
         <boxGeometry args={[winX1 - winX0, 0.05, 0.05]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <mesh position={[(winX0 + winX1) / 2, winY0, backZ + 0.03]}>
         <boxGeometry args={[winX1 - winX0, 0.05, 0.05]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <mesh position={[winX0, (winY0 + winY1) / 2, backZ + 0.03]}>
         <boxGeometry args={[0.05, winY1 - winY0, 0.05]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
       <mesh position={[winX1, (winY0 + winY1) / 2, backZ + 0.03]}>
         <boxGeometry args={[0.05, winY1 - winY0, 0.05]} />
-        <DuskPaint from="#8a7a68" to="#2a2118" />
+        <meshStandardMaterial color="#2a2118" roughness={0.95} />
       </mesh>
     </group>
   )
@@ -1086,16 +1007,12 @@ function Peel({
   rotation,
   paint,
   under,
-  nightPaint,
-  nightUnder,
   size = 0.55,
 }: {
   position: [number, number, number]
   rotation: [number, number, number]
   paint: string
   under: string
-  nightPaint: string
-  nightUnder: string
   size?: number
 }) {
   const map = useMemo(() => {
@@ -1108,11 +1025,6 @@ function Peel({
     texture.needsUpdate = true
     return texture
   }, [paint, under])
-  useFrame(() => {
-    const t = readDusk()
-    paintPeel(map.image as HTMLCanvasElement, mixHex(paint, nightPaint, t), mixHex(under, nightUnder, t))
-    map.needsUpdate = true
-  })
   useEffect(() => () => map.dispose(), [map])
   return (
     <mesh position={position} rotation={rotation}>
@@ -1122,19 +1034,19 @@ function Peel({
   )
 }
 
-function paintChecker(canvas: HTMLCanvasElement, t: number) {
+function paintChecker(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d")
   if (!ctx) return
   const tile = 32
-  const light = mixHex("#e7dcc8", "#e4dcc8", t)
-  const dark = mixHex("#5a5148", "#070707", t)
+  const light = "#e4dcc8"
+  const dark = "#070707"
   for (let y = 0; y < 8; y += 1) {
     for (let x = 0; x < 8; x += 1) {
       ctx.fillStyle = (x + y) % 2 === 0 ? light : dark
       ctx.fillRect(x * tile, y * tile, tile, tile)
     }
   }
-  ctx.strokeStyle = mixHex("#8a7d70", "#3a342c", t)
+  ctx.strokeStyle = "#3a342c"
   ctx.lineWidth = 2
   for (let i = 0; i <= 8; i += 1) {
     ctx.beginPath()
@@ -1146,10 +1058,8 @@ function paintChecker(canvas: HTMLCanvasElement, t: number) {
     ctx.lineTo(256, i * tile + 0.5)
     ctx.stroke()
   }
-  const stain = mixHex("#5c4024", "#4a341c", t)
-  const alpha = mixNum(0.45, 0.55, t)
-  ctx.fillStyle = stain
-  ctx.globalAlpha = alpha
+  ctx.fillStyle = "#4a341c"
+  ctx.globalAlpha = 0.55
   ;[
     [40, 70, 14],
     [150, 40, 18],
@@ -1164,29 +1074,17 @@ function paintChecker(canvas: HTMLCanvasElement, t: number) {
   ctx.globalAlpha = 1
 }
 
-function CheckerRefresh({ texture }: { texture: CanvasTexture }) {
-  useFrame(() => {
-    texture.needsUpdate = true
-  })
-  return null
-}
-
-function OfficeShell({ dusk, flicker }: { dusk: number; flicker: boolean }) {
-  const night = dusk >= 1
+function OfficeShell({ flicker }: { flicker: boolean }) {
   const checker = useMemo(() => {
     const canvas = document.createElement("canvas")
     canvas.width = 256
     canvas.height = 256
     const texture = new CanvasTexture(canvas)
     texture.colorSpace = SRGBColorSpace
-    paintChecker(canvas, 0)
+    paintChecker(canvas)
     texture.needsUpdate = true
     return texture
   }, [])
-  useFrame(() => {
-    paintChecker(checker.image as HTMLCanvasElement, readDusk())
-    checker.needsUpdate = true
-  })
   useEffect(() => () => checker.dispose(), [checker])
 
   const roomX = 4.4
@@ -1211,8 +1109,6 @@ function OfficeShell({ dusk, flicker }: { dusk: number; flicker: boolean }) {
         <meshStandardMaterial map={checker} roughness={0.92} />
       </mesh>
       <BackWall
-        night={night}
-        dusk={dusk}
         flicker={flicker}
         floorY={floorY}
         ceilY={ceilY}
@@ -1227,44 +1123,43 @@ function OfficeShell({ dusk, flicker }: { dusk: number; flicker: boolean }) {
       />
       <mesh position={[0, ceilY + thick / 2, (backZ + frontZ) / 2]}>
         <boxGeometry args={[roomX * 2 + thick * 2, thick, spanZ + thick]} />
-        <DuskPaint from="#f1ebe3" to="#100e0c" roughness={1} />
+        <meshStandardMaterial color="#100e0c" roughness={1} />
       </mesh>
       {[-1, 1].map((side) => {
         const x = side * (roomX + thick / 2)
         const rearLen = doorZ0 - backZ
         const frontLen = frontZ - doorZ1
         const lintelH = ceilY - doorTop
-        const wallFrom = side < 0 ? "#c4baac" : "#e6ded2"
         const wallTo = side < 0 ? "#1e1916" : "#342c26"
         return (
           <group key={side}>
             <mesh receiveShadow position={[x, (floorY + ceilY) / 2, backZ + rearLen / 2]}>
               <boxGeometry args={[thick, spanY + 0.02, rearLen + thick]} />
-              <DuskPaint from={wallFrom} to={wallTo} />
+              <meshStandardMaterial color={wallTo} roughness={0.95} />
             </mesh>
             <mesh receiveShadow position={[x, (floorY + ceilY) / 2, doorZ1 + frontLen / 2]}>
               <boxGeometry args={[thick, spanY + 0.02, frontLen]} />
-              <DuskPaint from={wallFrom} to={wallTo} />
+              <meshStandardMaterial color={wallTo} roughness={0.95} />
             </mesh>
             <mesh receiveShadow position={[x, doorTop + lintelH / 2, (doorZ0 + doorZ1) / 2]}>
               <boxGeometry args={[thick, lintelH + 0.02, doorZ1 - doorZ0]} />
-              <DuskPaint from={wallFrom} to={wallTo} />
+              <meshStandardMaterial color={wallTo} roughness={0.95} />
             </mesh>
             <mesh position={[side * (roomX - 0.02), (floorY + doorTop) / 2, (doorZ0 + doorZ1) / 2]}>
               <boxGeometry args={[0.04, doorTop - floorY, doorZ1 - doorZ0]} />
-              <DuskPaint from="#2a2620" to="#050505" roughness={1} />
+              <meshStandardMaterial color="#050505" roughness={1} />
             </mesh>
             <mesh position={[side * roomX, (floorY + doorTop) / 2, doorZ0]}>
               <boxGeometry args={[0.06, doorTop - floorY, 0.06]} />
-              <DuskPaint from="#8a7a68" to="#2a2118" />
+              <meshStandardMaterial color="#2a2118" roughness={0.95} />
             </mesh>
             <mesh position={[side * roomX, (floorY + doorTop) / 2, doorZ1]}>
               <boxGeometry args={[0.06, doorTop - floorY, 0.06]} />
-              <DuskPaint from="#8a7a68" to="#2a2118" />
+              <meshStandardMaterial color="#2a2118" roughness={0.95} />
             </mesh>
             <mesh position={[side * roomX, doorTop, (doorZ0 + doorZ1) / 2]}>
               <boxGeometry args={[0.06, 0.06, doorZ1 - doorZ0]} />
-              <DuskPaint from="#8a7a68" to="#2a2118" />
+              <meshStandardMaterial color="#2a2118" roughness={0.95} />
             </mesh>
           </group>
         )
@@ -1277,14 +1172,14 @@ function OfficeShell({ dusk, flicker }: { dusk: number; flicker: boolean }) {
       ].map(([x, y, z, turn]) => (
         <mesh key={`${x}${z}`} position={[x, y, z]} rotation={[0, turn, 0]}>
           <circleGeometry args={[0.32, 7]} />
-          <meshStandardMaterial color="#f4f4f4" transparent opacity={night ? 0.16 : 0.32} side={2} />
+          <meshStandardMaterial color="#f4f4f4" transparent opacity={0.16} side={2} />
         </mesh>
       ))}
-      <WallPosters night={night} />
-      <Peel position={[-4.34, 1.45, -2.6]} rotation={[0, 0, 0.1]} paint="#f0e6d8" under="#8a7d6c" nightPaint="#4a4036" nightUnder="#120e0b" size={0.36} />
-      <Peel position={[3.55, 1.35, -2.6]} rotation={[0, 0, -0.08]} paint="#f0e6d8" under="#8a7d6c" nightPaint="#4a4036" nightUnder="#120e0b" />
-      <Peel position={[-4.34, 0.15, -1.1]} rotation={[0, Math.PI / 2, 0.15]} paint="#ddd4c6" under="#7d7366" nightPaint="#3a332c" nightUnder="#100e0c" />
-      <Peel position={[4.34, 0.2, 0.5]} rotation={[0, -Math.PI / 2, -0.1]} paint="#f4ece2" under="#b3a894" nightPaint="#4e453c" nightUnder="#1a1612" />
+      <WallPosters />
+      <Peel position={[-4.34, 1.45, -2.6]} rotation={[0, 0, 0.1]} paint="#4a4036" under="#120e0b" size={0.36} />
+      <Peel position={[3.55, 1.35, -2.6]} rotation={[0, 0, -0.08]} paint="#4a4036" under="#120e0b" />
+      <Peel position={[-4.34, 0.15, -1.1]} rotation={[0, Math.PI / 2, 0.15]} paint="#3a332c" under="#100e0c" />
+      <Peel position={[4.34, 0.2, 0.5]} rotation={[0, -Math.PI / 2, -0.1]} paint="#4e453c" under="#1a1612" />
       {[
         [-3.85, -2.15],
         [3.85, -2.15],
@@ -1293,7 +1188,7 @@ function OfficeShell({ dusk, flicker }: { dusk: number; flicker: boolean }) {
       ].map(([x, z]) => (
         <mesh key={`dust${x}${z}`} position={[x, floorY + 0.02, z]} rotation={[-Math.PI / 2, 0, 0]}>
           <circleGeometry args={[0.7, 16]} />
-          <meshStandardMaterial color={night ? "#1a120c" : "#6b5c4a"} transparent opacity={0.4} depthWrite={false} />
+          <meshStandardMaterial color="#1a120c" transparent opacity={0.4} depthWrite={false} />
         </mesh>
       ))}
     </group>
@@ -1339,9 +1234,9 @@ function CountdownTab({ onClose }: { onClose: () => void }) {
     closeRef.current?.focus()
   }, [])
 
-  const ink = duskCss("#2a2118", "#f3ead7")
-  const paper = duskCss("#f3ead7", "#1a1612")
-  const edge = duskCss("#2a2118", "#d6a860")
+  const ink = "#f3ead7"
+  const paper = "#1a1612"
+  const edge = "#d6a860"
 
   return (
     <div
@@ -1353,12 +1248,12 @@ function CountdownTab({ onClose }: { onClose: () => void }) {
     >
       <div
         className="relative ml-8 inline-block border border-b-0 px-4 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em]"
-        style={{ color: ink, backgroundColor: duskCss("#e4c98a", "#3a2a18"), borderColor: edge }}
+        style={{ color: ink, backgroundColor: "#3a2a18", borderColor: edge }}
       >
         <span
           aria-hidden="true"
           className="absolute -left-3 top-1 h-3 w-8 -rotate-6 opacity-70"
-          style={{ backgroundColor: duskCss("rgba(210, 190, 140, 0.75)", "rgba(80, 60, 40, 0.55)") }}
+          style={{ backgroundColor: "rgba(80, 60, 40, 0.55)" }}
         />
         Countdown
       </div>
@@ -1369,7 +1264,7 @@ function CountdownTab({ onClose }: { onClose: () => void }) {
         <span
           aria-hidden="true"
           className="pointer-events-none absolute -top-2 right-10 h-4 w-14 rotate-3 opacity-80"
-          style={{ backgroundColor: duskCss("rgba(210, 190, 140, 0.8)", "rgba(90, 70, 45, 0.6)") }}
+          style={{ backgroundColor: "rgba(90, 70, 45, 0.6)" }}
         />
         <div className="mb-1 flex justify-end">
           <button
@@ -1404,7 +1299,7 @@ function DeskPanel({ id, onClose }: { id: DeskId; onClose: () => void }) {
       aria-modal="true"
       aria-label={title}
       className="desk-popup absolute inset-x-3 bottom-3 top-[5.25rem] z-20 flex flex-col p-2 md:inset-x-10 md:bottom-10"
-      style={{ backgroundColor: duskCss("#f3ead7", "#1a1612") }}
+      style={{ backgroundColor: "#1a1612" }}
     >
       <div className="mb-2 flex justify-end">
         <button
@@ -1412,7 +1307,7 @@ function DeskPanel({ id, onClose }: { id: DeskId; onClose: () => void }) {
           type="button"
           onClick={onClose}
           className="min-h-11 cursor-pointer px-3 font-mono text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#d6a860]"
-          style={{ color: duskCss("#2a2118", "#f3ead7") }}
+          style={{ color: "#f3ead7" }}
         >
           Close
         </button>
@@ -1429,19 +1324,17 @@ function LinkedBody({ label, href }: { label: string; href: string }) {
   const form = Boolean(src?.includes("/forms/") && src.includes("viewform"))
   return (
     <div>
-      {form ? <FormEmbed label={label} href={href} /> : src ? (
+      {form || !src ? null : (
         <iframe title={label} src={src} className="h-[60dvh] w-full border bg-white" />
-      ) : null}
-      {form ? null : (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center px-4 font-mono text-sm font-bold underline"
-        >
-          {label}
-        </a>
       )}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex min-h-11 items-center px-4 font-mono text-sm font-bold underline"
+      >
+        {label}
+      </a>
     </div>
   )
 }
@@ -1450,7 +1343,6 @@ function PanelBody({ id }: { id: DeskId }) {
   if (id === "rules") return <RulesContent />
   if (id === "zones") return <SafeZonesContent />
   if (id === "bounty") return <div className="p-4"><BountyCard /></div>
-  if (id === "points") return <QuestBoardEmbed href={getResource("questBoard").href} frame="thin" />
   const linkId = LINKED_DESK[id]
   if (!linkId) return null
   const resource = getResource(linkId)
@@ -1582,7 +1474,6 @@ function LockedCamera() {
 
 function Scene({
   lit,
-  dusk,
   flicker,
   reduced,
   live,
@@ -1592,7 +1483,6 @@ function Scene({
   onPick,
 }: {
   lit: DeskId | null
-  dusk: number
   flicker: boolean
   reduced: boolean
   live: boolean
@@ -1603,7 +1493,7 @@ function Scene({
 }) {
   return (
     <>
-      <OfficeShell dusk={dusk} flicker={flicker} />
+      <OfficeShell flicker={flicker} />
       <group position={[0, -0.5, 0.95]}>
         <Room reduced={reduced} />
         {ITEMS.map((item) => (
@@ -1639,8 +1529,7 @@ function Scene({
 }
 
 export function LabDesk() {
-  const { night, flicker } = useDusk()
-  const dusk = night ? 1 : 0
+  const flicker = useGameLiveOverride()?.flicker ?? false
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
   const [lit, setLit] = useState<DeskId | null>(null)
   const [open, setOpen] = useState<DeskId | null>(null)
@@ -1665,7 +1554,6 @@ export function LabDesk() {
           <Suspense fallback={null}>
             <Scene
               lit={lit}
-              dusk={dusk}
               flicker={flicker}
               reduced={reducedMotion}
               live={live}
@@ -1675,8 +1563,10 @@ export function LabDesk() {
               onPick={(id) => {
                 if (!live && id !== "clock") return
                 setLit(id)
-                if (id === "kill" || id === "quest") {
-                  const href = getResource(id === "kill" ? "killReport" : "questReport").href
+                const external = id === "kill" || id === "quest" || id === "points"
+                if (external) {
+                  const linkId = id === "kill" ? "killReport" : id === "quest" ? "questReport" : "questBoard"
+                  const href = getResource(linkId).href
                   if (href) window.open(href, "_blank", "noopener,noreferrer")
                   return
                 }
@@ -1686,12 +1576,12 @@ export function LabDesk() {
           </Suspense>
         </Canvas>
       </div>
-      <SignOverlay night={night} reduced={reducedMotion} />
+      <SignOverlay reduced={reducedMotion} />
       {litCopy ? (
         <div
           ref={marker}
           className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+0.75rem)] px-4 py-2 font-mono text-4xl leading-none"
-          style={{ color: duskCss("#2a2118", "#f3ead7"), backgroundColor: duskCss("#f7f1e6", "#000000") }}
+          style={{ color: "#f3ead7", backgroundColor: "#000000" }}
         >
           <div>{litCopy.label}</div>
           {litCopy.description ? (

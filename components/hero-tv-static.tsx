@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useGameStartCeremony } from "@/hooks/game-start-ceremony";
 
 const FPS = 10;
 const FRAME_MS = 1000 / FPS;
@@ -25,14 +24,10 @@ function drawNoise(
   ctx.putImageData(imageData, 0, 0);
 }
 
-/** Animated TV static snow — dark-mode hero only. Freezes during the start ceremony. */
+/** Animated TV static snow — dark-mode hero only. */
 export function HeroTvStatic() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  // Pause for the T=0 ceremony only — resume once the overlay finishes.
-  const ceremonyPlaying = useGameStartCeremony()?.playing ?? false;
-  const pausedRef = useRef(ceremonyPlaying);
-  pausedRef.current = ceremonyPlaying;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,7 +62,7 @@ export function HeroTvStatic() {
       rafId = requestAnimationFrame(tick);
 
       // Hold the last drawn frame — pixels stay, animation stops.
-      if (reducedMotion || pausedRef.current) return;
+      if (reducedMotion) return;
       if (now - lastFrame < FRAME_MS) return;
 
       lastFrame = now;
@@ -109,7 +104,6 @@ export function HeroTvStatic() {
     <div
       ref={containerRef}
       className="absolute inset-0"
-      style={{ opacity: "var(--dusk, 0)" }}
       aria-hidden="true"
     >
       <canvas

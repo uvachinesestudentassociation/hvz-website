@@ -7,16 +7,6 @@ export const defaultTheme: SiteTheme = {
   themeColor: "#581c87",
   hero: {
     background: {
-      light: {
-        gradient: "linear-gradient(180deg,#faf5ff_0%,#f3e8ff_45%,#e9d5ff_100%)",
-        grid: "rgba(88,28,135,0.06)",
-        scanline: "rgba(88,28,135,0.04)",
-        vignette: "rgba(88,28,135,0.12)",
-        floorLight: "#ddd6fe",
-        floorDark: "#c4b5fd",
-        floorBase: "#e9d5ff",
-        noiseOpacity: 0.12,
-      },
       dark: {
         baseColor: "#1e1b2e",
         scanlineFine: "rgba(167,139,250,0.05)",
