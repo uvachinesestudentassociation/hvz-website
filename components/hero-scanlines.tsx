@@ -45,7 +45,7 @@ export function HeroScanlines() {
         ref={fineRef}
         className="absolute inset-0"
         style={{
-          opacity: "calc(var(--dusk, 0) * 0.6)",
+          opacity: 0.6,
           backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 1px, ${dark.scanlineFine} 1px, ${dark.scanlineFine} 2px)`,
         }}
         aria-hidden="true"
@@ -54,7 +54,7 @@ export function HeroScanlines() {
         ref={coarseRef}
         className="absolute inset-0"
         style={{
-          opacity: "calc(var(--dusk, 0) * 0.4)",
+          opacity: 0.4,
           backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 47px, ${dark.scanlineCoarse} 47px, ${dark.scanlineCoarse} 48px)`,
         }}
         aria-hidden="true"

@@ -1,220 +1,46 @@
-# CSA@UVA HvZ Website
+<p align="center">
+  <img src="public/images/csa_square_logo.png" alt="CSA at UVA" width="140" />
+</p>
 
-Official rules and resources site for Humans vs. Zombies at UVA, built with [Next.js](https://nextjs.org/).
+# CSA@UVA HvZ
+
+The site players open during game week. Rules, safe zones, and the forms, dressed up as a night-shift security office.
+
+**Play it:** [hvz.csaatuva.com](https://hvz.csaatuva.com)
+
+A wide screen gets the 3D desk. A phone gets the simpler page, with the nav glued to the bottom. Same info either way.
 
 ## Pages
 
-| Route         | Description                                                                  |
-| ------------- | ---------------------------------------------------------------------------- |
-| `/`           | Home — hero, countdown, quick links (kill/quest forms, quest board), explore |
-| `/resources`  | All Google Sheets, Docs, and report forms                                    |
-| `/rules`      | Full game rules with table of contents                                       |
-| `/safe-zones` | Safe zone details by location                                                |
+- [Home](https://hvz.csaatuva.com/) is the desk. Click an object and it opens that sheet or form in a new tab.
+- [Rules](https://hvz.csaatuva.com/rules) is the full rulebook, searchable.
+- [Safe zones](https://hvz.csaatuva.com/safe-zones) is where you cannot get tagged.
+- [Resources](https://hvz.csaatuva.com/resources) is every link in one grid.
 
-**Mobile:** sticky bottom nav for resources, rules, safe zones, kill form, and quest form. Search (FAB on mobile, nav link on desktop) finds text across rules and safe zones.
+The outside links themselves (kill form, quest form, quest board, lists) live in [`content/links.ts`](content/links.ts). Blank a URL and that button hides.
 
-**PWA:** players can add the site to their home screen via the browser (see `public/manifest.json`).
+## Changing the game
 
-## Prerequisites
+You usually do not need to touch layout code.
 
-- [Node.js](https://nodejs.org/) 18.18 or later (Node 20+ recommended)
-- [pnpm](https://pnpm.io/installation) (this repo uses a `pnpm-lock.yaml`)
+| Change this | File |
+| --- | --- |
+| Year, email, comm names | [`lib/site-config.ts`](lib/site-config.ts) |
+| When the countdown hits zero | [`lib/game-start.ts`](lib/game-start.ts) (`month`, `day`, `hour`, `minute`, Eastern offset) |
+| Forms, sheets, quest board | [`content/links.ts`](content/links.ts) |
+| Rule text | [`content/rules.ts`](content/rules.ts), [`content/things-to-note.ts`](content/things-to-note.ts), [`content/heads-up.ts`](content/heads-up.ts) |
+| Safe zones | [`content/safe-zones.ts`](content/safe-zones.ts) |
+| Who the bounty is | [`content/bounty.ts`](content/bounty.ts) |
 
-If you do not have pnpm installed:
+The look is the `fnaf` theme. To go back to the plain purple site after game week, set `ACTIVE_THEME_ID` to `"default"` in [`content/themes/index.ts`](content/themes/index.ts). A new theme is a file in `content/themes/` plus a matching `app/themes/<id>.css`.
 
-```bash
-npm install -g pnpm
-```
+## Run it locally
 
-## Run locally
-
-1. Clone the repository and open the project folder:
-
-   ```bash
-   git clone <repository-url>
-   cd hvz-website
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   pnpm dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-The dev server reloads automatically when you edit files.
-
-## Other commands
-
-| Command      | Description                                         |
-| ------------ | --------------------------------------------------- |
-| `pnpm dev`   | Start the development server                        |
-| `pnpm build` | Create a production build                           |
-| `pnpm start` | Serve the production build (run `pnpm build` first) |
-| `pnpm lint`  | Run ESLint                                          |
-
-## Updating content (for Comm)
-
-Most game-week edits are a few config files — no need to touch layout code.
-
-### Site-wide settings — `lib/site-config.ts`
-
-| Field           | Purpose                                                                                  |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| `gameYear`      | Season year (footer, countdown, “Game ON” banner)                                        |
-| `tagline`       | Hero subtitle (from the active event theme)                                              |
-| `signupFormUrl` | Join-game button link (via `content/links.ts`; button label comes from the active theme) |
-| `contactEmail`  | Shown in rules                                                                           |
-| `commChairs`    | Named in safe zone section                                                               |
-| `url`           | Used for Open Graph / social previews                                                    |
-
-### Game start countdown — `lib/game-start.ts`
-
-Controls the hero countdown before the game goes live:
-
-```ts
-export const GAME_START = {
-  month: 10, // 1–12
-  day: 26,
-  hour: 0, // 0 = midnight, 12 = noon
-  minute: 0,
-  utcOffsetHours: -4, // -4 = EDT, -5 = EST
-};
-```
-
-The year is taken from `gameYear` in `lib/site-config.ts`. After the start time passes, the countdown switches to a “Game ON” message.
-
-### External links — `content/links.ts`
-
-Google Forms, Sheets, Docs, and the Quest Board Slides URL. High-priority items (Kill Report, Quest Report) appear first on the home page and in the mobile nav.
-
-### Event theme — `content/themes/`
-
-The site supports swappable event themes (colors, copy, hero effects, and UI styling). Components read from the active theme via `content/theme.ts`, which re-exports the current theme’s values.
-
-**To switch themes**, change one line in `content/themes/index.ts`:
-
-```ts
-export const ACTIVE_THEME_ID: ThemeId = "default"
-```
-
-| Theme ID  | Description                                                      |
-| --------- | ---------------------------------------------------------------- |
-| `default` | Baseline purple HvZ — plain hero, no event effects               |
-| `fnaf`    | Night-shift / security-office event theme (CRT static, desk UI) |
-
-Each theme file under `content/themes/` defines:
-
-| Export area       | What it controls                                              |
-| ----------------- | ------------------------------------------------------------- |
-| `copy`            | Tagline, join button text, section headings, countdown labels |
-| `tailwind`        | Accent, alarm, monitor, and button class groups               |
-| `pixel`           | Border, surface, and section background classes               |
-| `hero`            | Background layers, logo style, and event hero effects         |
-| `office` / `desk` | Light/dark shell palette tokens                               |
-| `themeColor`      | PWA / browser chrome color                                    |
-
-Matching CSS variables and hero-specific styles live in `app/themes/<id>.css`, scoped with `[data-site-theme="<id>"]`. The root layout sets `data-site-theme` from `ACTIVE_THEME_ID` when unlocked; locked requests use `data-site-theme="locked"` and do not load event theme CSS.
-
-**After an event**, set `ACTIVE_THEME_ID` to `"default"` (or swap in a new theme for the next game week).
-
-**To add a new theme:**
-
-1. Create `content/themes/my-theme.ts` implementing `SiteTheme` (see `types.ts`).
-2. Register it in `content/themes/index.ts`.
-3. Add `app/themes/my-theme.css` with `[data-site-theme="my-theme"]` selectors.
-4. Import the CSS file in `app/themes/index.css`.
-5. Set `ACTIVE_THEME_ID = "my-theme"`.
-
-### Rule text — `content/`
-
-| File                        | Contents                                 |
-| --------------------------- | ---------------------------------------- |
-| `content/heads-up.ts`       | Latest rule tweaks (banner + rules page) |
-| `content/things-to-note.ts` | Warnings and honor code block            |
-| `content/rules.ts`          | Basic and specific rules                 |
-| `content/safe-zones.ts`     | Safe zone sections                       |
-
-Rule search on the site indexes this same content.
-
-### Animations — [anime.js](https://animejs.com/)
-
-Intentional site motion uses **anime.js** (v4). Prefer `animate`, `createTimeline`, `createTimer`, `onScroll`, and `utils.set` from `animejs` for new motion instead of CSS `@keyframes` or class-toggle transitions.
-
-| Area | Component / hook | Notes |
-| ---- | ---------------- | ----- |
-| Game-start ceremony | `components/game-start-ceremony.tsx` | Timeline when the countdown flips to live |
-| Mobile scroll reveals | `components/scroll-reveal.tsx` | `onScroll` + fade/slide-up; desktop stays static |
-| Hero sign swing | `components/hero-logo.tsx` | FNAF hanging-sign rig (`createTimer`) |
-| CRT scanlines | `components/hero-scanlines.tsx` | Looping background-position motion |
-| Theme toggle | `components/theme-toggle.tsx` | Knob + icon crossfade |
-| Desk panel tilt | `components/desk-tilt-effects.tsx` | Hover straighten for `DESK_TILT` classes |
-| Disclosure chevron | `components/hvz/pixel-disclosure.tsx` | Rotate open/closed |
-
-Honor `prefers-reduced-motion: reduce` (skip or shorten motion). Leave tiny CSS hover nudges (e.g. 1px press) and shadcn `animate-in` alone. Canvas TV snow (`hero-tv-static.tsx`) stays procedural pixels, not anime.js.
-
-## Project structure
-
-```
-app/
-  (site)/               Public pages (home, rules, safe-zones, resources)
-  locked/page.tsx       Middleware rewrite target while locked
-  layout.tsx            Root layout, metadata, lock vs unlocked shell
-  themes/               Per-theme CSS (imported only when unlocked)
-middleware.ts           Rewrites locked traffic to /locked
-components/
-  game-countdown.tsx    Hero countdown (client)
-  game-start-ceremony.tsx  Pre → live anime.js ceremony
-  scroll-reveal.tsx     Mobile scroll reveals (anime.js)
-  hero-logo.tsx         Hero logo / FNAF sign swing
-  hero-scanlines.tsx    Dark-mode CRT scanline loops
-  desk-tilt-effects.tsx Desk panel tilt hover motion
-  site-nav.tsx          Desktop + mobile navigation
-  site-shell.tsx        Shared layout shell
-  unlocked-site.tsx     Theme CSS + ThemeProvider + SiteShell
-  theme-gate.tsx        Pre-game lock screen (countdown + preview code)
-  rules-content.tsx     Rules page renderer
-  safe-zones-content.tsx
-  resource-link-card.tsx
-  heads-up-banner.tsx
-content/
-  themes/               Event theme definitions (default, fnaf, …)
-  theme.ts              Re-exports active theme for components
-  bounty.ts             Active bounty target + reveal flag
-  heads-up.ts           Latest rule tweaks (banner + rules page)
-  things-to-note.ts     Warnings and honor code block
-  rules.ts              Basic and specific rules
-  safe-zones.ts         Safe zone sections
-  links.ts              External form/sheet URLs
-lib/
-  site-config.ts        Site constants
-  game-start.ts         Countdown date/time
-  public-resources.ts   Resource labels/icons (URLs from content/links.ts)
-  theme-gate-flag.ts    Season kill-switch for the lock
-  theme-gate.ts         Server unlock check (live + preview cookie)
-  preview-cookie*.ts    Signed httpOnly exec-preview cookie helpers
-  bounty-display.ts     Sealed vs revealed bounty view model
-  search-hash.ts        Deep-link helper for disclosures
-```
-
-## Using npm instead of pnpm
-
-You can use npm if you prefer, but pnpm is recommended to match the lockfile:
+Node 20 and [pnpm](https://pnpm.io/installation).
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-## Deploy
-
-The site is configured for [Vercel](https://vercel.com/) (Analytics, standard Next.js build). Push to your connected branch and Vercel runs `pnpm build`.
-
-After changing config or content, commit and push — or redeploy from the Vercel dashboard.
+Then open [localhost:3000](http://localhost:3000). `pnpm build` is the production check. Push the branch and Vercel ships it.

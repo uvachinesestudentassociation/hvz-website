@@ -1,34 +1,33 @@
 /** FNAF night-shift theme — CSS variables and hero styling. */
 
 [data-site-theme="fnaf"] {
-  --dusk: 0;
-  --px-border: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
-  --px-paper: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #2a2420 calc(var(--dusk) * 100%));
-  --px-paper-deep: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #2f2922 calc(var(--dusk) * 100%));
-  --px-hero: color-mix(in srgb, #f5f0e6 calc((1 - var(--dusk)) * 100%), #14100c calc(var(--dusk) * 100%));
-  --px-ink: color-mix(in srgb, #3c3228 calc((1 - var(--dusk)) * 100%), #e8dfd0 calc(var(--dusk) * 100%));
-  --px-ink-muted: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #a89580 calc(var(--dusk) * 100%));
-  --px-ink-subtle: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #c4b4a4 calc(var(--dusk) * 100%));
-  --px-accent: color-mix(in srgb, #5c4a38 calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
-  --px-accent-hover: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #86efac calc(var(--dusk) * 100%));
-  --px-nav-active: color-mix(in srgb, #4a3c30 calc((1 - var(--dusk)) * 100%), #fde68a calc(var(--dusk) * 100%));
-  --px-nav-highlight: color-mix(in srgb, rgba(232, 220, 200, 0.6) calc((1 - var(--dusk)) * 100%), rgba(5, 46, 22, 0.3) calc(var(--dusk) * 100%));
-  --px-nav-edge: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #5c4d3a calc(var(--dusk) * 100%));
-  --px-monitor: color-mix(in srgb, #6b5d4f calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
-  --px-warning: color-mix(in srgb, #92400e calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
-  --px-rose: color-mix(in srgb, #be123c calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
-  --px-sky: color-mix(in srgb, #075985 calc((1 - var(--dusk)) * 100%), #4ade80 calc(var(--dusk) * 100%));
-  --px-alarm: color-mix(in srgb, #dc2626 calc((1 - var(--dusk)) * 100%), #fcd34d calc(var(--dusk) * 100%));
-  --px-dev: color-mix(in srgb, #5c4a38 calc((1 - var(--dusk)) * 100%), #fef3c7 calc(var(--dusk) * 100%));
-  --px-dev-muted: color-mix(in srgb, #8a7a68 calc((1 - var(--dusk)) * 100%), #fde68a calc(var(--dusk) * 100%));
-  --px-dev-active: color-mix(in srgb, #f59e0b calc((1 - var(--dusk)) * 100%), #d97706 calc(var(--dusk) * 100%));
-  --px-dev-active-border: color-mix(in srgb, #b45309 calc((1 - var(--dusk)) * 100%), #fbbf24 calc(var(--dusk) * 100%));
-  --px-nav: color-mix(in srgb, #f0ebe3 calc((1 - var(--dusk)) * 100%), #1e1814 calc(var(--dusk) * 100%));
-  --px-section: color-mix(in srgb, #e8dcc8 calc((1 - var(--dusk)) * 100%), #221c16 calc(var(--dusk) * 100%));
-  --px-section-2: color-mix(in srgb, #e8e4dc calc((1 - var(--dusk)) * 100%), #1c1612 calc(var(--dusk) * 100%));
-  --px-grid: color-mix(in srgb, #e8e4dc calc((1 - var(--dusk)) * 100%), #1a1410 calc(var(--dusk) * 100%));
-  --px-grid-line: color-mix(in srgb, rgba(120, 100, 80, 0.06) calc((1 - var(--dusk)) * 100%), rgba(0, 0, 0, 0.14) calc(var(--dusk) * 100%));
-  --px-grid-glow: color-mix(in srgb, rgba(200, 220, 255, 0.12) calc((1 - var(--dusk)) * 100%), rgba(251, 191, 36, 0.08) calc(var(--dusk) * 100%));
+  --px-border: #5c4d3a;
+  --px-paper: #2a2420;
+  --px-paper-deep: #2f2922;
+  --px-hero: #14100c;
+  --px-ink: #e8dfd0;
+  --px-ink-muted: #a89580;
+  --px-ink-subtle: #c4b4a4;
+  --px-accent: #4ade80;
+  --px-accent-hover: #86efac;
+  --px-nav-active: #fde68a;
+  --px-nav-highlight: rgba(5, 46, 22, 0.3);
+  --px-nav-edge: #5c4d3a;
+  --px-monitor: #4ade80;
+  --px-warning: #fcd34d;
+  --px-rose: #fcd34d;
+  --px-sky: #4ade80;
+  --px-alarm: #fcd34d;
+  --px-dev: #fef3c7;
+  --px-dev-muted: #fde68a;
+  --px-dev-active: #d97706;
+  --px-dev-active-border: #fbbf24;
+  --px-nav: #1e1814;
+  --px-section: #221c16;
+  --px-section-2: #1c1612;
+  --px-grid: #1a1410;
+  --px-grid-line: rgba(0, 0, 0, 0.14);
+  --px-grid-glow: rgba(251, 191, 36, 0.08);
 
   /* Daytime security office */
   --office-wall: #e8e4dc;
@@ -58,9 +57,9 @@
   --cctv-noise-opacity: 0.35;
   --cctv-glow: rgba(120, 100, 80, 0.03);
 
-  /* Page shell — mixes toward night with --dusk, same curve as the room */
-  --background: color-mix(in oklch, oklch(0.91 0.012 75) calc((1 - var(--dusk)) * 100%), oklch(0.14 0.02 55) calc(var(--dusk) * 100%));
-  --foreground: color-mix(in oklch, oklch(0.28 0.025 55) calc((1 - var(--dusk)) * 100%), oklch(0.91 0.02 75) calc(var(--dusk) * 100%));
+  /* Night page shell. .dark does not recolor these. */
+  --background: oklch(0.14 0.02 55);
+  --foreground: oklch(0.91 0.02 75);
   --card: oklch(0.94 0.015 80);
   --card-foreground: oklch(0.28 0.025 55);
   --popover: oklch(0.94 0.015 80);
@@ -70,12 +69,12 @@
   --secondary: oklch(0.88 0.018 75);
   --secondary-foreground: oklch(0.32 0.025 55);
   --muted: oklch(0.88 0.018 75);
-  --muted-foreground: color-mix(in oklch, oklch(0.48 0.03 55) calc((1 - var(--dusk)) * 100%), oklch(0.68 0.04 65) calc(var(--dusk) * 100%));
+  --muted-foreground: oklch(0.68 0.04 65);
   --accent: oklch(0.9 0.02 80);
   --accent-foreground: oklch(0.32 0.025 55);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: color-mix(in oklch, oklch(0.62 0.035 55) calc((1 - var(--dusk)) * 100%), oklch(0.38 0.04 55) calc(var(--dusk) * 100%));
+  --border: oklch(0.38 0.04 55);
   --input: oklch(0.85 0.02 75);
   --ring: oklch(0.58 0.04 55);
   --chart-1: oklch(0.48 0.04 55);
@@ -124,7 +123,7 @@
   --cctv-noise-opacity: var(--static-noise-opacity);
   --cctv-glow: var(--static-scanline);
 
-  /* Page shell text stays on the dusk mix so night does not recolor it. */
+  /* Page shell text is already the night color, so .dark does not recolor it. */
   --card: oklch(0.19 0.025 50);
   --card-foreground: oklch(0.91 0.02 75);
   --popover: oklch(0.19 0.025 50);
@@ -174,7 +173,7 @@
 }
 
 [data-site-theme="fnaf"] .hero-sign__rope {
-  background: color-mix(in srgb, #6a6258 calc((1 - var(--dusk)) * 100%), #b0b0b0 calc(var(--dusk) * 100%));
+  background: #b0b0b0;
 }
 
 [data-site-theme="fnaf"] .hero-sign__panel {
@@ -195,10 +194,10 @@
     0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Letters and tube glow follow --dusk in day and night, so the dark-class switch does not pop. */
+/* Night letter glow. The base rule offsets the tube; this pins it on the letters. */
 [data-site-theme="fnaf"] .hero-logo::before {
-  opacity: var(--dusk);
-  transform: translateY(calc((1 - var(--dusk)) * 8px));
+  opacity: 1;
+  transform: none;
   color: #ff5414;
   -webkit-text-stroke: 0;
   text-shadow:
@@ -210,11 +209,11 @@
 }
 
 [data-site-theme="fnaf"] .hero-logo__text {
-  color: color-mix(in srgb, #c4b49a calc((1 - var(--dusk)) * 100%), #fff3c4 calc(var(--dusk) * 100%));
+  color: #fff3c4;
   background-image: none;
   -webkit-text-fill-color: currentColor;
-  -webkit-text-stroke: 2px color-mix(in srgb, #4a382c calc((1 - var(--dusk)) * 100%), #ffc56a calc(var(--dusk) * 100%));
-  filter: drop-shadow(0 0 calc(16px * var(--dusk)) rgba(255, 60, 0, 0.85));
+  -webkit-text-stroke: 2px #ffc56a;
+  filter: drop-shadow(0 0 16px rgba(255, 60, 0, 0.85));
 }
 
 [data-site-theme="fnaf"].dark .sr-only:focus {
@@ -223,12 +222,12 @@
   color: #e8dfd0;
 }
 
-/* Desk bezel around the existing static. Follows --dusk like the room. */
+/* Desk bezel around the existing static. */
 [data-site-theme="fnaf"] .hero-crt {
   box-shadow:
-    inset 0 0 0 10px color-mix(in srgb, var(--office-floor) calc((1 - var(--dusk)) * 100%), var(--desk-wood-dark) calc(var(--dusk) * 100%)),
-    inset 0 0 0 13px color-mix(in srgb, var(--office-border) calc((1 - var(--dusk)) * 100%), var(--desk-border) calc(var(--dusk) * 100%)),
-    inset 0 0 calc(90px * var(--dusk)) var(--static-vignette);
+    inset 0 0 0 10px var(--desk-wood-dark),
+    inset 0 0 0 13px var(--desk-border),
+    inset 0 0 90px var(--static-vignette);
 }
 
 [data-site-theme="fnaf"] a[href],
@@ -247,7 +246,7 @@
   outline-color: #fbbf24;
 }
 
-/* Window scrollbar. Colors are dusk mixes, so the bar fades with the page. */
+/* Window scrollbar. */
 [data-site-theme="fnaf"] {
   scrollbar-color: var(--px-ink-muted) var(--px-paper);
 }
