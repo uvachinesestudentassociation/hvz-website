@@ -135,7 +135,7 @@ export function BountyCard({ className = "" }: BountyCardProps) {
           <p className="mt-1 font-mono text-sm font-bold uppercase tracking-wide text-[var(--px-rose)]">
             {display.reward}
           </p>
-          <p className={`mt-2 font-mono text-xs ${PIXEL_TEXT_MUTED} md:text-sm`}>
+          <p className={`mt-2 whitespace-pre-line font-mono text-xs ${PIXEL_TEXT_MUTED} md:text-sm`}>
             {display.note ?? bounty.subline}
           </p>
           <span

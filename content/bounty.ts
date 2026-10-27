@@ -22,11 +22,15 @@ export type BountyTarget = {
 }
 
 /** Flip to true when the bounty should be readable by players. */
-export const BOUNTY_REVEALED = false
+export const BOUNTY_REVEALED = true
 
 export const ACTIVE_BOUNTY: BountyTarget | null = {
-  name: "CLASSIFIED",
+  name: "Day 2",
   imageSrc: "",
-  reward: "See Comm for details",
-  note: "Bring proof to claim the bounty.",
+  reward: "+7 each",
+  note: [
+    "Monkey Kings: Joey Jiang, Lawrence McAllister",
+    "Azure Dragons: Alice Chen, Maggie Shifflett",
+    "White Tigers: Dylan Lee, Audrey Eng",
+  ].join("\n"),
 }

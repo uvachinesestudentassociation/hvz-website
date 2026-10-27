@@ -1,4 +1,3 @@
-import { Analytics } from "@vercel/analytics/next"
 import { SiteShell } from "@/components/site-shell"
 import "@/app/themes/index.css"
 
@@ -9,7 +8,6 @@ export function UnlockedSite({ children }: { children: React.ReactNode }) {
         Skip to main content
       </a>
       <SiteShell>{children}</SiteShell>
-      <Analytics />
     </>
   )
 }
