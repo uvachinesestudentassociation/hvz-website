@@ -12,6 +12,8 @@ import { resourceEmbedUrl } from "@/content/links"
 import { useGameLiveOverride } from "@/hooks/game-live-override"
 import { useGameLive } from "@/hooks/use-game-live"
 import { easternDay, getTimeUntilGameStart } from "@/lib/game-start"
+import { ACTIVE_BOUNTY, BOUNTY_REVEALED } from "@/content/bounty"
+import { getBountyDisplay } from "@/lib/bounty-display"
 import { getResource } from "@/lib/public-resources"
 
 type DeskId =
@@ -273,8 +275,8 @@ const NIGHT_DESK = {
   y: 1.55,
   z: -0.25,
   span: 2.4,
-  intensity: 22,
-  color: "#ff9a3c",
+  intensity: 16,
+  color: "#f0b050",
   /** Reaches the desktop under the sign and dies before the back wall. */
   distance: 2.35,
 }
@@ -453,25 +455,90 @@ function CsaLogo() {
   )
 }
 
-function WallPosters() {
-  const maps = useMemo(
-    () => [
-      posterMap("STAY IN", "#1a120c", "#c9ae6a"),
-      posterMap("REPORT", "#1a120c", "#c9ae6a"),
-    ],
-    [],
-  )
-  useEffect(() => () => maps.forEach((map) => map.dispose()), [maps])
+function Lightbox({
+  position,
+  map,
+  glow = false,
+  marker,
+  hover = false,
+  onOver,
+  onOut,
+  onPick,
+}: {
+  position: [number, number, number]
+  map: CanvasTexture
+  glow?: boolean
+  marker?: React.RefObject<HTMLDivElement | null>
+  hover?: boolean
+  onOver?: () => void
+  onOut?: () => void
+  onPick?: () => void
+}) {
+  const light = useRef<SpotLight>(null)
+  const target = useRef<Object3D>(null)
+  useEffect(() => {
+    if (light.current && target.current) light.current.target = target.current
+  }, [])
+  const w = 0.95
+  const h = 1.15
+  const frame = 0.05
+  const board = "#e2b15a"
   return (
-    <>
-      {maps.map((map, index) => (
-        <mesh key={index} position={[index === 0 ? 1.55 : 2.8, 1.15, -2.64]} rotation={[0, 0, index === 0 ? 0 : -0.07]}>
-          <planeGeometry args={[0.95, 1.15]} />
-          <meshStandardMaterial map={map} transparent roughness={0.95} />
-        </mesh>
-      ))}
-    </>
+    <group position={position}>
+      <mesh position={[0, h / 2 + frame / 2, -0.012]}>
+        <boxGeometry args={[w + frame * 2, frame, 0.035]} />
+        <meshStandardMaterial color="#141414" roughness={0.45} metalness={0.35} />
+      </mesh>
+      <mesh position={[0, -(h / 2 + frame / 2), -0.012]}>
+        <boxGeometry args={[w + frame * 2, frame, 0.035]} />
+        <meshStandardMaterial color="#141414" roughness={0.45} metalness={0.35} />
+      </mesh>
+      <mesh position={[-(w / 2 + frame / 2), 0, -0.012]}>
+        <boxGeometry args={[frame, h, 0.035]} />
+        <meshStandardMaterial color="#141414" roughness={0.45} metalness={0.35} />
+      </mesh>
+      <mesh position={[w / 2 + frame / 2, 0, -0.012]}>
+        <boxGeometry args={[frame, h, 0.035]} />
+        <meshStandardMaterial color="#141414" roughness={0.45} metalness={0.35} />
+      </mesh>
+      <mesh {...(onPick && onOver && onOut ? deskPointerHandlers(hover, onOver, onOut, onPick) : {})}>
+        <planeGeometry args={[w, h]} />
+        <meshStandardMaterial
+          map={map}
+          emissiveMap={map}
+          emissive={board}
+          emissiveIntensity={glow ? 0.72 : 0.55}
+          roughness={0.5}
+        />
+      </mesh>
+      <mesh position={[0, h / 2 + frame + 0.04, 0.03]}>
+        <boxGeometry args={[0.46, 0.05, 0.08]} />
+        <meshStandardMaterial color="#1a1a1a" roughness={0.4} metalness={0.55} />
+      </mesh>
+      <mesh position={[0, h / 2 + frame + 0.012, 0.055]} rotation={[0.55, 0, 0]}>
+        <planeGeometry args={[0.36, 0.022]} />
+        <meshStandardMaterial color={board} emissive={board} emissiveIntensity={1.5} />
+      </mesh>
+      <spotLight
+        ref={light}
+        position={[0, h / 2 + frame + 0.02, 0.1]}
+        angle={0.62}
+        penumbra={0.55}
+        intensity={7}
+        distance={2.4}
+        decay={2}
+        color="#d9a04a"
+      />
+      <object3D ref={target} position={[0, 0, 0.04]} />
+      {glow && marker ? <HoverPoint y={h / 2 + frame + 0.14} marker={marker} /> : null}
+    </group>
   )
+}
+
+function WallPosters() {
+  const map = useMemo(() => posterMap("STAY IN", "#1a120c", "#c9ae6a"), [])
+  useEffect(() => () => map.dispose(), [map])
+  return <Lightbox position={[1.55, 1.15, -2.62]} map={map} />
 }
 
 function DeskFan({ reduced }: { reduced: boolean }) {
@@ -570,6 +637,89 @@ function deskNoteMap() {
   return texture
 }
 
+function bountyPosterMap() {
+  const canvas = document.createElement("canvas")
+  canvas.width = 512
+  canvas.height = 680
+  const ctx = canvas.getContext("2d")
+  const texture = new CanvasTexture(canvas)
+  texture.colorSpace = SRGBColorSpace
+  if (!ctx) return texture
+  ctx.fillStyle = "#f4e8c8"
+  ctx.fillRect(0, 0, 512, 680)
+  ctx.fillStyle = "#c41e1e"
+  ctx.fillRect(0, 0, 512, 108)
+  ctx.fillStyle = "#f4e8c8"
+  ctx.font = "700 64px monospace"
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.fillText("BOUNTY", 256, 54)
+  const display = getBountyDisplay(ACTIVE_BOUNTY, BOUNTY_REVEALED)
+  ctx.textAlign = "center"
+  if (display.kind !== "revealed") {
+    ctx.fillStyle = "#2a2018"
+    ctx.font = "700 40px monospace"
+    ctx.fillText(display.kind === "vacant" ? "NONE ON FILE" : "CLASSIFIED", 256, 360)
+  } else {
+    ctx.fillStyle = "#2a2018"
+    ctx.font = "700 52px monospace"
+    ctx.fillText(display.name.toUpperCase(), 256, 170)
+    ctx.fillStyle = "#8b1a1a"
+    ctx.font = "700 36px monospace"
+    ctx.fillText(display.reward.toUpperCase(), 256, 230)
+    ctx.fillStyle = "#2a2018"
+    ctx.font = "600 26px monospace"
+    const lines = (display.note ?? "").split("\n").flatMap((line) => {
+      const words = line.split(" ")
+      const wrapped: string[] = []
+      let current = ""
+      for (const word of words) {
+        const next = current ? `${current} ${word}` : word
+        if (ctx.measureText(next).width > 460 && current) {
+          wrapped.push(current)
+          current = word
+        } else current = next
+      }
+      if (current) wrapped.push(current)
+      return wrapped
+    })
+    lines.forEach((line, index) => ctx.fillText(line, 256, 310 + index * 40))
+  }
+  texture.needsUpdate = true
+  return texture
+}
+
+function BountyPoster({
+  glow,
+  marker,
+  hover,
+  onOver,
+  onOut,
+  onPick,
+}: {
+  glow: boolean
+  marker: React.RefObject<HTMLDivElement | null>
+  hover: boolean
+  onOver: () => void
+  onOut: () => void
+  onPick: () => void
+}) {
+  const map = useMemo(() => bountyPosterMap(), [])
+  useEffect(() => () => map.dispose(), [map])
+  return (
+    <Lightbox
+      position={[2.8, 1.15, -2.62]}
+      map={map}
+      glow={glow}
+      marker={marker}
+      hover={hover}
+      onOver={onOver}
+      onOut={onOut}
+      onPick={onPick}
+    />
+  )
+}
+
 function DeskNote() {
   const map = useMemo(() => deskNoteMap(), [])
   useEffect(() => () => map.dispose(), [map])
@@ -597,7 +747,7 @@ function Room({ reduced }: { reduced: boolean }) {
   }, [scene])
   return (
     <>
-      <hemisphereLight args={["#ffb070", "#1a120c", 0.38]} />
+      <hemisphereLight args={["#e8a85a", "#1a120c", 0.28]} />
       <DeskModel />
       <DeskFan reduced={reduced} />
     </>
@@ -636,8 +786,8 @@ function HallFluorescent({
   useFrame(({ clock }) => {
     if (dead || !lit || !light.current) return
     if (!flickering) {
-      light.current.intensity = 400
-      if (bulb.current) bulb.current.emissiveIntensity = 1.6
+      light.current.intensity = 300
+      if (bulb.current) bulb.current.emissiveIntensity = 1.15
       wasDim.current = false
       if (flash) {
         flash.current.bunny = false
@@ -649,8 +799,8 @@ function HallFluorescent({
     const n = Math.sin(step * 127.1 + seed.current) * 43758.5453
     const h = n - Math.floor(n)
     const k = h > 0.96 ? 0.2 : h > 0.9 ? 0.5 : 1
-    light.current.intensity = 400 * k
-    if (bulb.current) bulb.current.emissiveIntensity = 1.6 * k
+    light.current.intensity = 300 * k
+    if (bulb.current) bulb.current.emissiveIntensity = 1.15 * k
     const dim = k < 1
     if (dim && !wasDim.current && flash) {
       const roll = Math.random()
@@ -674,24 +824,21 @@ function HallFluorescent({
         <boxGeometry args={[1.55, 0.025, 0.07]} />
         <meshStandardMaterial
           ref={bulb}
-          color={dead || !lit ? "#6a6e72" : "#e7f3ff"}
-          emissive={dead || !lit ? "#000000" : "#c5ddff"}
-          emissiveIntensity={dead || !lit ? 0 : 1.6}
+          color={dead || !lit ? "#6a6e72" : "#f3e2b0"}
+          emissive={dead || !lit ? "#000000" : "#e6c078"}
+          emissiveIntensity={dead || !lit ? 0 : 1.15}
         />
       </mesh>
       {lit && (
         <>
-          {/* 400 cd straight down the beam. Aimed 1.25 m further into the hall, so the
-              floor under the tube is about 45 lux and the open doorway, out in the
-              penumbra, is about 8 lux. The wall casts a shadow, so the spill stays
-              in the doorway instead of passing through the wall. */}
+          {/* Aimed 1.25 m further into the hall. The wall casts a shadow, so the spill stays in the doorway. */}
           <spotLight
             ref={light}
             position={[0, -0.05, 0]}
             angle={1.05}
             penumbra={0.5}
-            intensity={400}
-            color="#d4e6ff"
+            intensity={300}
+            color="#e8c98a"
             decay={2}
             distance={0}
             castShadow
@@ -1494,6 +1641,14 @@ function Scene({
   return (
     <>
       <OfficeShell flicker={flicker} />
+      <BountyPoster
+        glow={lit === "bounty"}
+        marker={marker}
+        hover={live}
+        onOver={() => onOver("bounty")}
+        onOut={() => onOut("bounty")}
+        onPick={() => onPick("bounty")}
+      />
       <group position={[0, -0.5, 0.95]}>
         <Room reduced={reduced} />
         {ITEMS.map((item) => (
