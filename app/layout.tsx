@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { VercelAnalytics } from "@/components/vercel-analytics";
 import { ACTIVE_THEME_ID } from "@/content/theme";
 import { SITE_CONFIG } from "@/lib/site-config";
 import "./globals.css";
@@ -52,7 +53,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-site-theme={ACTIVE_THEME_ID} suppressHydrationWarning>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <VercelAnalytics />
+      </body>
     </html>
   );
 }
