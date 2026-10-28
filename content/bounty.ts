@@ -25,12 +25,12 @@ export type BountyTarget = {
 export const BOUNTY_REVEALED = true
 
 export const ACTIVE_BOUNTY: BountyTarget | null = {
-  name: "Day 2",
+  name: "Day 3",
   imageSrc: "",
   reward: "+7 each",
   note: [
-    "Monkey Kings: Joey Jiang, Lawrence McAllister",
-    "Azure Dragons: Alice Chen, Maggie Shifflett",
-    "White Tigers: Dylan Lee, Audrey Eng",
+    "Monkey Kings: Melissa Brown, Cassie Liu",
+    "Azure Dragons: Andrew Wang, Katie Cheng",
+    "White Tigers: Stephen Ng, Raymond Wen",
   ].join("\n"),
 }
