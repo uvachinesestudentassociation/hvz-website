@@ -10,27 +10,27 @@
  */
 export type BountyTarget = {
   /** Name shown on the poster */
-  name: string
+  name: string;
   /** Public path under /public, e.g. "/bounty/target.jpg". Empty = "?" placeholder. */
-  imageSrc: string
+  imageSrc: string;
   /** Reward line, e.g. "250 points" or "Bragging rights" */
-  reward: string
+  reward: string;
   /** Optional extra note under the reward */
-  note?: string
+  note?: string;
   /** Optional click-through link (leave unset for a non-link poster) */
-  href?: string
-}
+  href?: string;
+};
 
 /** Flip to true when the bounty should be readable by players. */
-export const BOUNTY_REVEALED = true
+export const BOUNTY_REVEALED = true;
 
 export const ACTIVE_BOUNTY: BountyTarget | null = {
   name: "Day 3",
   imageSrc: "",
   reward: "+7 each",
   note: [
-    "Monkey Kings: Melissa Brown, Cassie Liu",
-    "Azure Dragons: Andrew Wang, Katie Cheng",
-    "White Tigers: Stephen Ng, Raymond Wen",
+    "Monkey Kings: Kevin Hou, Liam Lu, Mahnoor Naz",
+    "Azure Dragons: Kerbie Latham, Zile Lin, Bennett Ho",
+    "White Tigers: Kaidi Xue, Drew Lane, Jeffery Chen",
   ].join("\n"),
-}
+};

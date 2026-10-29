@@ -26,7 +26,9 @@ export function ResourceLinkCard({ resource, variant = "full", className = "" }:
   const classes = [
     "group relative block min-h-[48px] rounded-none border-4",
     isAction && actionStyle ? actionStyle.card : `${PIXEL_SECTION_BORDER} ${PIXEL_SURFACE}`,
-    isAction ? "flex items-center gap-3 p-4 md:block md:p-6" : "p-4 md:p-5 text-left",
+    isAction
+      ? "flex items-center gap-3 p-4 md:block md:p-6"
+      : "p-4 md:p-5 text-left",
     unavailable
       ? "cursor-not-allowed grayscale opacity-50"
       : isAction
