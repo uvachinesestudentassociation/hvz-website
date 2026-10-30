@@ -11,6 +11,7 @@ import { ScrollReveal } from "@/components/scroll-reveal"
 import { THEME, THEME_COPY } from "@/content/theme"
 import { PIXEL_HERO_SURFACE, PIXEL_SECTION_BORDER, PIXEL_SECTION_PRIMARY, PIXEL_TEXT_MUTED, PIXEL_TEXT_SUBTLE, PIXEL_STAMP, DESK_RING, DESK_TILT } from "@/components/hvz/pixel-styles"
 import { getResource, getSortedResources } from "@/lib/public-resources"
+import { CIPHER_POSTER } from "@/content/cipher"
 import { SITE_CONFIG } from "@/lib/site-config"
 
 function getHomeQuickActions() {
@@ -42,6 +43,16 @@ export function PreviousHomePage() {
           </div>
         </div>
       </section>
+
+      <div className="bg-black px-4 py-8">
+        <div className="mx-auto max-w-md text-center font-mono text-xs font-bold uppercase leading-relaxed tracking-wide text-white sm:text-sm">
+          {CIPHER_POSTER.map((line) => (
+            <p key={line} className={/^\d+\.\d+/.test(line) ? "mt-6 text-sm tracking-[0.14em]" : "mt-2"}>
+              {line}
+            </p>
+          ))}
+        </div>
+      </div>
 
       {/* Quick resources */}
       <section id="resources" className={`scroll-mt-24 border-b-8 ${PIXEL_SECTION_BORDER} ${PIXEL_SECTION_PRIMARY}`}>

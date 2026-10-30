@@ -1,3 +1,5 @@
+import { CIPHER_BAND_LINE, CIPHER_BREAKS_LINE, CIPHER_STALL_LINE } from "@/content/cipher"
+
 export type RuleSubsection = {
   id: string
   heading: string
@@ -39,7 +41,7 @@ export const BASIC_RULES_SUBSECTIONS: RuleSubsection[] = [
     tone: "emerald",
     items: [
       "Try your best to stay alive.",
-      "You may temporarily STUN a zombie by throwing a sock that makes direct contact with the zombie. Stun socks must be soft/unweighted. Do not intentionally throw them at someone's face/head. Hitting a zombie in the face/head will NOT result in a stun.",
+      `You may temporarily STUN a zombie by throwing a sock that makes direct contact with the zombie, and ${CIPHER_BAND_LINE.replace(/\.$/, "").toLowerCase()}. Stun socks must be soft/unweighted. Do not intentionally throw them at someone's face/head. Hitting a zombie in the face/head will NOT result in a stun.`,
       "A valid stun lasts 15 minutes during which that zombie may not attack the same human.",
       "No stacking stuns: you cannot apply another stun while a zombie is already stunned. If the zombie attempts again (e.g., after the stun or tries anyway), you may re-stun for the same duration.",
       "You may stun a known zombie even if they are not actively attacking you.",
@@ -130,7 +132,7 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     id: "safety-first",
     heading: "SAFETY FIRST.",
     tone: "rose",
-    body: "Nothing is more important than your safety and the safety of others.",
+    body: `Nothing is more important than your safety and the safety of others, though ${CIPHER_BREAKS_LINE.replace(/\.$/, "").toLowerCase()}.`,
   },
   // Amber (yellow) — mechanics & clarifications
   {
@@ -162,7 +164,7 @@ export const SPECIFIC_RULES: SpecificRule[] = [
     id: "submit-kills",
     heading: "SUBMIT KILL REPORTS ON TIME.",
     tone: "emerald",
-    body: "Only the names that have been submitted before midnight of that day will be counted as kills, so please submit your kills!",
+    body: `Only the names that have been submitted before midnight of that day will be counted as kills, so please submit your kills before ${CIPHER_STALL_LINE.replace(/\.$/, "").toLowerCase()}.`,
   },
   {
     id: "next-day-zombie",
