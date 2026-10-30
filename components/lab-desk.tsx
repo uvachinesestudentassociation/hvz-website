@@ -13,6 +13,7 @@ import { useGameLiveOverride } from "@/hooks/game-live-override"
 import { useGameLive } from "@/hooks/use-game-live"
 import { easternDay, getTimeUntilGameStart } from "@/lib/game-start"
 import { ACTIVE_BOUNTY, BOUNTY_REVEALED } from "@/content/bounty"
+import { CIPHER_POSTER } from "@/content/cipher"
 import { getBountyDisplay } from "@/lib/bounty-display"
 import { getResource } from "@/lib/public-resources"
 
@@ -718,6 +719,44 @@ function BountyPoster({
       onPick={onPick}
     />
   )
+}
+
+function cipherPosterMap() {
+  const canvas = document.createElement("canvas")
+  canvas.width = 512
+  canvas.height = 640
+  const ctx = canvas.getContext("2d")
+  const texture = new CanvasTexture(canvas)
+  texture.colorSpace = SRGBColorSpace
+  if (!ctx) return texture
+  ctx.fillStyle = "#0c0c0c"
+  ctx.fillRect(0, 0, 512, 640)
+  ctx.fillStyle = "#f4f4f4"
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  const prose = CIPHER_POSTER.filter((line) => !/^\d+\.\d+/.test(line))
+  prose.forEach((line, index) => {
+    ctx.font = "600 28px monospace"
+    ctx.fillText(line, 256, 140 + index * 72)
+  })
+  const numbers = CIPHER_POSTER.find((line) => /^\d+\.\d+/.test(line))
+  if (numbers) {
+    let size = 28
+    ctx.font = `700 ${size}px monospace`
+    while (ctx.measureText(numbers).width > 470 && size > 14) {
+      size -= 2
+      ctx.font = `700 ${size}px monospace`
+    }
+    ctx.fillText(numbers, 256, 520)
+  }
+  texture.needsUpdate = true
+  return texture
+}
+
+function CipherPoster() {
+  const map = useMemo(() => cipherPosterMap(), [])
+  useEffect(() => () => map.dispose(), [map])
+  return <Lightbox position={[2.8, 1.15, -2.62]} map={map} />
 }
 
 function DeskNote() {
@@ -1641,14 +1680,7 @@ function Scene({
   return (
     <>
       <OfficeShell flicker={flicker} />
-      <BountyPoster
-        glow={lit === "bounty"}
-        marker={marker}
-        hover={live}
-        onOver={() => onOver("bounty")}
-        onOut={() => onOut("bounty")}
-        onPick={() => onPick("bounty")}
-      />
+      <CipherPoster />
       <group position={[0, -0.5, 0.95]}>
         <Room reduced={reduced} />
         {ITEMS.map((item) => (
